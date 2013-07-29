@@ -1,0 +1,31 @@
+{
+  "name": "thetvdb-api",
+  "description": "Node.js library for accessing thetvdb API at <http://www.thetvdb.com/wiki/index.php?title=Programmers_API>",
+  "version": "0.1.0",
+  "author": "Joao Campinhos <joao@campinhos.pt>",
+  "keywords": [
+    "tv",
+    "tvdb",
+    "thetvdb",
+    "api"
+  ],
+  "homepage": "https://github.com/joaocampinhos/thetvdb-api",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:joaocampinhos/thetvdb-api.git"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "main": "lib/main.js",
+  "dependencies": {
+    "request": "2.25.x",
+    "xml2json": "0.3.x"
+  },
+  "devDependencies": {
+    "mocha": "1.12.x"
+  },
+  "scripts": {
+    "test": "make test"
+  }
+}
