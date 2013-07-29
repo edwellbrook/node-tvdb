@@ -1,6 +1,6 @@
 {
   "name": "thetvdb-api",
-  "description": "Node.js library for accessing thetvdb API at <http://www.thetvdb.com/wiki/index.php?title=Programmers_API>",
+  "description": "Node.js library for accessing thetvdb API",
   "version": "0.1.0",
   "author": "Joao Campinhos <joao@campinhos.pt>",
   "keywords": [
