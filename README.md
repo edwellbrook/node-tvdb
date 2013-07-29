@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/joaocampinhos/thetvdb-api.png)](https://travis-ci.org/joaocampinhos/thetvdb-api)
 
 # Thetvdb-api
 
