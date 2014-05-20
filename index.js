@@ -3,7 +3,7 @@
  *
  * Node.js library for accessing thetvdb API at <http://www.thetvdb.com/wiki/index.php?title=Programmers_API>
  *
- * Copyright (c) 2013 João Campinhos <joao@campinhos.pt>
+ * Copyright (c) 2013-2014 João Campinhos <joao@campinhos.pt> and Edward Wellbrook <edwellbrook@gmail.com>
  * MIT Licensed
  */
 

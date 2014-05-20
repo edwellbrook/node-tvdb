@@ -1,19 +1,13 @@
-[![Build Status](https://travis-ci.org/joaocampinhos/thetvdb-api.png)](https://travis-ci.org/joaocampinhos/thetvdb-api)
-
-# Thetvdb-api
+# thetvdb-api
 
 Node.js library for accessing [TheTVDB Api](http://www.thetvdb.com/wiki/index.php/Programmers_API).
-
-
 
 ## Index
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [Api](#api)
+* [API](#api)
 * [License](#license)
-
-
 
 ## Installation
 
@@ -33,8 +27,6 @@ cd thetvdb-api
 npm install
 ```
 
-
-
 ## Usage
 
 To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister).
@@ -48,8 +40,6 @@ tvDB(key).getSeries("the Simpsons", function(err, res) {
   if (!err) console.log(res);
 });
 ```
-
-
 
 ## API
 
@@ -91,13 +81,11 @@ tvDB(key).getBanners(id, function(err,res){ });
 tvDB(key).getUpdates(time, function(err,res){ });
 ```
 
-
-
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2013 João Campinhos <joao@campinhos.pt>
+Copyright (c) 2013-2014 João Campinhos <joao@campinhos.pt> and Edward Wellbrook <edwellbrook@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
