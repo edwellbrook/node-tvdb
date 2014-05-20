@@ -20,7 +20,7 @@
   "main": "lib/main.js",
   "dependencies": {
     "request": "2.25.x",
-    "xml2json": "0.3.x"
+    "xml2js": "~0.4.3"
   },
   "devDependencies": {
     "mocha": "1.12.x"
