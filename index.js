@@ -7,7 +7,7 @@
  * MIT Licensed
  */
 
-var request		= require("request"),
+var request		= require("superagent").get,
     parseString	= require("xml2js").parseString;
 	
 var Client = function(accessToken, language, mirror) {
@@ -114,7 +114,7 @@ Client.prototype.sendRequest = function(endpoint, done) {
 	request(url, function (error, response, body) {
 		if (response.statusCode === 200) {
 			
-			parseString(body, {
+			parseString(response.text, {
 				trim: true,
 				normalize: true,
 				ignoreAttrs: true,
