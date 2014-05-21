@@ -112,7 +112,7 @@ Client.prototype.sendRequest = function(path, done) {
 	var url = this._baseURL + path;
 	
 	request(url, function (error, response) {
-		if (response.statusCode === 200) {
+		if (response && response.statusCode === 200) {
 			
 			parseString(response.text, {
 				trim: true,
