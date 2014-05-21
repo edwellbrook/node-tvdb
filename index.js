@@ -118,7 +118,8 @@ Client.prototype.sendRequest = function(path, done) {
 				trim: true,
 				normalize: true,
 				ignoreAttrs: true,
-				explicitArray: false
+				explicitArray: false,
+				emptyTag: null
 			}, function(error, results) {
 				
 				if (results.Error) {

@@ -1,6 +1,14 @@
 # node-tvdb
 
-Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API).
+Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Heavily based on [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api), but does some additional work to give nicer data output.
+
+## Features
+
+- Handle errors from API as JavaScript errors
+- Only returns relevant data (no need to call response.Data.Series etc.)
+- Set language at initialisation or afterwards when needed
+- Normalised keys and values
+- Empty values return null
 
 ## Installation
 
@@ -67,35 +75,35 @@ client.getTime(function(error, response) {
 
 ### client.getSeries(seriesName, callback)
 ```
-client.getSeries("The Simpsons", function(error, response) {
+client.getSeries("Breaking Bad", function(error, response) {
 	// handle error and response
 });
 ```
 
 ### client.getSeriesById(seriesId, callback)
 ```
-client.getSeriesById(1400611370, function(error, response) {
+client.getSeriesById(73255, function(error, response) {
 	// handle error and response
 });
 ```
 
 ### client.getSeriesAllById(seriesId, callback)
 ```
-client.getSeriesAllById(1400611370, function(error, response) {
+client.getSeriesAllById(73255, function(error, response) {
 	// handle error and response
 });
 ```
 
 ### client.getActors(seriesId, callback)
 ```
-client.getActors(1400611370, function(error, response) {
+client.getActors(73255, function(error, response) {
 	// handle error and response
 });
 ```
 
 ### client.getBanners(seriesId, callback)
 ```
-client.getBanners(1400611370, function(error, response) {
+client.getBanners(73255, function(error, response) {
 	// handle error and response
 });
 ```
