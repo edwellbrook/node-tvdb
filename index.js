@@ -10,14 +10,14 @@
 var request		= require("superagent").get,
     parseString	= require("xml2js").parseString;
 	
-var Client = function(accessToken, language, mirror) {
+var Client = function(accessToken, language) {
 	if (!accessToken) {
 		throw new Error("Access token must be set.");
 	}
 	
 	this._token = accessToken;
 	this._language = language || "en";
-	this._baseURL = "http://" + (mirror || "thetvdb.com/api/");
+	this._baseURL = "http://www.thetvdb.com/api/";
 }
 
 
