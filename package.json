@@ -1,7 +1,7 @@
 {
   "name": "node-tvdb",
   "description": "Node.js library for accessing TheTVDB API",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Edward Wellbrook <edwellbrook@gmail.com>",
   "keywords": [
     "tv",
@@ -12,8 +12,8 @@
   "homepage": "https://github.com/edwellbrook/node-tvdb",
   "main": "index.js",
   "dependencies": {
-    "request": "~2.25.0",
-    "xml2js": "~0.4.3"
+    "xml2js": "~0.4.3",
+    "superagent": "~0.18.0"
   },
   "devDependencies": {
     "mocha": "~1.12.1"
