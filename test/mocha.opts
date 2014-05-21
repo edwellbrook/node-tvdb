@@ -1,4 +1,3 @@
---ui tdd
 --reporter spec
 --recursive
 --slow infinity
