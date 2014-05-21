@@ -15,7 +15,7 @@ And run tests with [Mocha](http://visionmedia.github.io/mocha/):
 ```
 TVDB_KEY=[YOUR API KEY HERE] mocha
 ```
-> _Install mocha with: `npm install -g mocha`_
+> _Install mocha with: `npm install -g mocha` (sudo may be required for your setup)_
 
 ## Example Usage
 
