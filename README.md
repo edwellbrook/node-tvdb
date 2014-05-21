@@ -1,91 +1,74 @@
 # thetvdb-api
 
-Node.js library for accessing [TheTVDB Api](http://www.thetvdb.com/wiki/index.php/Programmers_API).
-
-## Index
-
-* [Installation](#installation)
-* [Usage](#usage)
-* [API](#api)
-* [License](#license)
+Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API).
 
 ## Installation
 
-Install with the Node.JS package manager [npm](http://npmjs.org/):
+Install with [NPM](http://npmjs.org/):
 
-```bash
-npm install thetvdb-api
+```
+npm install --save thetvdb-api
 ```
 
-or
-
-Install via git clone:
-
-```bash
-git clone https://github.com/joaocampinhos/thetvdb-api.git
-cd thetvdb-api
-npm install
-```
-
-## Usage
+## Example Usage
 
 To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister).
-Then just follow this simple example that fetches all the shows containing "the Simpsons" in the name.
+Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
-```js
-var tvDB    = require("thetvdb-api"),
-    key     = "abc123";
+```
+var TVDBClient	= require("thetvdb-api"),
+	client		= new TVDBClient("abc123");
 
-tvDB(key).getSeries("the Simpsons", function(err, res) {
-  if (!err) console.log(res);
+client.getSeries("The Simpsons", function(err, res) {
+	// handle errors and response
 });
 ```
 
 ## API
 
-Since this api is a little bit different that the usual REST api's I tried to change things a bit and simplified some of the names.
+Since this API is a little bit different that the usual REST API's I tried to change things a bit and simplified some of the names.
 Not all API endpoints are available but you can see them all here:
 <http://www.thetvdb.com/wiki/index.php/Programmers_API#File_Structure>
 
 Here are the ones provided in the library so far:
 
-```js
+```
 // Get all the available languages
-tvDB(key).getLanguages(function(err,res){ });
+client.getLanguages(function(err, res) {});
 
 // Get the current language
-tvDB(key).getLanguage();
+client.getLanguage();
 
 // Set a different language
-tvDB(key).setLanguages(lang);
+client.setLanguage("en");
 
 // Get the current server time
-tvDB(key).getTime(function(err,res){ });
+client.getTime(function(err, res) {});
 
 // Get the series that matches the name
-tvDB(key).getSeries(name, function(err,res){ });
+client.getSeries("The Simpsons", function(err, res) {});
 
 // Get the series basic information that matches the id
-tvDB(key).getSeriesById(id, function(err,res){ });
+client.getSeriesById(71663, function(err, res) {});
 
 // Get the series full information that matches the id
-tvDB(key).getSeriesAllById(id, function(err,res){ });
+client.getSeriesAllById(71663, function(err, res) {});
 
 // Get all the actors of a given series
-tvDB(key).getActors(id, function(err,res){ });
+client.getActors(71663, function(err, res) {});
 
 // Get all the banners of a given series
-tvDB(key).getBanners(id, function(err,res){ });
+client.getBanners(71663, function(err, res) {});
 
 // Get updated shows since the last time
-tvDB(key).getUpdates(time, function(err,res){ });
+client.getUpdates(1374620168, function(err, res) {});
 ```
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2014 João Campinhos <joao@campinhos.pt> and Edward Wellbrook <edwellbrook@gmail.com>
+Copyright (c) 2014 Edward Wellbrook <edwellbrook@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
