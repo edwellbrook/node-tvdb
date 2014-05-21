@@ -4,11 +4,18 @@ Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.ph
 
 ## Installation
 
-Install with [NPM](http://npmjs.org/):
+Install with [npm](http://npmjs.org/):
 
 ```
 npm install --save thetvdb-api
 ```
+
+And run tests with [Mocha](http://visionmedia.github.io/mocha/):
+
+```
+TVDB_KEY=[YOUR API KEY HERE] mocha
+```
+> _Install mocha with: `npm install -g mocha`_
 
 ## Example Usage
 
