@@ -45,7 +45,7 @@ client.getSeries("The Simpsons", function(err, response) {
 ```
 var TVDBClient			= require("node-tvdb");
 
-var client				= new TVDBClient("ABC123"),
+var client				= new TVDBClient("ABC123"), // language defaults to "en"
 	clientePortuguese	= new TVDBClient("ABC123", "pt");
 ```
 
