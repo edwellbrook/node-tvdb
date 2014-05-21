@@ -7,85 +7,109 @@
  * MIT Licensed
  */
 
-var base_uri	= "http://thetvdb.com/api/",
-    language	= "en",
-    request		= require("request"),
+var request		= require("request"),
     parseString	= require("xml2js").parseString;
+	
+var Client = function(accessToken, language, mirror) {
+	this._token = accessToken;
+	this._language = language;
+	this._baseURL = "http://" + mirror;
+}
 
-module.exports = function(access_token) {
 
-	var resources = {};
+/**
+ * Languages
+ */
 
-	function parsereq(url, done) {
-		request(url, function (error, response, body) {
-			if (response.statusCode === 200) {
-				parseString(body, {
-					trim: true,
-					normalize: true,
-					ignoreAttrs: true,
-					explicitArray: false
-				}, done)
-			} else {
-		        done(error ? error : new Error("Could not complete the request"), null);
-			}
-		});
-	}
+Client.prototype.getLanguages = function(callback) {
+	var url = this._token + "/languages.xml";
+	this.sendRequest(url, callback);
+}
 
-	// Languages
+Client.prototype.getLanguage = function() {
+	return this._language;
+}
 
-	resources.getLanguages = function(cb) {
-		var url = base_uri + access_token + "/languages.xml";
-		parsereq(url, cb);
-	};
+Client.prototype.setLanguage = function(language) {
+	this._language = language;
+}
 
-	resources.getLanguage = function() {
-		return language;
-	};
+/**
+ * Time
+ */
 
-	resources.setLanguage = function(lang) {
-		language = lang;
-	};
+Client.prototype.getTime = function(cb) {
+	var url = "Updates.php?type=none";
+	this.sendRequest(url, cb);
+}
 
-	//  Time
+/**
+ * Series
+ */
 
-	resources.getTime = function(cb) {
-		var url = base_uri + "Updates.php?type=none";
-		parsereq(url, cb);
-	};
+Client.prototype.getSeries = function(name, cb) {
+	var url = "GetSeries.php?seriesname=" + name + "&language=" + this._language;
+	this.sendRequest(url, cb);
+}
 
-	//  Series
+Client.prototype.getSeriesById = function(id, cb) {
+	var url = this._token + "/series/" + id + "/" + this._language + ".xml";
+	this.sendRequest(url, cb);
+}
 
-	resources.getSeries = function(name, cb) {
-		var url = base_uri + "GetSeries.php?seriesname=" + name + "&language=" + language;
-		parsereq(url, cb);
-	};
+Client.prototype.getSeriesAllById = function(id, cb) {
+	var url = this._token + "/series/" + id + "/all/" + this._language + ".xml";
+	this.sendRequest(url, cb);
+}
 
-	resources.getSeriesById = function(id, cb) {
-		var url = base_uri + access_token + "/series/" + id + "/" + language + ".xml";
-		parsereq(url, cb);
-	};
+Client.prototype.getActors = function(id, cb) {
+	var url = this._token + "/series/" + id + "/actors.xml";
+	this.sendRequest(url, cb);
+}
 
-	resources.getSeriesAllById = function(id, cb) {
-		var url = base_uri + access_token + "/series/" + id + "/all/" + language + ".xml";
-		parsereq(url, cb);
-	};
+Client.prototype.getBanners = function(id, cb) {
+	var url = this._token + "/series/" + id + "/banners.xml";
+	this.sendRequest(url, cb);
+}
 
-	resources.getActors = function(id, cb) {
-		var url = base_uri + access_token + "/series/" + id + "/actors.xml";
-		parsereq(url, cb);
-	};
+/**
+ * Updates
+ */
 
-	resources.getBanners = function(id, cb) {
-		var url = base_uri + access_token + "/series/" + id + "/banners.xml";
-		parsereq(url, cb);
-	};
+Client.prototype.getUpdates = function(time, cb) {
+	this.sendRequest("Updates.php?type=all&time=" + time, cb);
+}
 
-	//  Updates
+Client.prototype.sendRequest = function(endpoint, done) {
+	var url = this._baseURL + endpoint;
+	
+	request(url, function (error, response, body) {
+		if (response.statusCode === 200) {
+			
+			parseString(body, {
+				trim: true,
+				normalize: true,
+				ignoreAttrs: true,
+				explicitArray: false
+			}, function(error, results) {
+				
+				if (results.Error) {
+					error = results.Error;
+					results = null;
+				}
+				
+				done(error, results)
+				
+			});
+		} else {
+	        done(error ? error : new Error("Could not complete the request"), null);
+		}
+	});
+}
 
-	resources.getUpdates = function(time, cb) {
-		var url = base_uri + "Updates.php?type=all&time=" + time;
-		parsereq(url, cb);
-	};
+module.exports = function(accessToken, options) {
+	
+	options = options || {};
+	return new Client(accessToken, options.language || "en", options.mirror || "thetvdb.com/api/");
 
-	return resources;
-};
+}

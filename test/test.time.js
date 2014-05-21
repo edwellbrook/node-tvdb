@@ -1,5 +1,5 @@
 var assert  = require("assert"),
-    tvDB    = require("./../lib/main"),
+    tvDB    = require(".."),
     key     = require("./config").key;
 
 suite("Time:", function() {

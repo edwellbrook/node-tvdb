@@ -1,5 +1,5 @@
 var assert  = require("assert"),
-    tvDB    = require("./../lib/main"),
+    tvDB    = require(".."),
     key     = require("./config").key;
 
 suite("Search series:", function() {
@@ -63,22 +63,23 @@ suite("Search by ID:", function() {
     });
   });
 
-  test("getSeriesAllById with a nonexistent language should return an error", function(done) {
-    tvDB(key).setLanguage("error");
-    tvDB(key).getSeriesAllById(246151, function(err,res) {
-      assert.equal(null,res);
-      assert.notEqual(null,err);
-      done();
-    });
-  });
+	test("getSeriesAllById with a nonexistent language should return an error", function(done) {
+		var client = tvDB(key);
+		client.setLanguage("error");
+		client.getSeriesAllById(246151, function(err,res) {
+			assert.equal(null, res);
+			assert.notEqual(null, err);
+			done();
+		});
+	});
 
-  test("getSeriesAllById with a nonexistent ID should return an error", function(done) {
-    tvDB(key).getSeriesAllById(89476213789462, function(err,res) {
-      assert.equal(null,res);
-      assert.notEqual(null,err);
-      done();
-    });
-  });
+	test("getSeriesAllById with a nonexistent ID should return an error", function(done) {
+		tvDB(key).getSeriesAllById(89476213789462, function(err,res) {
+			assert.equal(null,res);
+			assert.notEqual(null,err);
+			done();
+		});
+	});
 });
 
 suite("Actors and Banners:", function() {
