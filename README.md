@@ -8,7 +8,7 @@ Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.ph
 - Only returns relevant data (no need to call response.Data.Series etc.)
 - Set language at initialisation or afterwards when needed
 - Normalised keys and values
-- Empty values return null
+- Empty values parsed as null
 
 ## Installation
 
@@ -45,7 +45,7 @@ client.getSeries("The Simpsons", function(err, response) {
 ```
 var TVDBClient			= require("node-tvdb");
 
-var client				= new TVDBClient("ABC123"),
+var client				= new TVDBClient("ABC123"), // language defaults to "en"
 	clientePortuguese	= new TVDBClient("ABC123", "pt");
 ```
 
