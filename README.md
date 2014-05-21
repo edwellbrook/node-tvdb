@@ -24,51 +24,87 @@ Then just follow this simple example that fetches all the shows containing "The 
 
 ```
 var TVDBClient	= require("node-tvdb"),
-	client		= new TVDBClient("abc123");
+	client		= new TVDBClient("ABC123");
 
-client.getSeries("The Simpsons", function(err, res) {
-	// handle errors and response
+client.getSeries("The Simpsons", function(err, response) {
+	// handle error and response
 });
 ```
 
 ## API
 
-Since this API is a little bit different that the usual REST API's I tried to change things a bit and simplified some of the names.
-Not all API endpoints are available but you can see them all here:
-<http://www.thetvdb.com/wiki/index.php/Programmers_API#File_Structure>
-
-Here are the ones provided in the library so far:
-
+### var client = new TVDBClient(API_KEY, language)
 ```
-// Get all the available languages
-client.getLanguages(function(err, res) {});
+var TVDBClient			= require("node-tvdb");
 
-// Get the current language
-client.getLanguage();
+var client				= new TVDBClient("ABC123"),
+	clientePortuguese	= new TVDBClient("ABC123", "pt");
+```
 
-// Set a different language
-client.setLanguage("en");
+### client.getLanguages(callback)
+```
+client.getLanguages(function(error, response) {
+	// handle error and response
+});
+```
 
-// Get the current server time
-client.getTime(function(err, res) {});
+### client.getLanguage()
+```
+client.getLanguage(); // => "en"
+```
 
-// Get the series that matches the name
-client.getSeries("The Simpsons", function(err, res) {});
+### client.setLanguage(language)
+```
+client.setLanguage("pt");
+```
 
-// Get the series basic information that matches the id
-client.getSeriesById(71663, function(err, res) {});
+### client.getTime(callback)
+```
+client.getTime(function(error, response) {
+	// handle error and response
+});
+```
 
-// Get the series full information that matches the id
-client.getSeriesAllById(71663, function(err, res) {});
+### client.getSeries(seriesName, callback)
+```
+client.getSeries("The Simpsons", function(error, response) {
+	// handle error and response
+});
+```
 
-// Get all the actors of a given series
-client.getActors(71663, function(err, res) {});
+### client.getSeriesById(seriesId, callback)
+```
+client.getSeriesById(1400611370, function(error, response) {
+	// handle error and response
+});
+```
 
-// Get all the banners of a given series
-client.getBanners(71663, function(err, res) {});
+### client.getSeriesAllById(seriesId, callback)
+```
+client.getSeriesAllById(1400611370, function(error, response) {
+	// handle error and response
+});
+```
 
-// Get updated shows since the last time
-client.getUpdates(1374620168, function(err, res) {});
+### client.getActors(seriesId, callback)
+```
+client.getActors(1400611370, function(error, response) {
+	// handle error and response
+});
+```
+
+### client.getBanners(seriesId, callback)
+```
+client.getBanners(1400611370, function(error, response) {
+	// handle error and response
+});
+```
+
+### client.getUpdates(time, callback)
+```
+client.getUpdates(1400611370, function(error, response) {
+	// handle error and response
+});
 ```
 
 ## License
