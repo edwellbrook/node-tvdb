@@ -26,8 +26,8 @@ var Client = function(accessToken, language) {
  */
 
 Client.prototype.getLanguages = function(callback) {
-	var url = this._token + "/languages.xml";
-	this.sendRequest(url, function(error, response) {
+	var path = this._token + "/languages.xml";
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Languages.Language : null);
 	});
 }
@@ -45,8 +45,8 @@ Client.prototype.setLanguage = function(language) {
  */
 
 Client.prototype.getTime = function(callback) {
-	var url = "Updates.php?type=none";
-	this.sendRequest(url, function(error, response) {
+	var path = "Updates.php?type=none";
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Items.Time : null);
 	});
 }
@@ -56,22 +56,22 @@ Client.prototype.getTime = function(callback) {
  */
 
 Client.prototype.getSeries = function(name, callback) {
-	var url = "GetSeries.php?seriesname=" + name + "&language=" + this._language;
-	this.sendRequest(url, function(error, response) {
+	var path = "GetSeries.php?seriesname=" + name + "&language=" + this._language;
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Data.Series : null);
 	});
 }
 
 Client.prototype.getSeriesById = function(id, callback) {
-	var url = this._token + "/series/" + id + "/" + this._language + ".xml";
-	this.sendRequest(url, function(error, response) {
+	var path = this._token + "/series/" + id + "/" + this._language + ".xml";
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Data.Series : null);
 	});
 }
 
 Client.prototype.getSeriesAllById = function(id, callback) {
-	var url = this._token + "/series/" + id + "/all/" + this._language + ".xml";
-	this.sendRequest(url, function(error, response) {
+	var path = this._token + "/series/" + id + "/all/" + this._language + ".xml";
+	this.sendRequest(path, function(error, response) {
 		if (response) {
 			response.Data.Series.Episodes = response.Data.Episode;
 		}
@@ -80,15 +80,15 @@ Client.prototype.getSeriesAllById = function(id, callback) {
 }
 
 Client.prototype.getActors = function(id, callback) {
-	var url = this._token + "/series/" + id + "/actors.xml";
-	this.sendRequest(url, function(error, response) {
+	var path = this._token + "/series/" + id + "/actors.xml";
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Actors.Actor : null);
 	});
 }
 
 Client.prototype.getBanners = function(id, callback) {
-	var url = this._token + "/series/" + id + "/banners.xml";
-	this.sendRequest(url, function(error, response) {
+	var path = this._token + "/series/" + id + "/banners.xml";
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Banners.Banner : null);
 	});
 }
@@ -98,8 +98,8 @@ Client.prototype.getBanners = function(id, callback) {
  */
 
 Client.prototype.getUpdates = function(time, callback) {
-	var url = "Updates.php?type=all&time=" + time;
-	this.sendRequest(url, function(error, response) {
+	var path = "Updates.php?type=all&time=" + time;
+	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Items : null);
 	});
 }
@@ -108,10 +108,10 @@ Client.prototype.getUpdates = function(time, callback) {
  * Utilities
  */
 
-Client.prototype.sendRequest = function(endpoint, done) {
-	var url = this._baseURL + endpoint;
+Client.prototype.sendRequest = function(path, done) {
+	var url = this._baseURL + path;
 	
-	request(url, function (error, response, body) {
+	request(url, function (error, response) {
 		if (response.statusCode === 200) {
 			
 			parseString(response.text, {
