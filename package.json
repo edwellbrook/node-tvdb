@@ -1,6 +1,6 @@
 {
-  "name": "thetvdb-api",
-  "description": "Node.js library for accessing thetvdb API",
+  "name": "node-tvdb",
+  "description": "Node.js library for accessing TheTVDB API",
   "version": "0.2.0",
   "author": "Edward Wellbrook <edwellbrook@gmail.com>",
   "keywords": [
@@ -9,7 +9,7 @@
     "thetvdb",
     "api"
   ],
-  "homepage": "https://github.com/edwellbrook/thetvdb-api",
+  "homepage": "https://github.com/edwellbrook/node-tvdb",
   "main": "index.js",
   "dependencies": {
     "request": "~2.25.0",
