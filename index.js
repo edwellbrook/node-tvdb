@@ -1,5 +1,5 @@
 /**
- * thetvdb-api
+ * node-tvdb
  *
  * Node.js library for accessing TheTVDB API at <http://www.thetvdb.com/wiki/index.php?title=Programmers_API>
  *

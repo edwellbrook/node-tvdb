@@ -1,4 +1,4 @@
-# thetvdb-api
+# node-tvdb
 
 Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API).
 
@@ -7,7 +7,7 @@ Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.ph
 Install with [npm](http://npmjs.org/):
 
 ```
-npm install --save thetvdb-api
+npm install --save node-tvdb
 ```
 
 And run tests with [Mocha](http://visionmedia.github.io/mocha/):
@@ -23,7 +23,7 @@ To start using this library you first need an API key. You can request one [here
 Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
 ```
-var TVDBClient	= require("thetvdb-api"),
+var TVDBClient	= require("node-tvdb"),
 	client		= new TVDBClient("abc123");
 
 client.getSeries("The Simpsons", function(err, res) {
