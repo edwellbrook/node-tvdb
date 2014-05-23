@@ -58,7 +58,7 @@ Client.prototype.getTime = function(callback) {
 Client.prototype.getSeries = function(name, callback) {
 	var path = "GetSeries.php?seriesname=" + name + "&language=" + this._language;
 	this.sendRequest(path, function(error, response) {
-		callback(error, response ? response.Data.Series : null);
+		callback(error, (response && response.Data) ? response.Data.Series : null);
 	});
 }
 
