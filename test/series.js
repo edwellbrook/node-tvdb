@@ -13,7 +13,7 @@ describe("Series endpoints", function() {
 				assert.equal("object", typeof response);
 				done();
 			});
-		})
+		});
 	
 		it("should return null for the series search \"asdas\"", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -22,7 +22,7 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
+		});
 	
 		it("should return an error for a blank series search", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -31,7 +31,7 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
+		});
 	
 		it("should return an error for a blank series search", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -40,7 +40,7 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
+		});
 	
 		it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -49,7 +49,7 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
+		});
 	
 		it("should return an array of available matches for the series search \"Planeta Terra\" with the language set to \"pt\"", function(done) {
 			var client = new TVDBClient(API_KEY, "pt");
@@ -58,8 +58,8 @@ describe("Series endpoints", function() {
 				assert.equal("object", typeof response);
 				done();
 			});
-		})
-	})
+		});
+	});
 	
 	describe("Search by ID", function() {
 		
@@ -71,7 +71,7 @@ describe("Series endpoints", function() {
 				assert.equal("246151", response.id);
 				done();
 			});
-		})
+		});
 
 		it("should return an object of the series and its episodes with id \"246151\"", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -82,7 +82,7 @@ describe("Series endpoints", function() {
 				assert.equal("object", typeof response.Episodes);
 				done();
 			});
-		})
+		});
 		
 		it("should return an error for a series search with an invalid language", function(done) {
 			var client = new TVDBClient(API_KEY, "00");
@@ -91,7 +91,7 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
+		});
 		
 		it("should return an error for a series search with an invalid id", function(done) {
 			var client = new TVDBClient(API_KEY);
@@ -100,9 +100,45 @@ describe("Series endpoints", function() {
 				assert.equal(null, response);
 				done();
 			});
-		})
-	})
+		});
+	});
 	
+	describe("Search by remote id", function() {
+
+		it("should return an object of the series with IMDB id 'tt0903747'", function(done) {
+			var client = new TVDBClient(API_KEY);
+			client.getSeriesByRemoteId("tt0903747", function(error, response) {
+				assert.equal(null, error);
+				assert.equal("object", typeof response);
+				assert.equal("81189", response.id);
+				assert.equal("Breaking Bad", response.SeriesName);
+				done();
+			});
+		});
+		
+		it("should return an object of the series with IMDB id 'EP01009396'", function(done) {
+			var client = new TVDBClient(API_KEY);
+			client.getSeriesByRemoteId("EP01009396", function(error, response) {
+				assert.equal(null, error);
+				assert.equal("object", typeof response);
+				assert.equal("81189", response.id);
+				assert.equal("Breaking Bad", response.SeriesName);
+				done();
+			});
+		});
+
+		
+		it("should return an error for a series search with an invalid id", function(done) {
+			var client = new TVDBClient(API_KEY);
+			client.getSeriesAllById("0", function(error, response) {
+				assert.notEqual(null, error);
+				assert.equal(null, response);
+				done();
+			});
+		});
+
+	});
+
 	describe("Find actors", function() {
 	
 		it("should return an array of the actors for the series with id \"246151\"", function(done) {
@@ -112,8 +148,8 @@ describe("Series endpoints", function() {
 				assert.equal("object", typeof response);
 				done();
 			});
-		})
-	})
+		});
+	});
 	
 	describe("Find banners", function() {
 	
@@ -124,6 +160,6 @@ describe("Series endpoints", function() {
 				assert.equal("object", typeof response);
 				done();
 			});
-		})
-	})
-})
+		});
+	});
+});

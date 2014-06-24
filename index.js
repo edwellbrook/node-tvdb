@@ -10,6 +10,11 @@
 var request		= require("superagent").get,
     parseString	= require("xml2js").parseString;
 	
+var externalProvidersIdRegEx = {
+	imdbid: /^tt/i,
+	zap2it: /^ep/i
+};
+
 var Client = function(accessToken, language) {
 	if (!accessToken) {
 		throw new Error("Access token must be set.");
@@ -18,7 +23,7 @@ var Client = function(accessToken, language) {
 	this._token = accessToken;
 	this._language = language || "en";
 	this._baseURL = "http://www.thetvdb.com/api/";
-}
+};
 
 
 /**
@@ -30,15 +35,15 @@ Client.prototype.getLanguages = function(callback) {
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Languages.Language : null);
 	});
-}
+};
 
 Client.prototype.getLanguage = function() {
 	return this._language;
-}
+};
 
 Client.prototype.setLanguage = function(language) {
 	this._language = language;
-}
+};
 
 /**
  * Time
@@ -49,7 +54,7 @@ Client.prototype.getTime = function(callback) {
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Items.Time : null);
 	});
-}
+};
 
 /**
  * Series
@@ -60,14 +65,33 @@ Client.prototype.getSeries = function(name, callback) {
 	this.sendRequest(path, function(error, response) {
 		callback(error, (response && response.Data) ? response.Data.Series : null);
 	});
-}
+};
 
 Client.prototype.getSeriesById = function(id, callback) {
 	var path = this._token + "/series/" + id + "/" + this._language + ".xml";
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Data.Series : null);
 	});
-}
+};
+
+Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
+	var provider = '',
+		regexps = externalProvidersIdRegEx,
+		keys = Object.keys(regexps),
+		i = 0, len = keys.length;
+	
+	for (; i < len; i++) {
+		if (regexps[keys[i]].exec(remoteId)) {
+			provider = keys[i];
+			break;
+		}
+	}
+
+	var path = "GetSeriesByRemoteID.php?" + provider + "=" + remoteId + "&language=" + this._language;
+	this.sendRequest(path, function(error, response) {
+		callback(error, (response && response.Data) ? response.Data.Series : null);
+	});
+};
 
 Client.prototype.getSeriesAllById = function(id, callback) {
 	var path = this._token + "/series/" + id + "/all/" + this._language + ".xml";
@@ -77,21 +101,21 @@ Client.prototype.getSeriesAllById = function(id, callback) {
 		}
 		callback(error, response ? response.Data.Series : null);
 	});
-}
+};
 
 Client.prototype.getActors = function(id, callback) {
 	var path = this._token + "/series/" + id + "/actors.xml";
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Actors.Actor : null);
 	});
-}
+};
 
 Client.prototype.getBanners = function(id, callback) {
 	var path = this._token + "/series/" + id + "/banners.xml";
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Banners.Banner : null);
 	});
-}
+};
 
 /**
  * Updates
@@ -102,7 +126,7 @@ Client.prototype.getUpdates = function(time, callback) {
 	this.sendRequest(path, function(error, response) {
 		callback(error, response ? response.Items : null);
 	});
-}
+};
 
 /**
  * Utilities
@@ -110,7 +134,6 @@ Client.prototype.getUpdates = function(time, callback) {
 
 Client.prototype.sendRequest = function(path, done) {
 	var url = this._baseURL + path;
-	
 	request(url, function (error, response) {
 		if (response && response.statusCode === 200) {
 			
@@ -127,13 +150,13 @@ Client.prototype.sendRequest = function(path, done) {
 					results = null;
 				}
 				
-				done(error, results)
+				done(error, results);
 				
 			});
 		} else {
-	        done(error ? error : new Error("Could not complete the request"), null);
+			done(error ? error : new Error("Could not complete the request"), null);
 		}
 	});
-}
+};
 
 module.exports = Client;
