@@ -75,7 +75,7 @@ Client.prototype.getSeriesById = function(id, callback) {
 };
 
 Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
-	var provider = '',
+	var provider = "",
 		regexps = externalProvidersIdRegEx,
 		keys = Object.keys(regexps),
 		i = 0, len = keys.length;

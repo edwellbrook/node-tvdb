@@ -105,7 +105,7 @@ describe("Series endpoints", function() {
 	
 	describe("Search by remote id", function() {
 
-		it("should return an object of the series with IMDB id 'tt0903747'", function(done) {
+		it("should return an object of the series with IMDB id \"tt0903747\"", function(done) {
 			var client = new TVDBClient(API_KEY);
 			client.getSeriesByRemoteId("tt0903747", function(error, response) {
 				assert.equal(null, error);
@@ -116,7 +116,7 @@ describe("Series endpoints", function() {
 			});
 		});
 		
-		it("should return an object of the series with IMDB id 'EP01009396'", function(done) {
+		it("should return an object of the series with zap2it id \"EP01009396\"", function(done) {
 			var client = new TVDBClient(API_KEY);
 			client.getSeriesByRemoteId("EP01009396", function(error, response) {
 				assert.equal(null, error);

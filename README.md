@@ -87,6 +87,14 @@ client.getSeriesById(73255, function(error, response) {
 });
 ```
 
+### client.getSeriesByRemoteId(remoteId, callback)
+```
+client.getSeriesByRemoteId("tt0903747", function(error, response) {
+	// handle error and response
+});
+```
+> Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
+
 ### client.getSeriesAllById(seriesId, callback)
 ```
 client.getSeriesAllById(73255, function(error, response) {
