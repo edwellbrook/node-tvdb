@@ -1,6 +1,8 @@
 # node-tvdb
 
-Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Heavily based on [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api), but does some additional work to give nicer data output.
+Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Refactored for [Televiso](https://televi.so/) from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and some additional features.
+
+Pull requests very welcome.
 
 ## Features
 
@@ -31,11 +33,11 @@ To start using this library you first need an API key. You can request one [here
 Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
 ```
-var TVDBClient	= require("node-tvdb"),
-	client		= new TVDBClient("ABC123");
+var TVDBClient = require("node-tvdb"),
+    client     = new TVDBClient("ABC123");
 
 client.getSeries("The Simpsons", function(err, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
@@ -43,16 +45,16 @@ client.getSeries("The Simpsons", function(err, response) {
 
 ### var client = new TVDBClient(API_KEY, language)
 ```
-var TVDBClient			= require("node-tvdb");
+var TVDBClient = require("node-tvdb");
 
-var client				= new TVDBClient("ABC123"), // language defaults to "en"
-	clientePortuguese	= new TVDBClient("ABC123", "pt");
+var client            = new TVDBClient("ABC123"); // language defaults to "en"
+var clientePortuguese = new TVDBClient("ABC123", "pt");
 ```
 
 ### client.getLanguages(callback)
 ```
 client.getLanguages(function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
@@ -69,28 +71,28 @@ client.setLanguage("pt");
 ### client.getTime(callback)
 ```
 client.getTime(function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getSeries(seriesName, callback)
 ```
 client.getSeries("Breaking Bad", function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getSeriesById(seriesId, callback)
 ```
 client.getSeriesById(73255, function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getSeriesByRemoteId(remoteId, callback)
 ```
 client.getSeriesByRemoteId("tt0903747", function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
@@ -98,28 +100,28 @@ client.getSeriesByRemoteId("tt0903747", function(error, response) {
 ### client.getSeriesAllById(seriesId, callback)
 ```
 client.getSeriesAllById(73255, function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getActors(seriesId, callback)
 ```
 client.getActors(73255, function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getBanners(seriesId, callback)
 ```
 client.getBanners(73255, function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
 ### client.getUpdates(time, callback)
 ```
 client.getUpdates(1400611370, function(error, response) {
-	// handle error and response
+    // handle error and response
 });
 ```
 
