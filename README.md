@@ -11,6 +11,8 @@ Pull requests very welcome.
 - Set language at initialisation or afterwards when needed
 - Normalised keys and values
 - Empty values parsed as null
+- API errors returned as JavaScript errors
+- Updates endpoint grouped by type
 
 ## Installation
 
