@@ -8,11 +8,19 @@
  */
 
 var request = require("superagent").get;
-var parser = require("xml2js").parseString;
+var parser  = require("xml2js").parseString;
 
 var remoteProviders = {
     imdbid: /^tt/i,
     zap2it: /^ep/i
+};
+
+var parserOptions = {
+    trim: true,
+    normalize: true,
+    ignoreAttrs: true,
+    explicitArray: false,
+    emptyTag: null
 };
 
 var Client = function(accessToken, language) {
@@ -75,8 +83,8 @@ Client.prototype.getSeriesById = function(id, callback) {
 
 Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
     var provider = "";
-    var keys = Object.keys(remoteProviders);
-    var len = keys.length;
+    var keys     = Object.keys(remoteProviders);
+    var len      = keys.length;
     
     for (var i = 0; i < len; i++) {
         if (remoteProviders[keys[i]].exec(remoteId)) {
@@ -116,6 +124,17 @@ Client.prototype.getBanners = function(id, callback) {
 };
 
 /**
+ * Episodes
+ */
+
+Client.prototype.getEpisodeById = function(id, callback) {
+    var path = this._token + "/episodes/" + id;
+    this.sendRequest(path, function(error, response) {
+        callback(error, response ? response.Data.Episode : null);
+    });
+};
+
+/**
  * Updates
  */
 
@@ -135,22 +154,24 @@ Client.prototype.sendRequest = function(path, done) {
     request(url, function (error, response) {
         if (response && response.statusCode === 200) {
             
-            parser(response.text, {
-                trim: true,
-                normalize: true,
-                ignoreAttrs: true,
-                explicitArray: false,
-                emptyTag: null
-            }, function(error, results) {
+            // This has to be done because TheTVDB API returns
+            // 200 OK for 404 errors with the episode endpoint.
+            if (response.type === "text/plain" && ~response.text.indexOf("404 Not Found")) {
+                done(new Error("Could not complete the request"), null);
+            } else {
                 
-                if (results.Error) {
-                    error = results.Error;
-                    results = null;
-                }
+                parser(response.text, parserOptions, function(error, results) {
+                    
+                    if (results.Error) {
+                        error = results.Error;
+                        results = null;
+                    }
+                    
+                    done(error, results);
                 
-                done(error, results);
+                });
                 
-            });
+            }
         } else {
             done(error ? error : new Error("Could not complete the request"), null);
         }

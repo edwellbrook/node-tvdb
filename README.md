@@ -104,6 +104,13 @@ client.getSeriesAllById(73255, function(error, response) {
 });
 ```
 
+### client.getEpisodeById(episodeId, callback)
+```
+client.getEpisodeById(4768125, function(error, response) {
+    // handle error and response
+});
+```
+
 ### client.getActors(seriesId, callback)
 ```
 client.getActors(73255, function(error, response) {
