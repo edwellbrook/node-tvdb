@@ -11,6 +11,10 @@
   ],
   "homepage": "https://github.com/edwellbrook/node-tvdb",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/edwellbrook/node-tvdb.git"
+  },
   "dependencies": {
     "xml2js": "~0.4.3",
     "superagent": "~0.18.0"
