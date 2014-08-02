@@ -163,7 +163,7 @@ Client.prototype.sendRequest = function(path, done) {
                 parser(response.text, parserOptions, function(error, results) {
                     
                     if (results.Error) {
-                        error = results.Error;
+                        error = new Error(results.Error);
                         results = null;
                     }
                     
