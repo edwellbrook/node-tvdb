@@ -152,26 +152,17 @@ Client.prototype.getUpdates = function(time, callback) {
 Client.prototype.sendRequest = function(path, done) {
     var url = this._baseURL + path;
     request(url, function (error, response) {
-        if (response && response.statusCode === 200) {
+        if ((response && response.statusCode === 200) && (response.type != "text/plain" && !~response.text.indexOf("404 Not Found"))) {
             
-            // This has to be done because TheTVDB API returns
-            // 200 OK for 404 errors with the episode endpoint.
-            if (response.type === "text/plain" && ~response.text.indexOf("404 Not Found")) {
-                done(new Error("Could not complete the request"), null);
-            } else {
-                
-                parser(response.text, parserOptions, function(error, results) {
-                    
-                    if (results.Error) {
-                        error = new Error(results.Error);
-                        results = null;
-                    }
-                    
-                    done(error, results);
-                
-                });
-                
-            }
+            parser(response.text, parserOptions, function(error, results) {
+                if (results.Error) {
+                    error   = new Error(results.Error);
+                    results = null;
+                }
+
+                done(error, results);
+            });
+            
         } else {
             done(error ? error : new Error("Could not complete the request"), null);
         }
