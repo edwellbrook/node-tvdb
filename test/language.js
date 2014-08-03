@@ -23,7 +23,7 @@ describe("Language endpoints", function() {
     it("should return an array of available langauages", function(done) {
         var client = new TVDBClient(API_KEY);
         client.getLanguages(function(error, response) {
-            assert.equal(null, error);
+            assert.ifError(error);
             assert.equal("object", typeof response);
             done();
         });

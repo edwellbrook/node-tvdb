@@ -9,7 +9,7 @@ describe("Series endpoints", function() {
         it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeries("The Simpsons", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 done();
             });
@@ -18,7 +18,7 @@ describe("Series endpoints", function() {
         it("should return null for the series search \"asdas\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeries("asdas", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal(null, response);
                 done();
             });
@@ -45,7 +45,7 @@ describe("Series endpoints", function() {
         it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeries("Planeta Terra", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal(null, response);
                 done();
             });
@@ -54,7 +54,7 @@ describe("Series endpoints", function() {
         it("should return an array of available matches for the series search \"Planeta Terra\" with the language set to \"pt\"", function(done) {
             var client = new TVDBClient(API_KEY, "pt");
             client.getSeries("Planeta Terra", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 done();
             });
@@ -66,7 +66,7 @@ describe("Series endpoints", function() {
         it("should return an object of the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeriesById("246151", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 assert.equal("246151", response.id);
                 done();
@@ -76,7 +76,7 @@ describe("Series endpoints", function() {
         it("should return an object of the series and its episodes with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeriesAllById("246151", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 assert.equal("246151", response.id);
                 assert.equal("object", typeof response.Episodes);
@@ -108,7 +108,7 @@ describe("Series endpoints", function() {
         it("should return an object of the series with IMDB id \"tt0903747\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeriesByRemoteId("tt0903747", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 assert.equal("81189", response.id);
                 assert.equal("Breaking Bad", response.SeriesName);
@@ -119,7 +119,7 @@ describe("Series endpoints", function() {
         it("should return an object of the series with zap2it id \"EP01009396\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getSeriesByRemoteId("EP01009396", function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 assert.equal("81189", response.id);
                 assert.equal("Breaking Bad", response.SeriesName);
@@ -144,7 +144,7 @@ describe("Series endpoints", function() {
         it("should return an array of the actors for the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getActors(246151, function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 done();
             });
@@ -156,7 +156,7 @@ describe("Series endpoints", function() {
         it("should return an array of the banners for the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
             client.getBanners(246151, function(error, response) {
-                assert.equal(null, error);
+                assert.ifError(error);
                 assert.equal("object", typeof response);
                 done();
             });

@@ -7,7 +7,7 @@ describe("Episode endpoints", function() {
     it("should return an object of the episode with id \"4768125\"", function(done) {
         var client = new TVDBClient(API_KEY);
         client.getEpisodeById("4768125", function(error, response) {
-            assert.equal(null, error);
+            assert.ifError(error);
             assert.equal("object", typeof response);
             assert.equal("4768125", response.id);
             done();

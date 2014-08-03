@@ -9,7 +9,7 @@ describe("Update endpoints", function() {
         var time = Math.floor((new Date() / 1000) - 60 * 60 * 24 * 2);
         
         client.getUpdates(time, function(error, response) {
-            assert.equal(null, error);
+            assert.ifError(error);
             assert.equal("object", typeof response);
             assert.equal("string", typeof response.Time);
             assert.equal("object", typeof response.Episode);
