@@ -155,7 +155,7 @@ Client.prototype.sendRequest = function(path, done) {
         if ((response && response.statusCode === 200) && (response.type != "text/plain" && !~response.text.indexOf("404 Not Found"))) {
             
             parser(response.text, parserOptions, function(error, results) {
-                if (results.Error) {
+                if (results && results.Error) {
                     error   = new Error(results.Error);
                     results = null;
                 }
