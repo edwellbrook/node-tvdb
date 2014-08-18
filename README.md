@@ -1,8 +1,8 @@
 # node-tvdb
 
-Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Refactored for [Televiso](https://televi.so/) from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and some additional features.
+Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Refactored for [Televiso](https://televi.so/) from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
 
-Pull requests very welcome.
+Pull requests are always very welcome.
 
 ## Features
 
@@ -12,8 +12,8 @@ Pull requests very welcome.
 - Normalised keys and values
 - Empty values parsed as null
 - Updates endpoint grouped by type
-- Well tested
 - Supports both node callback functions and promises
+- [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
 
