@@ -46,7 +46,7 @@ tvdb.getSeries("The Simpsons", function(err, response) {
 
 ## API
 
-### var client = new TVDBClient(API_KEY, language)
+### var client = new TVDBClient(API_KEY, [language])
 ```
 var TVDBClient = require("node-tvdb");
 
@@ -64,8 +64,7 @@ OR
 ```
 tvdb.getLanguages()
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getLanguage()
@@ -88,8 +87,7 @@ OR
 ```
 tvdb.getTime()
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getSeries(seriesName, [callback])
@@ -102,8 +100,7 @@ OR
 ```
 tvdb.getSeries("Breaking Bad")
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getSeriesById(seriesId, [callback])
@@ -116,8 +113,7 @@ OR
 ```
 tvdb.getSeriesById(73255)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getSeriesByRemoteId(remoteId, [callback])
@@ -130,8 +126,7 @@ OR
 ```
 tvdb.getSeriesByRemoteId("tt0903747")
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
 
@@ -145,8 +140,7 @@ OR
 ```
 tvdb.getSeriesAllById(73255)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getEpisodeById(episodeId, [callback])
@@ -159,8 +153,7 @@ OR
 ```
 tvdb.getEpisodeById(4768125)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getActors(seriesId, [callback])
@@ -173,8 +166,7 @@ OR
 ```
 tvdb.getActors(73255)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getBanners(seriesId, [callback])
@@ -187,8 +179,7 @@ OR
 ```
 tvdb.getBanners(73255)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ### client.getUpdates(time, [callback])
@@ -201,8 +192,7 @@ OR
 ```
 tvdb.getUpdates(1400611370)
     .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ })
-    .done();
+    .catch(function(error) { /* handle error */ });
 ```
 
 ## License
