@@ -36,7 +36,7 @@ To start using this library you first need an API key. You can request one [here
 Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
 ```
-var TVDBClient = require("node-tvdb"),
+var TVDBClient = require("node-tvdb");
 var tvdb       = new TVDBClient("ABC123");
 
 tvdb.getSeries("The Simpsons", function(err, response) {
