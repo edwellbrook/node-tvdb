@@ -1,16 +1,16 @@
 var assert = require("assert");
 var API_KEY = process.env.TVDB_KEY;
-var TVDBClient = require("..");
+var TVDBClient = require("../..");
 
-describe("Time endpoints", function() {
+describe("Find banners", function() {
 
     describe("Node callback API", function() {
 
-        it("should return the current time from the server", function(done) {
+        it("should return an array of the banners for the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
-            client.getTime(function(error, response) {
+            client.getBanners(246151, function(error, response) {
                 assert.ifError(error);
-                assert.equal("string", typeof response);
+                assert.equal("object", typeof response);
                 done();
             });
         });
@@ -18,11 +18,11 @@ describe("Time endpoints", function() {
 
     describe("Promise API", function() {
 
-        it("should return the current time from the server", function(done) {
+        it("should return an array of the banners for the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
-            client.getTime()
+            client.getBanners(246151)
                 .then(function(response) {
-                    assert.equal("string", typeof response);
+                    assert.equal("object", typeof response);
                 })
                 .catch(function(error) {
                     assert.ifError(error);

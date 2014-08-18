@@ -16,8 +16,9 @@
     "url": "git://github.com/edwellbrook/node-tvdb.git"
   },
   "dependencies": {
-    "xml2js": "~0.4.3",
-    "superagent": "~0.18.0"
+    "superagent": "^0.18.2",
+    "when": "^3.4.4",
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "mocha": "~1.12.1"

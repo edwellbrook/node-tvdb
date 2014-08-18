@@ -12,6 +12,8 @@ Pull requests very welcome.
 - Normalised keys and values
 - Empty values parsed as null
 - Updates endpoint grouped by type
+- Well tested
+- Supports both node callback functions and promises
 
 ## Installation
 

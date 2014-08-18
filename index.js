@@ -9,6 +9,7 @@
 
 var request = require("superagent").get;
 var parser  = require("xml2js").parseString;
+var promise = require("when").promise;
 
 var remoteProviders = {
     imdbid: /^tt/i,
@@ -27,7 +28,7 @@ var Client = function(accessToken, language) {
     if (!accessToken) {
         throw new Error("Access token must be set.");
     }
-    
+
     this._token = accessToken;
     this._language = language || "en";
     this._baseURL = "http://www.thetvdb.com/api/";
@@ -38,9 +39,13 @@ var Client = function(accessToken, language) {
  */
 
 Client.prototype.getLanguages = function(callback) {
-    var path = this._token + "/languages.xml";
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Languages.Language : null);
+    var path = this._baseURL + this._token + "/languages.xml";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Languages) ? response.Languages.Language : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -57,9 +62,13 @@ Client.prototype.setLanguage = function(language) {
  */
 
 Client.prototype.getTime = function(callback) {
-    var path = "Updates.php?type=none";
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Items.Time : null);
+    var path = this._baseURL + "Updates.php?type=none";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Items) ? response.Items.Time : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -68,16 +77,24 @@ Client.prototype.getTime = function(callback) {
  */
 
 Client.prototype.getSeries = function(name, callback) {
-    var path = "GetSeries.php?seriesname=" + name + "&language=" + this._language;
-    this.sendRequest(path, function(error, response) {
-        callback(error, (response && response.Data) ? response.Data.Series : null);
+    var path = this._baseURL + "GetSeries.php?seriesname=" + name + "&language=" + this._language;
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Data) ? response.Data.Series : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
 Client.prototype.getSeriesById = function(id, callback) {
-    var path = this._token + "/series/" + id + "/" + this._language + ".xml";
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Data.Series : null);
+    var path = this._baseURL + this._token + "/series/" + id + "/" + this._language + ".xml";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Data) ? response.Data.Series : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -85,41 +102,58 @@ Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
     var provider = "";
     var keys     = Object.keys(remoteProviders);
     var len      = keys.length;
-    
+
     for (var i = 0; i < len; i++) {
         if (remoteProviders[keys[i]].exec(remoteId)) {
             provider = keys[i];
             break;
         }
     }
-    
-    var path = "GetSeriesByRemoteID.php?" + provider + "=" + remoteId + "&language=" + this._language;
-    this.sendRequest(path, function(error, response) {
-        callback(error, (response && response.Data) ? response.Data.Series : null);
+
+    var path = this._baseURL + "GetSeriesByRemoteID.php?" + provider + "=" + remoteId + "&language=" + this._language;
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Data) ? response.Data.Series : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
 Client.prototype.getSeriesAllById = function(id, callback) {
-    var path = this._token + "/series/" + id + "/all/" + this._language + ".xml";
-    this.sendRequest(path, function(error, response) {
-        if (response) {
-            response.Data.Series.Episodes = response.Data.Episode;
-        }
-        callback(error, response ? response.Data.Series : null);
+    var path = this._baseURL + this._token + "/series/" + id + "/all/" + this._language + ".xml";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            if (response && response.Data && response.Data.Series) {
+                response.Data.Series.Episodes = response.Data.Episode;
+            }
+
+            response = response ? response.Data.Series : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
 Client.prototype.getActors = function(id, callback) {
-    var path = this._token + "/series/" + id + "/actors.xml";
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Actors.Actor : null);
+    var path = this._baseURL + this._token + "/series/" + id + "/actors.xml";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Actors) ? response.Actors.Actor : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
 Client.prototype.getBanners = function(id, callback) {
-    var path = this._token + "/series/" + id + "/banners.xml";
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Banners.Banner : null);
+    var path = this._baseURL + this._token + "/series/" + id + "/banners.xml";
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Banners) ? response.Banners.Banner : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -128,9 +162,13 @@ Client.prototype.getBanners = function(id, callback) {
  */
 
 Client.prototype.getEpisodeById = function(id, callback) {
-    var path = this._token + "/episodes/" + id;
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Data.Episode : null);
+    var path = this._baseURL + this._token + "/episodes/" + id;
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = (response && response.Data) ? response.Data.Episode : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -139,9 +177,13 @@ Client.prototype.getEpisodeById = function(id, callback) {
  */
 
 Client.prototype.getUpdates = function(time, callback) {
-    var path = "Updates.php?type=all&time=" + time;
-    this.sendRequest(path, function(error, response) {
-        callback(error, response ? response.Items : null);
+    var path = this._baseURL + "Updates.php?type=all&time=" + time;
+
+    return promise(function(resolve, reject) {
+        sendRequest(path, function(error, response) {
+            response = response ? response.Items : null;
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        });
     });
 };
 
@@ -149,12 +191,17 @@ Client.prototype.getUpdates = function(time, callback) {
  * Utilities
  */
 
-Client.prototype.sendRequest = function(path, done) {
-    var url = this._baseURL + path;
-    request(url, function (error, response) {
-        if ((response && response.statusCode === 200) && (response.type != "text/plain" && !~response.text.indexOf("404 Not Found"))) {
-            
-            parser(response.text, parserOptions, function(error, results) {
+function sendRequest(url, done) {
+
+    request(url, function (error, data) {
+
+        if (data &&
+            data.statusCode === 200 &&
+            data.text != "" &&
+            data.type != "text/plain" &&
+            !~data.text.indexOf("404 Not Found")) {
+
+            parser(data.text, parserOptions, function(error, results) {
                 if (results && results.Error) {
                     error   = new Error(results.Error);
                     results = null;
@@ -162,9 +209,10 @@ Client.prototype.sendRequest = function(path, done) {
 
                 done(error, results);
             });
-            
+
         } else {
-            done(error ? error : new Error("Could not complete the request"), null);
+            error = error ? error : new Error("Could not complete the request");
+            done(error, null);
         }
     });
 };
