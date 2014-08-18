@@ -37,9 +37,9 @@ Then just follow this simple example that fetches all the shows containing "The 
 
 ```
 var TVDBClient = require("node-tvdb"),
-    client     = new TVDBClient("ABC123");
+var tvdb       = new TVDBClient("ABC123");
 
-client.getSeries("The Simpsons", function(err, response) {
+tvdb.getSeries("The Simpsons", function(err, response) {
     // handle error and response
 });
 ```
@@ -50,89 +50,159 @@ client.getSeries("The Simpsons", function(err, response) {
 ```
 var TVDBClient = require("node-tvdb");
 
-var client            = new TVDBClient("ABC123"); // language defaults to "en"
-var clientePortuguese = new TVDBClient("ABC123", "pt");
+var tvdb           = new TVDBClient("ABC123"); // language defaults to "en"
+var tvdbPortuguese = new TVDBClient("ABC123", "pt");
 ```
 
-### client.getLanguages(callback)
+### client.getLanguages([callback])
 ```
-client.getLanguages(function(error, response) {
+tvdb.getLanguages(function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getLanguages()
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
 ### client.getLanguage()
 ```
-client.getLanguage(); // => "en"
+tvdb.getLanguage(); // => "en"
 ```
 
 ### client.setLanguage(language)
 ```
-client.setLanguage("pt");
+tvdb.setLanguage("pt");
 ```
 
-### client.getTime(callback)
+### client.getTime([callback])
 ```
-client.getTime(function(error, response) {
+tvdb.getTime(function(error, response) {
     // handle error and response
 });
 ```
-
-### client.getSeries(seriesName, callback)
+OR
 ```
-client.getSeries("Breaking Bad", function(error, response) {
+tvdb.getTime()
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
+```
+
+### client.getSeries(seriesName, [callback])
+```
+tvdb.getSeries("Breaking Bad", function(error, response) {
     // handle error and response
 });
 ```
-
-### client.getSeriesById(seriesId, callback)
+OR
 ```
-client.getSeriesById(73255, function(error, response) {
+tvdb.getSeries("Breaking Bad")
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
+```
+
+### client.getSeriesById(seriesId, [callback])
+```
+tvdb.getSeriesById(73255, function(error, response) {
     // handle error and response
 });
 ```
-
-### client.getSeriesByRemoteId(remoteId, callback)
+OR
 ```
-client.getSeriesByRemoteId("tt0903747", function(error, response) {
+tvdb.getSeriesById(73255)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
+```
+
+### client.getSeriesByRemoteId(remoteId, [callback])
+```
+tvdb.getSeriesByRemoteId("tt0903747", function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getSeriesByRemoteId("tt0903747")
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
 
-### client.getSeriesAllById(seriesId, callback)
+### client.getSeriesAllById(seriesId, [callback])
 ```
-client.getSeriesAllById(73255, function(error, response) {
+tvdb.getSeriesAllById(73255, function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getSeriesAllById(73255)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
-### client.getEpisodeById(episodeId, callback)
+### client.getEpisodeById(episodeId, [callback])
 ```
-client.getEpisodeById(4768125, function(error, response) {
+tvdb.getEpisodeById(4768125, function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getEpisodeById(4768125)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
-### client.getActors(seriesId, callback)
+### client.getActors(seriesId, [callback])
 ```
-client.getActors(73255, function(error, response) {
+tvdb.getActors(73255, function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getActors(73255)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
-### client.getBanners(seriesId, callback)
+### client.getBanners(seriesId, [callback])
 ```
-client.getBanners(73255, function(error, response) {
+tvdb.getBanners(73255, function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getBanners(73255)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
-### client.getUpdates(time, callback)
+### client.getUpdates(time, [callback])
 ```
-client.getUpdates(1400611370, function(error, response) {
+tvdb.getUpdates(1400611370, function(error, response) {
     // handle error and response
 });
+```
+OR
+```
+tvdb.getUpdates(1400611370)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ })
+    .done();
 ```
 
 ## License
