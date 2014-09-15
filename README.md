@@ -54,7 +54,7 @@ var tvdb           = new TVDBClient("ABC123"); // language defaults to "en"
 var tvdbPortuguese = new TVDBClient("ABC123", "pt");
 ```
 
-### client.getLanguages([callback])
+### getLanguages
 ```
 tvdb.getLanguages(function(error, response) {
     // handle error and response
@@ -67,17 +67,17 @@ tvdb.getLanguages()
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getLanguage()
+### getLanguage
 ```
 tvdb.getLanguage(); // => "en"
 ```
 
-### client.setLanguage(language)
+### setLanguage
 ```
 tvdb.setLanguage("pt");
 ```
 
-### client.getTime([callback])
+### getTime
 ```
 tvdb.getTime(function(error, response) {
     // handle error and response
@@ -90,7 +90,7 @@ tvdb.getTime()
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getSeries(seriesName, [callback])
+### getSeries
 ```
 tvdb.getSeries("Breaking Bad", function(error, response) {
     // handle error and response
@@ -103,7 +103,7 @@ tvdb.getSeries("Breaking Bad")
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getSeriesById(seriesId, [callback])
+### getSeriesById
 ```
 tvdb.getSeriesById(73255, function(error, response) {
     // handle error and response
@@ -116,7 +116,7 @@ tvdb.getSeriesById(73255)
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getSeriesByRemoteId(remoteId, [callback])
+### getSeriesByRemoteId
 ```
 tvdb.getSeriesByRemoteId("tt0903747", function(error, response) {
     // handle error and response
@@ -130,7 +130,7 @@ tvdb.getSeriesByRemoteId("tt0903747")
 ```
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
 
-### client.getSeriesAllById(seriesId, [callback])
+### getSeriesAllById
 ```
 tvdb.getSeriesAllById(73255, function(error, response) {
     // handle error and response
@@ -143,7 +143,7 @@ tvdb.getSeriesAllById(73255)
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getEpisodeById(episodeId, [callback])
+### getEpisodeById
 ```
 tvdb.getEpisodeById(4768125, function(error, response) {
     // handle error and response
@@ -156,7 +156,7 @@ tvdb.getEpisodeById(4768125)
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getActors(seriesId, [callback])
+### getActors
 ```
 tvdb.getActors(73255, function(error, response) {
     // handle error and response
@@ -169,7 +169,7 @@ tvdb.getActors(73255)
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getBanners(seriesId, [callback])
+### getBanners
 ```
 tvdb.getBanners(73255, function(error, response) {
     // handle error and response
@@ -182,7 +182,7 @@ tvdb.getBanners(73255)
     .catch(function(error) { /* handle error */ });
 ```
 
-### client.getUpdates(time, [callback])
+### getUpdates
 ```
 tvdb.getUpdates(1400611370, function(error, response) {
     // handle error and response
