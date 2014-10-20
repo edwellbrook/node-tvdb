@@ -12,6 +12,7 @@ describe("Episode endpoints", function() {
                 assert.ifError(error);
                 assert.equal("object", typeof response);
                 assert.equal("4768125", response.id);
+                assert.equal("2014-03-30", response.FirstAired);
                 done();
             });
         });
@@ -34,6 +35,7 @@ describe("Episode endpoints", function() {
                 .then(function(response) {
                     assert.equal("object", typeof response);
                     assert.equal("4768125", response.id);
+                    assert.equal("2014-03-30", response.FirstAired);
                 })
                 .catch(function(error) {
                     assert.ifError(error);
