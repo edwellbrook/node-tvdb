@@ -21,13 +21,13 @@ Pull requests are always very welcome.
 
 Install with [npm](http://npmjs.org/):
 
-```
+```shell
 npm install --save node-tvdb
 ```
 
 And run tests with [Mocha](http://visionmedia.github.io/mocha/):
 
-```
+```shell
 TVDB_KEY=[YOUR API KEY HERE] mocha
 ```
 > _Install mocha with: `npm install -g mocha` (sudo may be required for your setup)_
@@ -37,7 +37,7 @@ TVDB_KEY=[YOUR API KEY HERE] mocha
 To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister).
 Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
-```
+```javascript
 var TVDBClient = require("node-tvdb");
 var tvdb       = new TVDBClient("ABC123");
 
@@ -49,7 +49,7 @@ tvdb.getSeries("The Simpsons", function(err, response) {
 ## API
 
 ### var client = new TVDBClient(API_KEY, [language])
-```
+```javascript
 var TVDBClient = require("node-tvdb");
 
 var tvdb           = new TVDBClient("ABC123"); // language defaults to "en"
@@ -57,75 +57,75 @@ var tvdbPortuguese = new TVDBClient("ABC123", "pt");
 ```
 
 ### getLanguages
-```
+```javascript
 tvdb.getLanguages(function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getLanguages()
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getLanguage
-```
+```javascript
 tvdb.getLanguage(); // => "en"
 ```
 
 ### setLanguage
-```
+```javascript
 tvdb.setLanguage("pt");
 ```
 
 ### getTime
-```
+```javascript
 tvdb.getTime(function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getTime()
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getSeries
-```
+```javascript
 tvdb.getSeries("Breaking Bad", function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getSeries("Breaking Bad")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getSeriesById
-```
+```javascript
 tvdb.getSeriesById(73255, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getSeriesById(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getSeriesByRemoteId
-```
+```javascript
 tvdb.getSeriesByRemoteId("tt0903747", function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getSeriesByRemoteId("tt0903747")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
@@ -133,65 +133,65 @@ tvdb.getSeriesByRemoteId("tt0903747")
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
 
 ### getSeriesAllById
-```
+```javascript
 tvdb.getSeriesAllById(73255, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getSeriesAllById(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getEpisodeById
-```
+```javascript
 tvdb.getEpisodeById(4768125, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getEpisodeById(4768125)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getActors
-```
+```javascript
 tvdb.getActors(73255, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getActors(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getBanners
-```
+```javascript
 tvdb.getBanners(73255, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getBanners(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getUpdates
-```
+```javascript
 tvdb.getUpdates(1400611370, function(error, response) {
     // handle error and response
 });
 ```
 OR
-```
+```javascript
 tvdb.getUpdates(1400611370)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
