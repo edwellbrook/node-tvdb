@@ -21,10 +21,10 @@
     "xml2js": "^0.4.4"
   },
   "devDependencies": {
-    "mocha": "~1.12.1"
+    "mocha": "^2.1.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "licence": "MIT"
 }
