@@ -28,9 +28,9 @@ npm install --save node-tvdb
 And run tests with [Mocha](http://visionmedia.github.io/mocha/):
 
 ```shell
-TVDB_KEY=[YOUR API KEY HERE] mocha
+TVDB_KEY=[YOUR API KEY HERE] npm test
 ```
-> _Install mocha with: `npm install -g mocha` (sudo may be required for your setup)_
+> _Mocha is installed as a development dependency; you do not need to install it globally to run the tests._
 
 ## Example Usage
 
