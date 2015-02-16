@@ -59,6 +59,16 @@ describe("Search by name", function() {
                 done();
             });
         });
+
+		it("should return an array even when there's only one result returned", function(done) {
+			var client = new TVDBClient(API_KEY);
+			client.getSeries("Bob's Burgers", function(error, response) {
+				assert.ifError(error);
+				assert.equal("object", typeof response);
+				assert.equal(1, response.length);
+				done();
+			});
+		});
     });
 
     describe("Promise API", function() {
@@ -134,5 +144,18 @@ describe("Search by name", function() {
                 })
                 .done(done);
         });
+
+		it("should return an array even when there's only one result returned", function(done) {
+			var client = new TVDBClient(API_KEY);
+			client.getSeries("Bob's Burgers")
+			    .then(function(response) {
+					assert.equal("object", typeof response);
+					assert.equal(1, response.length);
+			    })
+			    .catch(function(error) {
+			        assert.ifError(error);
+			    })
+			    .done(done);
+		});
     });
 });

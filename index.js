@@ -82,6 +82,7 @@ Client.prototype.getSeries = function(name, callback) {
     return promise(function(resolve, reject) {
         sendRequest(path, function(error, response) {
             response = (response && response.Data) ? response.Data.Series : null;
+            response = !response || Array.isArray(response) ? response : [response];
             callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
