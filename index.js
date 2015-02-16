@@ -42,9 +42,9 @@ Client.prototype.getLanguages = function(callback) {
     var path = this._baseURL + this._token + "/languages.xml";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Languages) ? response.Languages.Language : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -65,9 +65,9 @@ Client.prototype.getTime = function(callback) {
     var path = this._baseURL + "Updates.php?type=none";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Items) ? response.Items.Time : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -80,9 +80,9 @@ Client.prototype.getSeries = function(name, callback) {
     var path = this._baseURL + "GetSeries.php?seriesname=" + name + "&language=" + this._language;
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Data) ? response.Data.Series : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -91,9 +91,9 @@ Client.prototype.getSeriesById = function(id, callback) {
     var path = this._baseURL + this._token + "/series/" + id + "/" + this._language + ".xml";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Data) ? response.Data.Series : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -113,9 +113,9 @@ Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
     var path = this._baseURL + "GetSeriesByRemoteID.php?" + provider + "=" + remoteId + "&language=" + this._language;
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Data) ? response.Data.Series : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -124,13 +124,13 @@ Client.prototype.getSeriesAllById = function(id, callback) {
     var path = this._baseURL + this._token + "/series/" + id + "/all/" + this._language + ".xml";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             if (response && response.Data && response.Data.Series) {
                 response.Data.Series.Episodes = response.Data.Episode;
             }
 
             response = response ? response.Data.Series : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -139,9 +139,9 @@ Client.prototype.getActors = function(id, callback) {
     var path = this._baseURL + this._token + "/series/" + id + "/actors.xml";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Actors) ? response.Actors.Actor : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -150,9 +150,9 @@ Client.prototype.getBanners = function(id, callback) {
     var path = this._baseURL + this._token + "/series/" + id + "/banners.xml";
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Banners) ? response.Banners.Banner : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -165,9 +165,9 @@ Client.prototype.getEpisodeById = function(id, callback) {
     var path = this._baseURL + this._token + "/episodes/" + id;
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = (response && response.Data) ? response.Data.Episode : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
@@ -180,9 +180,9 @@ Client.prototype.getUpdates = function(time, callback) {
     var path = this._baseURL + "Updates.php?type=all&time=" + time;
 
     return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response, httpResponse) {
+        sendRequest(path, function(error, response) {
             response = response ? response.Items : null;
-            callback ? callback(error, response, httpResponse) : error ? reject(error) : resolve(response);
+            callback ? callback(error, response) : error ? reject(error) : resolve(response);
         });
     });
 };
