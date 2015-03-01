@@ -213,7 +213,7 @@ function sendRequest(url, done) {
 
         } else {
             error = error ? error : new Error("Could not complete the request");
-            error.statusCode = data.statusCode;
+            error.statusCode = data ? data.statusCode : undefined;
 
             done(error, null, data);
         }
