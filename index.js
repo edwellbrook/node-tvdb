@@ -208,14 +208,14 @@ function sendRequest(url, done) {
                     results = null;
                 }
 
-                done(error, results, data);
+                done(error, results);
             });
 
         } else {
             error = error ? error : new Error("Could not complete the request");
             error.statusCode = data ? data.statusCode : undefined;
 
-            done(error, null, data);
+            done(error, null);
         }
     });
 }
