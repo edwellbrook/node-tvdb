@@ -34,6 +34,7 @@ var Client = function(accessToken, language) {
     this._baseURL = "http://www.thetvdb.com/api/";
 };
 
+
 /**
  * Languages
  */
@@ -57,6 +58,7 @@ Client.prototype.setLanguage = function(language) {
     this._language = language;
 };
 
+
 /**
  * Time
  */
@@ -71,6 +73,7 @@ Client.prototype.getTime = function(callback) {
         });
     });
 };
+
 
 /**
  * Series
@@ -158,6 +161,7 @@ Client.prototype.getBanners = function(id, callback) {
     });
 };
 
+
 /**
  * Episodes
  */
@@ -173,6 +177,7 @@ Client.prototype.getEpisodeById = function(id, callback) {
     });
 };
 
+
 /**
  * Updates
  */
@@ -187,6 +192,7 @@ Client.prototype.getUpdates = function(time, callback) {
         });
     });
 };
+
 
 /**
  * Utilities
@@ -219,5 +225,27 @@ function sendRequest(url, done) {
         }
     });
 }
+
+function pipeListToArray(value) {
+    return value.replace(/(^\|)|(\|$)/g, "").split("|");
+}
+
+function parsePipeList(response) {
+    if (response.Actors) response.Actors = pipeListToArray(response.Actors);
+    if (response.Genre) response.Genre = pipeListToArray(response.Genre);
+    if (response.Writer) response.Writer = pipeListToArray(response.Writer);
+    if (response.Colors) response.Colors = pipeListToArray(response.Colors);
+    if (response.GuestStars) response.GuestStars = pipeListToArray(response.GuestStars);
+
+    return response;
+}
+
+/**
+ * Exports
+ */
+
+Client.utils = {
+    parsePipeList: parsePipeList
+};
 
 module.exports = Client;
