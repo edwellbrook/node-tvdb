@@ -4,7 +4,7 @@ var TVDBClient = require("../..");
 
 describe("Search by remote ID", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object of the series with IMDB id \"tt0903747\"", function(done) {
             var client = new TVDBClient(API_KEY);

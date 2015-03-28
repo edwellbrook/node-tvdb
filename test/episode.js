@@ -4,7 +4,7 @@ var TVDBClient = require("..");
 
 describe("Episode endpoints", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object of the episode with id \"4768125\"", function(done) {
             var client = new TVDBClient(API_KEY);

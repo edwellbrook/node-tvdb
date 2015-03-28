@@ -4,7 +4,7 @@ var TVDBClient = require("..");
 
 describe("Update endpoints", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object with arrays of updates from the past 2 days", function(done) {
             var client = new TVDBClient(API_KEY);

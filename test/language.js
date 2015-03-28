@@ -20,7 +20,7 @@ describe("Language endpoints", function() {
         assert.equal("pt", client.getLanguage());
     });
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an array of available langauages", function(done) {
             var client = new TVDBClient(API_KEY);

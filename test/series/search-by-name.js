@@ -4,7 +4,7 @@ var TVDBClient = require("../..");
 
 describe("Search by name", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
             var tvdb = new TVDBClient(API_KEY);

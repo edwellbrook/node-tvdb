@@ -4,7 +4,7 @@ var TVDBClient = require("../..");
 
 describe("Find actors", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an array of the actors for the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
