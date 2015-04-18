@@ -19,7 +19,7 @@
   "dependencies": {
     "superagent": "^1.2.0",
     "when": "^3.7.2",
-    "xml2js": "^0.4.6"
+    "xml2js": "^0.4.8"
   },
   "devDependencies": {
     "mocha": "^2.2.4"
