@@ -4,7 +4,7 @@ var TVDBClient = require("..");
 
 describe("Update endpoints", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object with arrays of updates from the past 2 days", function(done) {
             var client = new TVDBClient(API_KEY);
@@ -46,7 +46,7 @@ describe("Update endpoints", function() {
                 .catch(function (error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return a promise error when getting updates with an invalid time", function(done) {
@@ -59,7 +59,7 @@ describe("Update endpoints", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

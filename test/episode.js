@@ -4,7 +4,7 @@ var TVDBClient = require("..");
 
 describe("Episode endpoints", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object of the episode with id \"4768125\"", function(done) {
             var client = new TVDBClient(API_KEY);
@@ -40,7 +40,7 @@ describe("Episode endpoints", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a episode search with an invalid id", function(done) {
@@ -52,7 +52,7 @@ describe("Episode endpoints", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

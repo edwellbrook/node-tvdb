@@ -4,7 +4,7 @@ var TVDBClient = require("../..");
 
 describe("Search by ID", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return an object of the series with id \"246151\"", function(done) {
             var client = new TVDBClient(API_KEY);
@@ -58,7 +58,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an object of the series and its episodes with id \"246151\"", function(done) {
@@ -72,7 +72,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a series search with an invalid language", function(done) {
@@ -84,7 +84,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a series search with an invalid id", function(done) {
@@ -96,7 +96,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

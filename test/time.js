@@ -4,7 +4,7 @@ var TVDBClient = require("..");
 
 describe("Time endpoints", function() {
 
-    describe("Node callback API", function() {
+    describe("Callback API", function() {
 
         it("should return the current time from the server", function(done) {
             var client = new TVDBClient(API_KEY);
@@ -27,7 +27,7 @@ describe("Time endpoints", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });
