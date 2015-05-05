@@ -239,16 +239,13 @@ class Client {
     getUpdates(time, callback) {
         let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
         return sendRequest(path, callback, function(response, done) {
-
             done(response ? response.Items : null);
         });
     }
 
 }
 
-/**
- * Utilities
- */
+// Utilities
 
 function sendRequest(url, callback, normaliser) {
     return new Promise(function(resolve, reject) {
@@ -259,14 +256,13 @@ function sendRequest(url, callback, normaliser) {
                 data.text != "" &&
                 data.text.indexOf("404 Not Found") === -1) {
 
-                parser(data.text, PARSER_OPTS, function(error, results) {
-                    if (results && results.Error) {
-                        error   = new Error(results.Error);
-                        results = null;
-                    }
-
+                parseXML(data.text, function(error, results) {
                     normaliser(results, function(response) {
-                        callback ? callback(error, response) : error ? reject(error) : resolve(response);
+                        if (callback) {
+                            callback(error, response)
+                        } else {
+                            error ? reject(error) : resolve(response)
+                        }
                     });
                 });
 
@@ -274,9 +270,23 @@ function sendRequest(url, callback, normaliser) {
                 error = error ? error : new Error("Could not complete the request");
                 error.statusCode = data ? data.statusCode : undefined;
 
-                (callback ? callback : reject)(error);
+                if (callback) {
+                    callback(error);
+                } else {
+                    reject(error);
+                }
             }
         });
+    });
+}
+
+function parseXML(data, callback) {
+    parser(data, PARSER_OPTS, function(error, results) {
+        if (results && results.Error) {
+            callback(new Error(results.Error));
+        } else {
+            callback(error, results);
+        }
     });
 }
 
@@ -284,9 +294,7 @@ function parsePipeList(list) {
     return list.replace(/(^\|)|(\|$)/g, "").split("|");
 }
 
-/**
- * Exports
- */
+// Exports
 
 Client.utils = {
     parsePipeList: parsePipeList
