@@ -15,6 +15,7 @@ Pull requests are always very welcome.
 - Empty values parsed as null
 - Updates endpoint grouped by type
 - Supports both node callback functions and promises
+- Utility function to parse TheTVDB API's pipe list (e.g. "|Name|Name|Name|Name|")
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
@@ -181,6 +182,12 @@ OR
 tvdb.getUpdates(1400611370)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
+```
+
+### utils.parsePipeList
+```javascript
+var list = "|Mos Def|Faune A. Chambers|"; // from a previous api call
+var guestStars = Client.utils.parsePipeList(list);
 ```
 
 ## License
