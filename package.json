@@ -12,6 +12,9 @@
   ],
   "homepage": "https://github.com/edwellbrook/node-tvdb",
   "main": "index.js",
+  "engines": {
+    "node": ">=2.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/edwellbrook/node-tvdb.git"
