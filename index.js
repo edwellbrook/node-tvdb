@@ -1,9 +1,9 @@
-/**
+/*!
  * node-tvdb
  *
  * Node.js library for accessing TheTVDB API at <http://www.thetvdb.com/wiki/index.php?title=Programmers_API>
  *
- * Copyright (c) 2014 Edward Wellbrook <edwellbrook@gmail.com>
+ * Copyright (c) 2014-2015 Edward Wellbrook <edwellbrook@gmail.com>
  * MIT Licensed
  */
 
@@ -12,11 +12,13 @@
 const request = require("superagent").get;
 const parser  = require("xml2js").parseString;
 
+// available providers for remote ids
 const REMOTE_PROVIDERS = {
     imdbid: /^tt/i,
     zap2it: /^ep/i
 };
 
+// options for xml2js parser
 const PARSER_OPTS = {
     trim: true,
     normalize: true,
@@ -27,6 +29,14 @@ const PARSER_OPTS = {
 
 class Client {
 
+    /**
+     * Set up tvdb client with API key and optional language (defaults to "en")
+     *
+     * @param {String} token
+     * @param {String} [language]
+     * @api public
+     */
+
     constructor(token, language) {
         if (!token) throw new Error("Access token must be set.");
 
@@ -35,50 +45,86 @@ class Client {
         this.baseURL = "http://www.thetvdb.com/api";
     }
 
+    /**
+     * Get available languages useable by TheTVDB API
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:languages.xml
+     *
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
+
     getLanguages(callback) {
         let path = `${this.baseURL}/${this.token}/languages.xml`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Languages) ? response.Languages.Language : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Languages) ? response.Languages.Language : null);
         });
     }
 
+    /**
+     * Get the current server time
+     *
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
     getTime(callback) {
         let path = `${this.baseURL}/Updates.php?type=none`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Items) ? response.Items.Time : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Items) ? response.Items.Time : null);
         });
     }
 
-    getSeries(name, callback) {
+    /**
+     * Get basic series information by name
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:GetSeries
+     *
+     * @param {String} name
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
+    getSeriesByName(name, callback) {
         let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Data) ? response.Data.Series : null;
-                response = !response || Array.isArray(response) ? response : [response];
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            response = (response && response.Data) ? response.Data.Series : null;
+            done(!response || Array.isArray(response) ? response : [response]);
         });
     }
 
+    /**
+     * Get basic series information by id
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Base_Series_Record
+     *
+     * @param {Number|String} id
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
     getSeriesById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Data) ? response.Data.Series : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Data) ? response.Data.Series : null);
         });
     }
+
+    /**
+     * Get basic series information by remote id (zap2it or imdb)
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:GetSeriesByRemoteID
+     *
+     * @param {String} remoteId
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getSeriesByRemoteId(remoteId, callback) {
         let provider = "";
@@ -94,70 +140,107 @@ class Client {
 
         let path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Data) ? response.Data.Series : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Data) ? response.Data.Series : null);
         });
     }
+
+    /**
+     * Get full/all series information by id
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Full_Series_Record
+     *
+     * @param {Number|String} id
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getSeriesAllById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                if (response && response.Data && response.Data.Series) {
-                    response.Data.Series.Episodes = response.Data.Episode;
-                }
+        return sendRequest(path, callback, function(response, done) {
+            if (response && response.Data && response.Data.Series) {
+                response.Data.Series.Episodes = response.Data.Episode;
+            }
 
-                response = response ? response.Data.Series : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+            done(response ? response.Data.Series : null);
         });
     }
+
+    /**
+     * Get series actors by series id
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:actors.xml
+     *
+     * @param {Number|String} id
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getActors(id, callback) {
         var path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Actors) ? response.Actors.Actor : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Actors) ? response.Actors.Actor : null);
         });
     }
+
+    /**
+     * Get series banners by series id
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:banners.xml
+     *
+     * @param {Number|String} id
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getBanners(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Banners) ? response.Banners.Banner : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Banners) ? response.Banners.Banner : null);
         });
     }
+
+    /**
+     * Get episode by episode id
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
+     *
+     * @param {Number|String} id
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getEpisodeById(id, callback) {
         let path = `${this.baseURL}/${this.token}/episodes/${id}`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = (response && response.Data) ? response.Data.Episode : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done((response && response.Data) ? response.Data.Episode : null);
         });
     }
+
+    /**
+     * Get series and episode updates since a given unix timestamp
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     *
+     * @param {Number} time
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getUpdates(time, callback) {
         let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
 
-        return new Promise(function(resolve, reject) {
-            sendRequest(path, function(error, response) {
-                response = response ? response.Items : null;
-                callback ? callback(error, response) : error ? reject(error) : resolve(response);
-            });
+        return sendRequest(path, callback, function(response, done) {
+            done(response ? response.Items : null);
         });
     }
 
@@ -167,31 +250,33 @@ class Client {
  * Utilities
  */
 
-function sendRequest(url, done) {
+function sendRequest(url, callback, normaliser) {
+    return new Promise(function(resolve, reject) {
+        request(url, function(error, data) {
 
-    request(url, function (error, data) {
+            if (data &&
+                data.statusCode === 200 &&
+                data.text != "" &&
+                data.text.indexOf("404 Not Found") === -1) {
 
-        if (data &&
-            data.statusCode === 200 &&
-            data.text != "" &&
-            data.type != "text/plain" &&
-            !~data.text.indexOf("404 Not Found")) {
+                parser(data.text, PARSER_OPTS, function(error, results) {
+                    if (results && results.Error) {
+                        error   = new Error(results.Error);
+                        results = null;
+                    }
 
-            parser(data.text, PARSER_OPTS, function(error, results) {
-                if (results && results.Error) {
-                    error   = new Error(results.Error);
-                    results = null;
-                }
+                    normaliser(results, function(response) {
+                        callback ? callback(error, response) : error ? reject(error) : resolve(response);
+                    });
+                });
 
-                done(error, results);
-            });
+            } else {
+                error = error ? error : new Error("Could not complete the request");
+                error.statusCode = data ? data.statusCode : undefined;
 
-        } else {
-            error = error ? error : new Error("Could not complete the request");
-            error.statusCode = data ? data.statusCode : undefined;
-
-            done(error, null);
-        }
+                (callback ? callback : reject)(error);
+            }
+        });
     });
 }
 
