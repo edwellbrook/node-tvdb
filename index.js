@@ -280,18 +280,8 @@ function sendRequest(url, callback, normaliser) {
     });
 }
 
-function pipeListToArray(value) {
-    return value.replace(/(^\|)|(\|$)/g, "").split("|");
-}
-
-function parsePipeList(response) {
-    if (response.Actors) response.Actors = pipeListToArray(response.Actors);
-    if (response.Genre) response.Genre = pipeListToArray(response.Genre);
-    if (response.Writer) response.Writer = pipeListToArray(response.Writer);
-    if (response.Colors) response.Colors = pipeListToArray(response.Colors);
-    if (response.GuestStars) response.GuestStars = pipeListToArray(response.GuestStars);
-
-    return response;
+function parsePipeList(list) {
+    return list.replace(/(^\|)|(\|$)/g, "").split("|");
 }
 
 /**
