@@ -74,6 +74,7 @@ class Client {
      * @return {Promise} promise
      * @api public
      */
+
     getTime(callback) {
         let path = `${this.baseURL}/Updates.php?type=none`;
 
@@ -92,6 +93,7 @@ class Client {
      * @return {Promise} promise
      * @api public
      */
+
     getSeriesByName(name, callback) {
         let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
@@ -111,6 +113,7 @@ class Client {
      * @return {Promise} promise
      * @api public
      */
+
     getSeriesById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
