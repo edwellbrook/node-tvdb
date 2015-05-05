@@ -2,7 +2,7 @@
 
 [![wercker status](https://app.wercker.com/status/19dcad373ede868e37754a0367d68382/s/master "wercker status")](https://app.wercker.com/project/bykey/19dcad373ede868e37754a0367d68382)
 
-Node.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Refactored from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
+Node.js/io.js library for accessing [TheTVDB API](http://www.thetvdb.com/wiki/index.php/Programmers_API). Refactored from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
 
 Pull requests are always very welcome.
 
@@ -38,45 +38,31 @@ To start using this library you first need an API key. You can request one [here
 Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
 ```javascript
-var TVDBClient = require("node-tvdb");
-var tvdb       = new TVDBClient("ABC123");
+var TVDB = require("node-tvdb");
+var tvdb = new TVDB("ABC123");
 
 tvdb.getSeries("The Simpsons", function(err, response) {
     // handle error and response
 });
 ```
 
+For use with node engines without `class`/`const`/`let`:
+
+```javascript
+var TVDB = require("node-tvdb/compat");
+var tvdb = new TVDB("ABC123");
+
+// continue as normal...
+```
+
 ## API
 
-### var client = new TVDBClient(API_KEY, [language])
+### var client = new Client(API_KEY, [language])
 ```javascript
-var TVDBClient = require("node-tvdb");
+var Client = require("node-tvdb");
 
-var tvdb           = new TVDBClient("ABC123"); // language defaults to "en"
-var tvdbPortuguese = new TVDBClient("ABC123", "pt");
-```
-
-### getLanguages
-```javascript
-tvdb.getLanguages(function(error, response) {
-    // handle error and response
-});
-```
-OR
-```javascript
-tvdb.getLanguages()
-    .then(function(response) { /* handle response */ })
-    .catch(function(error) { /* handle error */ });
-```
-
-### getLanguage
-```javascript
-tvdb.getLanguage(); // => "en"
-```
-
-### setLanguage
-```javascript
-tvdb.setLanguage("pt");
+var tvdb           = new Client("ABC123"); // lang defaults to "en"
+var tvdbPortuguese = new Client("ABC123", "pt");
 ```
 
 ### getTime
@@ -92,15 +78,15 @@ tvdb.getTime()
     .catch(function(error) { /* handle error */ });
 ```
 
-### getSeries
+### getSeriesByName
 ```javascript
-tvdb.getSeries("Breaking Bad", function(error, response) {
+tvdb.getSeriesByName("Breaking Bad", function(error, response) {
     // handle error and response
 });
 ```
 OR
 ```javascript
-tvdb.getSeries("Breaking Bad")
+tvdb.getSeriesByName("Breaking Bad")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
