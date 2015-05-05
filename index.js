@@ -27,6 +27,10 @@ const PARSER_OPTS = {
     emptyTag: null
 };
 
+//
+// API Client
+//
+
 class Client {
 
     /**
@@ -58,9 +62,9 @@ class Client {
     getLanguages(callback) {
         let path = `${this.baseURL}/${this.token}/languages.xml`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Languages) ? response.Languages.Language : null);
-        });
+        }, callback);
     }
 
     /**
@@ -73,9 +77,9 @@ class Client {
     getTime(callback) {
         let path = `${this.baseURL}/Updates.php?type=none`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Items) ? response.Items.Time : null);
-        });
+        }, callback);
     }
 
     /**
@@ -91,10 +95,10 @@ class Client {
     getSeriesByName(name, callback) {
         let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             response = (response && response.Data) ? response.Data.Series : null;
             done(!response || Array.isArray(response) ? response : [response]);
-        });
+        }, callback);
     }
 
     /**
@@ -110,9 +114,9 @@ class Client {
     getSeriesById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
-        });
+        }, callback);
     }
 
     /**
@@ -140,9 +144,9 @@ class Client {
 
         let path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
-        });
+        }, callback);
     }
 
     /**
@@ -159,13 +163,13 @@ class Client {
     getSeriesAllById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             if (response && response.Data && response.Data.Series) {
                 response.Data.Series.Episodes = response.Data.Episode;
             }
 
             done(response ? response.Data.Series : null);
-        });
+        }, callback);
     }
 
     /**
@@ -182,9 +186,9 @@ class Client {
     getActors(id, callback) {
         var path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Actors) ? response.Actors.Actor : null);
-        });
+        }, callback);
     }
 
     /**
@@ -201,9 +205,9 @@ class Client {
     getBanners(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Banners) ? response.Banners.Banner : null);
-        });
+        }, callback);
     }
 
     /**
@@ -220,9 +224,9 @@ class Client {
     getEpisodeById(id, callback) {
         let path = `${this.baseURL}/${this.token}/episodes/${id}`;
 
-        return sendRequest(path, callback, function(response, done) {
+        return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Episode : null);
-        });
+        }, callback);
     }
 
     /**
@@ -238,16 +242,29 @@ class Client {
 
     getUpdates(time, callback) {
         let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
-        return sendRequest(path, callback, function(response, done) {
+
+        return sendRequest(path, function(response, done) {
             done(response ? response.Items : null);
-        });
+        }, callback);
     }
 
 }
 
+//
 // Utilities
+//
 
-function sendRequest(url, callback, normaliser) {
+/**
+ * Send and handle http request
+ *
+ * @param {String} url
+ * @param {Function} normaliser - to normalise response object
+ * @param {Function} [callback]
+ * @return {Promise} promise
+ * @api private
+ */
+
+function sendRequest(url, normaliser, callback) {
     return new Promise(function(resolve, reject) {
         request(url, function(error, data) {
 
@@ -280,6 +297,14 @@ function sendRequest(url, callback, normaliser) {
     });
 }
 
+/**
+ * Parse XML response
+ *
+ * @param {String} xml data
+ * @param {Function} callback
+ * @api private
+ */
+
 function parseXML(data, callback) {
     parser(data, PARSER_OPTS, function(error, results) {
         if (results && results.Error) {
@@ -290,11 +315,21 @@ function parseXML(data, callback) {
     });
 }
 
+/**
+ * Parse pipe list string to javascript array
+ *
+ * @param {String} list
+ * @return {Array} parsed list
+ * @api public
+ */
+
 function parsePipeList(list) {
     return list.replace(/(^\|)|(\|$)/g, "").split("|");
 }
 
+//
 // Exports
+//
 
 Client.utils = {
     parsePipeList: parsePipeList
