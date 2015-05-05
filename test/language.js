@@ -6,18 +6,18 @@ describe("Language endpoints", function() {
 
     it("should return the default language as \"en\"", function() {
         var client = new TVDBClient(API_KEY);
-        assert.equal("en", client.getLanguage());
+        assert.equal("en", client.language);
     });
 
     it("should return the language as \"pt\" if initilaised with the language \"pt\"", function() {
         var client = new TVDBClient(API_KEY, "pt");
-        assert.equal("pt", client.getLanguage());
+        assert.equal("pt", client.language);
     });
 
     it("should return the lanaguage as \"pt\" if changed to \"pt\"", function() {
         var client = new TVDBClient(API_KEY);
-        client.setLanguage("pt");
-        assert.equal("pt", client.getLanguage());
+        client.language = "pt";
+        assert.equal("pt", client.language);
     });
 
     describe("Callback API", function() {

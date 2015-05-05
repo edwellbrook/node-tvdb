@@ -7,16 +7,19 @@
  * MIT Licensed
  */
 
-var request = require("superagent").get;
-var parser  = require("xml2js").parseString;
-var promise = require("when").promise;
+"use strict";
 
-var remoteProviders = {
+const request = require("superagent").get;
+const parser  = require("xml2js").parseString;
+const promise = require("when").promise;
+const util    = require("util");
+
+const REMOTE_PROVIDERS = {
     imdbid: /^tt/i,
     zap2it: /^ep/i
 };
 
-var parserOptions = {
+const PARSER_OPTS = {
     trim: true,
     normalize: true,
     ignoreAttrs: true,
@@ -24,169 +27,143 @@ var parserOptions = {
     emptyTag: null
 };
 
-var Client = function(accessToken, language) {
-    if (!accessToken) {
-        throw new Error("Access token must be set.");
+class Client {
+
+    constructor(token, language) {
+        if (!token) throw new Error("Access token must be set.");
+
+        this.token = token;
+        this.language = language || "en";
+        this.baseURL = "http://www.thetvdb.com/api";
     }
 
-    this._token = accessToken;
-    this._language = language || "en";
-    this._baseURL = "http://www.thetvdb.com/api/";
-};
+    getLanguages(callback) {
+        let path = `${this.baseURL}/${this.token}/languages.xml`;
 
-/**
- * Languages
- */
-
-Client.prototype.getLanguages = function(callback) {
-    var path = this._baseURL + this._token + "/languages.xml";
-
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Languages) ? response.Languages.Language : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Languages) ? response.Languages.Language : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getLanguage = function() {
-    return this._language;
-};
+    getTime(callback) {
+        let path = `${this.baseURL}/Updates.php?type=none`;
 
-Client.prototype.setLanguage = function(language) {
-    this._language = language;
-};
-
-/**
- * Time
- */
-
-Client.prototype.getTime = function(callback) {
-    var path = this._baseURL + "Updates.php?type=none";
-
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Items) ? response.Items.Time : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Items) ? response.Items.Time : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-/**
- * Series
- */
+    getSeries(name, callback) {
+        let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
-Client.prototype.getSeries = function(name, callback) {
-    var path = this._baseURL + "GetSeries.php?seriesname=" + name + "&language=" + this._language;
-
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Data) ? response.Data.Series : null;
-            response = !response || Array.isArray(response) ? response : [response];
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Data) ? response.Data.Series : null;
+                response = !response || Array.isArray(response) ? response : [response];
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getSeriesById = function(id, callback) {
-    var path = this._baseURL + this._token + "/series/" + id + "/" + this._language + ".xml";
+    getSeriesById(id, callback) {
+        let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Data) ? response.Data.Series : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Data) ? response.Data.Series : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getSeriesByRemoteId = function(remoteId, callback) {
-    var provider = "";
-    var keys     = Object.keys(remoteProviders);
-    var len      = keys.length;
+    getSeriesByRemoteId(remoteId, callback) {
+        let provider = "";
+        let keys     = Object.keys(REMOTE_PROVIDERS);
+        let len      = keys.length;
 
-    for (var i = 0; i < len; i++) {
-        if (remoteProviders[keys[i]].exec(remoteId)) {
-            provider = keys[i];
-            break;
+        for (let i = 0; i < len; i++) {
+                if (REMOTE_PROVIDERS[keys[i]].exec(remoteId)) {
+                    provider = keys[i];
+                    break;
+                }
         }
+
+        let path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
+
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Data) ? response.Data.Series : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
+        });
     }
 
-    var path = this._baseURL + "GetSeriesByRemoteID.php?" + provider + "=" + remoteId + "&language=" + this._language;
+    getSeriesAllById(id, callback) {
+        let path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
 
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Data) ? response.Data.Series : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                if (response && response.Data && response.Data.Series) {
+                    response.Data.Series.Episodes = response.Data.Episode;
+                }
+
+                response = response ? response.Data.Series : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getSeriesAllById = function(id, callback) {
-    var path = this._baseURL + this._token + "/series/" + id + "/all/" + this._language + ".xml";
+    getActors(id, callback) {
+        var path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
 
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            if (response && response.Data && response.Data.Series) {
-                response.Data.Series.Episodes = response.Data.Episode;
-            }
-
-            response = response ? response.Data.Series : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Actors) ? response.Actors.Actor : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getActors = function(id, callback) {
-    var path = this._baseURL + this._token + "/series/" + id + "/actors.xml";
+    getBanners(id, callback) {
+        let path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
 
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Actors) ? response.Actors.Actor : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Banners) ? response.Banners.Banner : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-Client.prototype.getBanners = function(id, callback) {
-    var path = this._baseURL + this._token + "/series/" + id + "/banners.xml";
+    getEpisodeById(id, callback) {
+        let path = `${this.baseURL}/${this.token}/episodes/${id}`;
 
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Banners) ? response.Banners.Banner : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = (response && response.Data) ? response.Data.Episode : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-/**
- * Episodes
- */
+    getUpdates(time, callback) {
+        let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
 
-Client.prototype.getEpisodeById = function(id, callback) {
-    var path = this._baseURL + this._token + "/episodes/" + id;
-
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = (response && response.Data) ? response.Data.Episode : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
+        return promise(function(resolve, reject) {
+            sendRequest(path, function(error, response) {
+                response = response ? response.Items : null;
+                callback ? callback(error, response) : error ? reject(error) : resolve(response);
+            });
         });
-    });
-};
+    }
 
-/**
- * Updates
- */
-
-Client.prototype.getUpdates = function(time, callback) {
-    var path = this._baseURL + "Updates.php?type=all&time=" + time;
-
-    return promise(function(resolve, reject) {
-        sendRequest(path, function(error, response) {
-            response = response ? response.Items : null;
-            callback ? callback(error, response) : error ? reject(error) : resolve(response);
-        });
-    });
-};
+}
 
 /**
  * Utilities
@@ -202,7 +179,7 @@ function sendRequest(url, done) {
             data.type != "text/plain" &&
             !~data.text.indexOf("404 Not Found")) {
 
-            parser(data.text, parserOptions, function(error, results) {
+            parser(data.text, PARSER_OPTS, function(error, results) {
                 if (results && results.Error) {
                     error   = new Error(results.Error);
                     results = null;
