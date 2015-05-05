@@ -27,7 +27,7 @@ describe("Find banners", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

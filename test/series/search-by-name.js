@@ -82,7 +82,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return null for the series search \"asdas\"", function(done) {
@@ -94,7 +94,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a blank series search", function(done) {
@@ -106,7 +106,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a blank series search", function(done) {
@@ -118,7 +118,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
@@ -130,7 +130,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an array of available matches for the series search \"Planeta Terra\" with the language set to \"pt\"", function(done) {
@@ -142,7 +142,7 @@ describe("Search by name", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
 		it("should return an array even when there's only one result returned", function(done) {
@@ -155,7 +155,7 @@ describe("Search by name", function() {
 			    .catch(function(error) {
 			        assert.ifError(error);
 			    })
-			    .done(done);
+			    .then(done);
 		});
     });
 });

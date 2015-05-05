@@ -27,7 +27,7 @@ describe("Time endpoints", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

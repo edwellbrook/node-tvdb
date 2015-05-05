@@ -52,7 +52,7 @@ describe("Search by remote ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an object of the series with zap2it id \"EP01009396\"", function(done) {
@@ -66,7 +66,7 @@ describe("Search by remote ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
 
@@ -79,7 +79,7 @@ describe("Search by remote ID", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "superagent": "^1.2.0",
-    "when": "^3.7.3",
     "xml2js": "^0.4.8"
   },
   "devDependencies": {

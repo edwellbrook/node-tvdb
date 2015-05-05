@@ -58,7 +58,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an object of the series and its episodes with id \"246151\"", function(done) {
@@ -72,7 +72,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a series search with an invalid language", function(done) {
@@ -84,7 +84,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a series search with an invalid id", function(done) {
@@ -96,7 +96,7 @@ describe("Search by ID", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

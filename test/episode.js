@@ -40,7 +40,7 @@ describe("Episode endpoints", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error for a episode search with an invalid id", function(done) {
@@ -52,7 +52,7 @@ describe("Episode endpoints", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });

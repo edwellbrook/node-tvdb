@@ -11,8 +11,6 @@
 
 const request = require("superagent").get;
 const parser  = require("xml2js").parseString;
-const promise = require("when").promise;
-const util    = require("util");
 
 const REMOTE_PROVIDERS = {
     imdbid: /^tt/i,
@@ -40,7 +38,7 @@ class Client {
     getLanguages(callback) {
         let path = `${this.baseURL}/${this.token}/languages.xml`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Languages) ? response.Languages.Language : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -51,7 +49,7 @@ class Client {
     getTime(callback) {
         let path = `${this.baseURL}/Updates.php?type=none`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Items) ? response.Items.Time : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -62,7 +60,7 @@ class Client {
     getSeries(name, callback) {
         let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Data) ? response.Data.Series : null;
                 response = !response || Array.isArray(response) ? response : [response];
@@ -74,7 +72,7 @@ class Client {
     getSeriesById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Data) ? response.Data.Series : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -96,7 +94,7 @@ class Client {
 
         let path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Data) ? response.Data.Series : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -107,7 +105,7 @@ class Client {
     getSeriesAllById(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 if (response && response.Data && response.Data.Series) {
                     response.Data.Series.Episodes = response.Data.Episode;
@@ -122,7 +120,7 @@ class Client {
     getActors(id, callback) {
         var path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Actors) ? response.Actors.Actor : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -133,7 +131,7 @@ class Client {
     getBanners(id, callback) {
         let path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Banners) ? response.Banners.Banner : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -144,7 +142,7 @@ class Client {
     getEpisodeById(id, callback) {
         let path = `${this.baseURL}/${this.token}/episodes/${id}`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = (response && response.Data) ? response.Data.Episode : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);
@@ -155,7 +153,7 @@ class Client {
     getUpdates(time, callback) {
         let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
 
-        return promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             sendRequest(path, function(error, response) {
                 response = response ? response.Items : null;
                 callback ? callback(error, response) : error ? reject(error) : resolve(response);

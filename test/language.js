@@ -52,7 +52,7 @@ describe("Language endpoints", function() {
                 .catch(function(error) {
                     assert.ifError(error);
                 })
-                .done(done);
+                .then(done);
         });
 
         it("should return an error if getLanguages is called without a valid API key", function(done) {
@@ -64,7 +64,7 @@ describe("Language endpoints", function() {
                 .catch(function(error) {
                     assert.notEqual(null, error);
                 })
-                .done(done);
+                .then(done);
         });
     });
 });
