@@ -138,11 +138,10 @@ class Client {
         let keys     = Object.keys(REMOTE_PROVIDERS);
         let len      = keys.length;
 
-        for (let i = 0; i < len; i++) {
-                if (REMOTE_PROVIDERS[keys[i]].exec(remoteId)) {
-                    provider = keys[i];
-                    break;
-                }
+        while (len-- && provider === "") {
+            if (REMOTE_PROVIDERS[keys[len]].exec(remoteId)) {
+                provider = keys[len];
+            }
         }
 
         const path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;

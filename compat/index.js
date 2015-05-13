@@ -138,11 +138,10 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
         var keys     = Object.keys(REMOTE_PROVIDERS);
         var len      = keys.length;
 
-        for (var i = 0; i < len; i++) {
-                if (REMOTE_PROVIDERS[keys[i]].exec(remoteId)) {
-                    provider = keys[i];
-                    break;
-                }
+        while (len-- && provider === "") {
+            if (REMOTE_PROVIDERS[keys[len]].exec(remoteId)) {
+                provider = keys[len];
+            }
         }
 
         var path = (("" + (this.baseURL)) + ("/GetSeriesByRemoteID.php?" + provider) + ("=" + remoteId) + ("&language=" + (this.language)) + "");
