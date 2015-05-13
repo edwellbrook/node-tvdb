@@ -60,7 +60,7 @@ class Client {
      */
 
     getLanguages(callback) {
-        let path = `${this.baseURL}/${this.token}/languages.xml`;
+        const path = `${this.baseURL}/${this.token}/languages.xml`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Languages) ? response.Languages.Language : null);
@@ -76,7 +76,7 @@ class Client {
      */
 
     getTime(callback) {
-        let path = `${this.baseURL}/Updates.php?type=none`;
+        const path = `${this.baseURL}/Updates.php?type=none`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Items) ? response.Items.Time : null);
@@ -95,7 +95,7 @@ class Client {
      */
 
     getSeriesByName(name, callback) {
-        let path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
+        const path = `${this.baseURL}/GetSeries.php?seriesname=${name}&language=${this.language}`;
 
         return sendRequest(path, function(response, done) {
             response = (response && response.Data) ? response.Data.Series : null;
@@ -115,7 +115,7 @@ class Client {
      */
 
     getSeriesById(id, callback) {
-        let path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
+        const path = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
@@ -145,7 +145,7 @@ class Client {
                 }
         }
 
-        let path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
+        const path = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
@@ -164,7 +164,7 @@ class Client {
      */
 
     getSeriesAllById(id, callback) {
-        let path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
+        const path = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.xml`;
 
         return sendRequest(path, function(response, done) {
             if (response && response.Data && response.Data.Series) {
@@ -187,7 +187,7 @@ class Client {
      */
 
     getActors(id, callback) {
-        var path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
+        const path = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Actors) ? response.Actors.Actor : null);
@@ -206,7 +206,7 @@ class Client {
      */
 
     getBanners(id, callback) {
-        let path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
+        const path = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Banners) ? response.Banners.Banner : null);
@@ -225,7 +225,7 @@ class Client {
      */
 
     getEpisodeById(id, callback) {
-        let path = `${this.baseURL}/${this.token}/episodes/${id}`;
+        const path = `${this.baseURL}/${this.token}/episodes/${id}`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Episode : null);
@@ -244,7 +244,7 @@ class Client {
      */
 
     getUpdates(time, callback) {
-        let path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
+        const path = `${this.baseURL}/Updates.php?type=all&time=${time}`;
 
         return sendRequest(path, function(response, done) {
             done(response ? response.Items : null);
