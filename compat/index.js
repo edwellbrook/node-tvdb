@@ -272,7 +272,7 @@ function sendRequest(url, normaliser, callback) {
 
             if (data &&
                 data.statusCode === 200 &&
-                data.text != "" &&
+                data.text !== "" &&
                 data.text.indexOf("404 Not Found") === -1) {
 
                 parseXML(data.text, function(error, results) {
