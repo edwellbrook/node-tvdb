@@ -134,8 +134,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getSeriesByRemoteId = function(remoteId, callback) {
+        var keys = Object.keys(REMOTE_PROVIDERS);
+
         var provider = "";
-        var keys     = Object.keys(REMOTE_PROVIDERS);
         var len      = keys.length;
 
         while (len-- && provider === "") {
@@ -278,15 +279,17 @@ function sendRequest(url, normaliser, callback) {
                 parseXML(data.text, function(error, results) {
                     normaliser(results, function(response) {
                         if (callback) {
-                            callback(error, response)
+                            callback(error, response);
                         } else {
-                            error ? reject(error) : resolve(response)
+                            error ? reject(error) : resolve(response);
                         }
                     });
                 });
 
             } else {
-                error = error ? error : new Error("Could not complete the request");
+                if (!error) {
+                    error = new Error("Could not complete the request");
+                }
                 error.statusCode = data ? data.statusCode : undefined;
 
                 if (callback) {

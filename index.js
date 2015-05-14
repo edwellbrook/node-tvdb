@@ -134,8 +134,9 @@ class Client {
      */
 
     getSeriesByRemoteId(remoteId, callback) {
+        const keys = Object.keys(REMOTE_PROVIDERS);
+
         let provider = "";
-        let keys     = Object.keys(REMOTE_PROVIDERS);
         let len      = keys.length;
 
         while (len-- && provider === "") {
@@ -278,15 +279,17 @@ function sendRequest(url, normaliser, callback) {
                 parseXML(data.text, function(error, results) {
                     normaliser(results, function(response) {
                         if (callback) {
-                            callback(error, response)
+                            callback(error, response);
                         } else {
-                            error ? reject(error) : resolve(response)
+                            error ? reject(error) : resolve(response);
                         }
                     });
                 });
 
             } else {
-                error = error ? error : new Error("Could not complete the request");
+                if (!error) {
+                    error = new Error("Could not complete the request");
+                }
                 error.statusCode = data ? data.statusCode : undefined;
 
                 if (callback) {
