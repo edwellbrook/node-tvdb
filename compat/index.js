@@ -225,7 +225,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getEpisodeById = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + "");
+        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + ("/" + (this.language)) + ".xml");
 
         return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Episode : null);
