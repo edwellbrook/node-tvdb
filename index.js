@@ -225,7 +225,7 @@ class Client {
      */
 
     getEpisodeById(id, callback) {
-        const path = `${this.baseURL}/${this.token}/episodes/${id}`;
+        const path = `${this.baseURL}/${this.token}/episodes/${id}/${this.language}.xml`;
 
         return sendRequest(path, function(response, done) {
             done((response && response.Data) ? response.Data.Episode : null);
