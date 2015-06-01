@@ -29,8 +29,8 @@
     "mocha": "^2.2.5"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/runner",
-    "transpile": "./node_modules/.bin/gulp"
+    "test": "mocha test/runner",
+    "transpile": "gulp"
   },
   "licence": "MIT"
 }
