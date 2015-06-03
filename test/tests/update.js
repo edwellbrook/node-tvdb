@@ -65,11 +65,11 @@ module.exports = function(TVDBClient) {
         });
     });
 
-    describe('Update Record endpoints', function() {
-        describe('Callback API', function() {
+    describe("Update Record endpoints", function() {
+        describe("Callback API", function() {
             it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
-                client.getUpdateRecords('day', function(error, response) {
+                client.getUpdateRecords("day", function(error, response) {
                     assert.notEqual(null, error);
                     assert.equal(null, response);
                     done();
@@ -78,15 +78,15 @@ module.exports = function(TVDBClient) {
 
             it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
                 var client = new TVDBClient(API_KEY);
-                client.getUpdateRecords('year', function(error, response) {
+                client.getUpdateRecords("year", function(error, response) {
                     assert.notEqual(null, error);
                     assert.equal(null, response);
                     done();
                 });
             });
 
-            ['day', 'week', 'month'].forEach(function(interval) {
-                it('should return an object with arrays of updates if called with ' + interval, function(done) {
+            ["day", "week", "month"].forEach(function(interval) {
+                it("should return an object with arrays of updates if called with " + interval, function(done) {
                     var client = new TVDBClient(API_KEY);
                     client.getUpdateRecords(interval, function(error, response) {
                         assert.equal(null, error);
@@ -98,13 +98,13 @@ module.exports = function(TVDBClient) {
                     })
                 });
             });
-            // skipped 'all' due to file size of ~50 MB
+            // skipped "all" due to file size of ~50 MB
 
         });
-        describe('Promise API', function() {
+        describe("Promise API", function() {
             it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
-                client.getUpdateRecords('day')
+                client.getUpdateRecords("day")
                     .then(function(response) {
                         assert.equal(null, response);
                     })
@@ -116,7 +116,7 @@ module.exports = function(TVDBClient) {
 
             it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
                 var client = new TVDBClient(API_KEY);
-                client.getUpdateRecords('year')
+                client.getUpdateRecords("year")
                     .then(function(response) {
                         assert.equal(null, response);
                     })
@@ -126,8 +126,8 @@ module.exports = function(TVDBClient) {
                     .then(done);
             });
 
-            ['day', 'week', 'month'].forEach(function(interval) {
-                it('should return an object with arrays of updates if called with ' + interval, function(done) {
+            ["day", "week", "month"].forEach(function(interval) {
+                it("should return an object with arrays of updates if called with " + interval, function(done) {
                     var client = new TVDBClient(API_KEY);
                     client.getUpdateRecords(interval)
                         .then(function(response) {
@@ -142,7 +142,7 @@ module.exports = function(TVDBClient) {
                         .then(done);
                 })
             });
-            // skipped 'all' due to file size of ~50 MB
+            // skipped "all" due to file size of ~50 MB
 
         });
     });
