@@ -235,7 +235,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     /**
      * Get series and episode updates since a given unix timestamp
      *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     * http://thetvdb.com/wiki/index.php?title=API:Updates
      *
      * @param {Number} time
      * @param {Function} [callback]
@@ -251,6 +251,24 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
         }, callback);
     };
 
+   /**
+     * All updates within the given interval
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     *
+     * @param {string} interval (day|week|month|all)
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
+
+    proto$0.getUpdateRecords = function(interval, callback) {
+        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/updates/updates_" + interval) + ".xml");
+
+        return sendRequest(path, function(response, done) {
+            done(response ? response.Data : null);
+        }, callback);
+    };
 MIXIN$0(Client.prototype,proto$0);proto$0=void 0;return Client;})();
 
 //

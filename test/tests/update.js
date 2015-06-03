@@ -44,7 +44,7 @@ module.exports = function(TVDBClient) {
                         assert.equal("object", typeof response.Episode);
                         assert.equal("object", typeof response.Series);
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         assert.ifError(error);
                     })
                     .then(done);
@@ -62,6 +62,88 @@ module.exports = function(TVDBClient) {
                     })
                     .then(done);
             });
+        });
+    });
+
+    describe('Update Record endpoints', function() {
+        describe('Callback API', function() {
+            it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
+                var client = new TVDBClient("test123");
+                client.getUpdateRecords('day', function(error, response) {
+                    assert.notEqual(null, error);
+                    assert.equal(null, response);
+                    done();
+                });
+            });
+
+            it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getUpdateRecords('year', function(error, response) {
+                    assert.notEqual(null, error);
+                    assert.equal(null, response);
+                    done();
+                });
+            });
+
+            ['day', 'week', 'month'].forEach(function(interval) {
+                it('should return an object with arrays of updates if called with ' + interval, function(done) {
+                    var client = new TVDBClient(API_KEY);
+                    client.getUpdateRecords(interval, function(error, response) {
+                        assert.equal(null, error);
+                        assert.equal("object", typeof response);
+                        assert.equal("object", typeof response.Series);
+                        assert.equal("object", typeof response.Episode);
+                        assert.equal("object", typeof response.Banner);
+                        done();
+                    })
+                });
+            });
+            // skipped 'all' due to file size of ~50 MB
+
+        });
+        describe('Promise API', function() {
+            it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
+                var client = new TVDBClient("test123");
+                client.getUpdateRecords('day')
+                    .then(function(response) {
+                        assert.equal(null, response);
+                    })
+                    .catch(function(error) {
+                        assert.notEqual(null, error);
+                    })
+                    .then(done);
+            });
+
+            it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getUpdateRecords('year')
+                    .then(function(response) {
+                        assert.equal(null, response);
+                    })
+                    .catch(function(error) {
+                        assert.notEqual(null, error);
+                    })
+                    .then(done);
+            });
+
+            ['day', 'week', 'month'].forEach(function(interval) {
+                it('should return an object with arrays of updates if called with ' + interval, function(done) {
+                    var client = new TVDBClient(API_KEY);
+                    client.getUpdateRecords(interval)
+                        .then(function(response) {
+                            assert.equal("object", typeof response);
+                            assert.equal("object", typeof response.Series);
+                            assert.equal("object", typeof response.Episode);
+                            assert.equal("object", typeof response.Banner);
+                        })
+                        .catch(function(error) {
+                            assert.ifError(error);
+                        })
+                        .then(done);
+                })
+            });
+            // skipped 'all' due to file size of ~50 MB
+
         });
     });
 };
