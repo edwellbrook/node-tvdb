@@ -184,6 +184,19 @@ tvdb.getUpdates(1400611370)
     .catch(function(error) { /* handle error */ });
 ```
 
+### getUpdateRecords
+```javascript
+tvdb.getUpdateRecords("day", function(error, response) {
+    // handle error and response
+});
+```
+OR
+```javascript
+tvdb.getUpdateRecords("day")
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ });
+```
+
 ### utils.parsePipeList
 ```javascript
 var list = "|Mos Def|Faune A. Chambers|"; // from a previous api call
