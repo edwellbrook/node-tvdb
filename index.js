@@ -252,15 +252,15 @@ class Client {
     }
 
     /**
-      * All updates within the given interval
-      *
-      * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
-      *
-      * @param {string} interval - day|week|month|all
-      * @param {Function} [callback]
-      * @return {Promise} promise
-      * @api public
-      */
+     * All updates within the given interval
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     *
+     * @param {string} interval - day|week|month|all
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     getUpdateRecords(interval, callback) {
         const path = `${this.baseURL}/${this.token}/updates/updates_${interval}.xml`;

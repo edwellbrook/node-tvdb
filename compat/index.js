@@ -252,15 +252,15 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     };
 
     /**
-      * All updates within the given interval
-      *
-      * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
-      *
-      * @param {string} interval - day|week|month|all
-      * @param {Function} [callback]
-      * @return {Promise} promise
-      * @api public
-      */
+     * All updates within the given interval
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     *
+     * @param {string} interval - day|week|month|all
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
 
     proto$0.getUpdateRecords = function(interval, callback) {
         var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/updates/updates_" + interval) + ".xml");
