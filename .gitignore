@@ -8,3 +8,4 @@ pids
 lib-cov
 coverage
 .grunt
+.idea

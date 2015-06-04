@@ -235,7 +235,7 @@ class Client {
     /**
      * Get series and episode updates since a given unix timestamp
      *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     * http://www.thetvdb.com/wiki/index.php?title=API:Updates
      *
      * @param {Number} time
      * @param {Function} [callback]
@@ -251,6 +251,24 @@ class Client {
         }, callback);
     }
 
+    /**
+     * All updates within the given interval
+     *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
+     *
+     * @param {string} interval - day|week|month|all
+     * @param {Function} [callback]
+     * @return {Promise} promise
+     * @api public
+     */
+
+    getUpdateRecords(interval, callback) {
+        const path = `${this.baseURL}/${this.token}/updates/updates_${interval}.xml`;
+
+        return sendRequest(path, function(response, done) {
+            done(response ? response.Data : null);
+        }, callback);
+    }
 }
 
 //
