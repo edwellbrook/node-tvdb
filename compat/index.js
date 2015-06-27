@@ -256,7 +256,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      *
      * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
      *
-     * @param {string} interval - day|week|month|all
+     * @param {String} interval - day|week|month|all
      * @param {Function} [callback]
      * @return {Promise} promise
      * @api public
@@ -276,46 +276,55 @@ MIXIN$0(Client.prototype,proto$0);proto$0=void 0;return Client;})();
 //
 
 /**
+ * Check if http response is okay to use
+ *
+ * @param {Error} error
+ * @param {Object} resp - request library response object
+ * @param {String} data - body/data of response
+ * @return {Boolean} responseOk
+ * @api private
+ */
+
+function responseOk(error, resp, data) {
+    if (error) return false;
+    if (resp.statusCode !== 200) return false;
+    if (!data) return false;
+    if (data === "") return false;
+    if (data.indexOf("404 Not Found") !== -1) return false;
+
+    return true;
+}
+
+/**
  * Send and handle http request
  *
  * @param {String} url
- * @param {Function} normaliser - to normalise response object
+ * @param {Function} normalise - a function to tidy the response object
  * @param {Function} [callback]
  * @return {Promise} promise
  * @api private
  */
 
-function sendRequest(url, normaliser, callback) {
+function sendRequest(url, normalise, callback) {
     return new Promise(function(resolve, reject) {
         request(url, function(error, resp, data) {
 
-            if (resp.statusCode === 200 &&
-                data &&
-                data !== "" &&
-                data.indexOf("404 Not Found") === -1) {
-
-                parseXML(data, function(error, results) {
-                    normaliser(results, function(response) {
-                        if (callback) {
-                            callback(error, response);
-                        } else {
-                            error ? reject(error) : resolve(response);
-                        }
-                    });
-                });
-
-            } else {
+            if (!responseOk(error, resp, data)) {
                 if (!error) {
                     error = new Error("Could not complete the request");
                 }
-                error.statusCode = resp ? resp.statusCode : undefined;
+                error.statusCode = resp.statusCode;
 
-                if (callback) {
-                    callback(error);
-                } else {
-                    reject(error);
-                }
+                return (callback ? callback : reject)(error);
             }
+
+            parseXML(data, normalise, function(error, results) {
+                if (callback) {
+                    callback(error, results);
+                } else {
+                    error ? reject(error) : resolve(results);
+                }
+            });
         });
     });
 }
@@ -324,17 +333,20 @@ function sendRequest(url, normaliser, callback) {
  * Parse XML response
  *
  * @param {String} xml data
+ * @param {Function} normalise - a function to tidy the response object
  * @param {Function} callback
  * @api private
  */
 
-function parseXML(data, callback) {
+function parseXML(data, normalise, callback) {
     parser(data, PARSER_OPTS, function(error, results) {
         if (results && results.Error) {
-            callback(new Error(results.Error));
-        } else {
-            callback(error, results);
+            return callback(new Error(results.Error));
         }
+
+        normalise(results, function(results) {
+            callback(error, results);
+        });
     });
 }
 

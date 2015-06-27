@@ -29,7 +29,7 @@
     "mocha": "^2.2.5"
   },
   "scripts": {
-    "test": "mocha test/runner",
+    "test": "gulp && mocha test/runner",
     "transpile": "gulp"
   },
   "licence": "MIT"
