@@ -20,7 +20,7 @@
     "url": "git://github.com/edwellbrook/node-tvdb.git"
   },
   "dependencies": {
-    "superagent": "^1.2.0",
+    "request": "^2.58.0",
     "xml2js": "^0.4.9"
   },
   "devDependencies": {

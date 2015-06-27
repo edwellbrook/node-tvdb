@@ -9,7 +9,7 @@
 
 "use strict";
 
-const request = require("superagent").get;
+const request = require("request");
 const parser  = require("xml2js").parseString;
 
 // available providers for remote ids
@@ -287,14 +287,14 @@ class Client {
 
 function sendRequest(url, normaliser, callback) {
     return new Promise(function(resolve, reject) {
-        request(url, function(error, data) {
+        request(url, function(error, resp, data) {
 
-            if (data &&
-                data.statusCode === 200 &&
-                data.text !== "" &&
-                data.text.indexOf("404 Not Found") === -1) {
+            if (resp.statusCode === 200 &&
+                data &&
+                data !== "" &&
+                data.indexOf("404 Not Found") === -1) {
 
-                parseXML(data.text, function(error, results) {
+                parseXML(data, function(error, results) {
                     normaliser(results, function(response) {
                         if (callback) {
                             callback(error, response);
@@ -308,7 +308,7 @@ function sendRequest(url, normaliser, callback) {
                 if (!error) {
                     error = new Error("Could not complete the request");
                 }
-                error.statusCode = data ? data.statusCode : undefined;
+                error.statusCode = resp.statusCode;
 
                 if (callback) {
                     callback(error);
