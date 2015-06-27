@@ -286,7 +286,7 @@ class Client {
  *
  * @param {Error} error
  * @param {Object} resp - request library response object
- * @param {String} data - body/data of response
+ * @param {String|Buffer} data - body/data of response
  * @return {Boolean} responseOk
  * @api private
  */
@@ -296,6 +296,10 @@ function responseOk(error, resp, data) {
     if (!resp) return false;
     if (resp.statusCode !== 200) return false;
     if (!data) return false;
+
+    // if dealing with zip data buffer is okay
+    if (data instanceof Buffer) return true;
+
     if (data === "") return false;
     if (data.indexOf("404 Not Found") !== -1) return false;
 
