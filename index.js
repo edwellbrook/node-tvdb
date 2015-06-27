@@ -293,6 +293,7 @@ class Client {
 
 function responseOk(error, resp, data) {
     if (error) return false;
+    if (!resp) return false;
     if (resp.statusCode !== 200) return false;
     if (!data) return false;
     if (data === "") return false;
@@ -323,7 +324,7 @@ function sendRequest(urlOpts, response_type, normalise, callback) {
                 if (!error) {
                     error = new Error("Could not complete the request");
                 }
-                error.statusCode = resp.statusCode;
+                error.statusCode = resp ? resp.statusCode : undefined;
 
                 return (callback ? callback : reject)(error);
             } else if (error) {
