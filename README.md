@@ -16,6 +16,7 @@ Pull requests are always very welcome.
 - Updates endpoint grouped by type
 - Supports both node callback functions and promises
 - Utility function to parse TheTVDB API's pipe list (e.g. "|Name|Name|Name|Name|")
+- Use zip data instead of straight xml where possible
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
