@@ -11,6 +11,7 @@
 
 var request = require("request");
 var parser  = require("xml2js").parseString;
+var Zip     = require("jszip");
 
 // available providers for remote ids
 var REMOTE_PROVIDERS = {
@@ -25,6 +26,11 @@ var PARSER_OPTS = {
     ignoreAttrs: true,
     explicitArray: false,
     emptyTag: null
+};
+
+var RESPONSE_TYPE = {
+    XML: 0,
+    ZIP: 1
 };
 
 //
@@ -60,9 +66,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getLanguages = function(callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + "/languages.xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + "/languages.xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Languages) ? response.Languages.Language : null);
         }, callback);
     };
@@ -76,9 +82,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getTime = function(callback) {
-        var path = (("" + (this.baseURL)) + "/Updates.php?type=none");
+        var url = (("" + (this.baseURL)) + "/Updates.php?type=none");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Items) ? response.Items.Time : null);
         }, callback);
     };
@@ -95,9 +101,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getSeriesByName = function(name, callback) {
-        var path = (("" + (this.baseURL)) + ("/GetSeries.php?seriesname=" + name) + ("&language=" + (this.language)) + "");
+        var url = (("" + (this.baseURL)) + ("/GetSeries.php?seriesname=" + name) + ("&language=" + (this.language)) + "");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             response = (response && response.Data) ? response.Data.Series : null;
             done(!response || Array.isArray(response) ? response : [response]);
         }, callback);
@@ -115,9 +121,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getSeriesById = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + ("/" + (this.language)) + ".xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + ("/" + (this.language)) + ".xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
         }, callback);
     };
@@ -145,9 +151,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
             }
         }
 
-        var path = (("" + (this.baseURL)) + ("/GetSeriesByRemoteID.php?" + provider) + ("=" + remoteId) + ("&language=" + (this.language)) + "");
+        var url = (("" + (this.baseURL)) + ("/GetSeriesByRemoteID.php?" + provider) + ("=" + remoteId) + ("&language=" + (this.language)) + "");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Data) ? response.Data.Series : null);
         }, callback);
     };
@@ -164,9 +170,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getSeriesAllById = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + ("/all/" + (this.language)) + ".xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + ("/all/" + (this.language)) + ".zip");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.ZIP, function(response, done) {
             if (response && response.Data && response.Data.Series) {
                 response.Data.Series.Episodes = response.Data.Episode;
             }
@@ -187,9 +193,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getActors = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + "/actors.xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + "/actors.xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Actors) ? response.Actors.Actor : null);
         }, callback);
     };
@@ -206,9 +212,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getBanners = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + "/banners.xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/series/" + id) + "/banners.xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Banners) ? response.Banners.Banner : null);
         }, callback);
     };
@@ -225,9 +231,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getEpisodeById = function(id, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + ("/" + (this.language)) + ".xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + ("/" + (this.language)) + ".xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Data) ? response.Data.Episode : null);
         }, callback);
     };
@@ -244,9 +250,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getUpdates = function(time, callback) {
-        var path = (("" + (this.baseURL)) + ("/Updates.php?type=all&time=" + time) + "");
+        var url = (("" + (this.baseURL)) + ("/Updates.php?type=all&time=" + time) + "");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done(response ? response.Items : null);
         }, callback);
     };
@@ -263,9 +269,9 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getUpdateRecords = function(interval, callback) {
-        var path = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/updates/updates_" + interval) + ".xml");
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/updates/updates_" + interval) + ".xml");
 
-        return sendRequest(path, function(response, done) {
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done(response ? response.Data : null);
         }, callback);
     };
@@ -305,10 +311,14 @@ function responseOk(error, resp, data) {
  * @api private
  */
 
-function sendRequest(url, normalise, callback) {
+function sendRequest(urlOpts, response_type, normalise, callback) {
     return new Promise(function(resolve, reject) {
-        request(url, function(error, resp, data) {
+        var reqOpts = {url: urlOpts.url};
+        if (response_type === RESPONSE_TYPE.ZIP) {
+            reqOpts.encoding = null;
+        }
 
+        request(reqOpts, function(error, resp, data) {
             if (!responseOk(error, resp, data)) {
                 if (!error) {
                     error = new Error("Could not complete the request");
@@ -316,6 +326,17 @@ function sendRequest(url, normalise, callback) {
                 error.statusCode = resp.statusCode;
 
                 return (callback ? callback : reject)(error);
+            } else if (error) {
+                return (callback ? callback : reject)(error);
+            }
+
+            if (response_type === RESPONSE_TYPE.ZIP) {
+                try {
+                    var zip = new Zip(data);
+                    data = zip.file((("" + (urlOpts.lang)) + ".xml")).asText();
+                } catch (err) {
+                    return (callback ? callback : reject)(error);
+                }
             }
 
             parseXML(data, normalise, function(error, results) {
