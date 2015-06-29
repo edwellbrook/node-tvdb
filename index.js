@@ -28,6 +28,7 @@ const PARSER_OPTS = {
     emptyTag: null
 };
 
+// available response types
 const RESPONSE_TYPE = {
     XML: 0,
     ZIP: 1
@@ -310,16 +311,17 @@ function responseOk(error, resp, data) {
  * Send and handle http request
  *
  * @param {String} url
+ * @param {Number} responseType - response type from RESPONSE_TYPE
  * @param {Function} normalise - a function to tidy the response object
  * @param {Function} [callback]
  * @return {Promise} promise
  * @api private
  */
 
-function sendRequest(urlOpts, response_type, normalise, callback) {
+function sendRequest(urlOpts, responseType, normalise, callback) {
     return new Promise(function(resolve, reject) {
         let reqOpts = {url: urlOpts.url};
-        if (response_type === RESPONSE_TYPE.ZIP) {
+        if (responseType === RESPONSE_TYPE.ZIP) {
             reqOpts.encoding = null;
         }
 
@@ -335,7 +337,7 @@ function sendRequest(urlOpts, response_type, normalise, callback) {
                 return (callback ? callback : reject)(error);
             }
 
-            if (response_type === RESPONSE_TYPE.ZIP) {
+            if (responseType === RESPONSE_TYPE.ZIP) {
                 try {
                     const zip = new Zip(data);
                     data = zip.file(`${urlOpts.lang}.xml`).asText();

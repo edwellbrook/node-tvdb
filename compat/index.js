@@ -28,6 +28,7 @@ var PARSER_OPTS = {
     emptyTag: null
 };
 
+// available response types
 var RESPONSE_TYPE = {
     XML: 0,
     ZIP: 1
@@ -286,15 +287,20 @@ MIXIN$0(Client.prototype,proto$0);proto$0=void 0;return Client;})();
  *
  * @param {Error} error
  * @param {Object} resp - request library response object
- * @param {String} data - body/data of response
+ * @param {String|Buffer} data - body/data of response
  * @return {Boolean} responseOk
  * @api private
  */
 
 function responseOk(error, resp, data) {
     if (error) return false;
+    if (!resp) return false;
     if (resp.statusCode !== 200) return false;
     if (!data) return false;
+
+    // if dealing with zip data buffer is okay
+    if (data instanceof Buffer) return true;
+
     if (data === "") return false;
     if (data.indexOf("404 Not Found") !== -1) return false;
 
@@ -305,16 +311,17 @@ function responseOk(error, resp, data) {
  * Send and handle http request
  *
  * @param {String} url
+ * @param {Number} responseType - response type from RESPONSE_TYPE
  * @param {Function} normalise - a function to tidy the response object
  * @param {Function} [callback]
  * @return {Promise} promise
  * @api private
  */
 
-function sendRequest(urlOpts, response_type, normalise, callback) {
+function sendRequest(urlOpts, responseType, normalise, callback) {
     return new Promise(function(resolve, reject) {
         var reqOpts = {url: urlOpts.url};
-        if (response_type === RESPONSE_TYPE.ZIP) {
+        if (responseType === RESPONSE_TYPE.ZIP) {
             reqOpts.encoding = null;
         }
 
@@ -323,14 +330,14 @@ function sendRequest(urlOpts, response_type, normalise, callback) {
                 if (!error) {
                     error = new Error("Could not complete the request");
                 }
-                error.statusCode = resp.statusCode;
+                error.statusCode = resp ? resp.statusCode : undefined;
 
                 return (callback ? callback : reject)(error);
             } else if (error) {
                 return (callback ? callback : reject)(error);
             }
 
-            if (response_type === RESPONSE_TYPE.ZIP) {
+            if (responseType === RESPONSE_TYPE.ZIP) {
                 try {
                     var zip = new Zip(data);
                     data = zip.file((("" + (urlOpts.lang)) + ".xml")).asText();
