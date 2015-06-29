@@ -11,12 +11,8 @@ Pull requests are always very welcome.
 - Handle errors from API as JavaScript errors
 - Only returns relevant data (no need to call response.Data.Series etc.)
 - Set language at initialisation or afterwards when needed
-- Normalised keys and values
-- Empty values parsed as null
-- Updates endpoint grouped by type
 - Return values through promises (dropped callback support)
-- Utility function to parse TheTVDB API's pipe list (e.g. "|Name|Name|Name|Name|")
-- Use zip data instead of straight xml where possible
+- Use new JSON api from TheTVDB
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
