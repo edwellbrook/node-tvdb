@@ -14,7 +14,7 @@ Pull requests are always very welcome.
 - Normalised keys and values
 - Empty values parsed as null
 - Updates endpoint grouped by type
-- Supports both node callback functions and promises
+- Return values through promises (dropped callback support)
 - Utility function to parse TheTVDB API's pipe list (e.g. "|Name|Name|Name|Name|")
 - Use zip data instead of straight xml where possible
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)

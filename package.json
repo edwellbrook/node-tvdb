@@ -20,9 +20,7 @@
     "url": "git://github.com/edwellbrook/node-tvdb.git"
   },
   "dependencies": {
-    "jszip": "^2.5.0",
-    "request": "^2.58.0",
-    "xml2js": "^0.4.9"
+    "request": "^2.58.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
