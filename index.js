@@ -200,6 +200,25 @@ class Client {
         });
     }
 
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes
+
+    getSeriesEpisodes(id) {
+        let self = this;
+
+        return new Promise(function(resolve, reject) {
+            self.request.get({
+                uri: `/series/${id}/episodes`,
+                headers: {
+                    "Authorization": `Bearer ${self.token}`,
+                    "Accept-Language": self.language
+                }
+            }, function(err, res, data) {
+                if (err) return reject(err);
+                resolve(data.data);
+            });
+        });
+    }
+
 }
 
 //
