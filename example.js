@@ -3,6 +3,7 @@ const tvdb = new TVDB({language: "fr"});
 
 tvdb.auth(process.env.TVDB_KEY)
     .then(function() {
+        console.log("Running: API " + process.env.TVDB_KEY);
         // get a list of the languages tvdb supports
         return tvdb.getLanguages();
     })
@@ -24,7 +25,25 @@ tvdb.auth(process.env.TVDB_KEY)
     })
     .then(function(series) {
         // print the series info to the console
-        console.log(series);
+        console.log('getSerieInfo Results: ' + series);
+        return series;
+    })
+    .then(function(series) {
+        //get serie episodes
+        return tvdb.getSeriesEpisodes(series.id);
+    })
+    .then(function(results) {
+        console.log('GetSeriesEpisodes Results: ' + results);
+        return(results[0].seriesId);
+    })
+    .then(function(id) {
+        let query = {};
+        query['airedEpisode'] = 2;
+        query['airedSeason'] = 2;
+        return tvdb.getEpisodeQuery(id, query);
+    })
+    .then(function(results) {
+        console.log('GetEpisodeQuery Results - ' + results);
     })
     .catch(function(err) {
         // if at any point above we hit an error, print it to the console

@@ -202,12 +202,60 @@ class Client {
 
     // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes
 
-    getSeriesEpisodes(id) {
+    getSeriesEpisodes(id, page) {
         let self = this;
+        let query = {};
+
+        if (page) {
+            query['page'] = page;
+        } else {
+            //defaults to 1
+            query['page'] = 1;
+        }
 
         return new Promise(function(resolve, reject) {
             self.request.get({
                 uri: `/series/${id}/episodes`,
+                headers: {
+                    "Authorization": `Bearer ${self.token}`,
+                    "Accept-Language": self.language
+                },
+                qs: query
+            }, function(err, res, data) {
+                if (err) return reject(err);
+                resolve(data.data);
+            });
+        });
+    }
+
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
+    // TO-DO: Check if query as parameters is the right way
+    getEpisodeQuery(id, query) {
+        let self = this;
+
+        return new Promise(function(resolve, reject) {
+            self.request.get({
+                uri: `series/${id}/episodes/query`,
+                headers: {
+                    "Authorization": `Bearer ${self.token}`,
+                    "Accept-Language": self.language
+                },
+                qs: query
+            }, function(err, res, data) {
+                if (err) return reject(err);
+                resolve(data.data);
+            });
+        });
+    }
+
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
+
+    getEpisodeSummary(id) {
+        let self = this;
+
+        return new Promise(function(resolve, reject) {
+            self.request.get({
+                uri: `series/${id}/episodes/summary`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
@@ -219,6 +267,49 @@ class Client {
         });
     }
 
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_filter
+
+    getSeriesFilter(id, key_list) {
+        let self = this;
+        let query = {};
+
+        query['keys'] = key_list;
+
+        return new Promise(function(resolve, reject) {
+            self.request.get({
+                uri: `series/${id}/filter`,
+                headers: {
+                    "Authorization": `Bearer ${self.token}`,
+                    "Accept-Language": self.language
+                },
+                qs: query
+            }, function(err, res, data) {
+                if (err) return reject(err);
+                resolve(data.data);
+            });
+        });
+
+    }
+
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_filter_params
+
+    getSeriesFilterParam(id) {
+        let self = this;
+
+        return new Promise(function(resolve, reject) {
+            self.request.get({
+                uri: `series/${id}/filter/params`,
+                headers: {
+                    "Authorization": `Bearer ${self.token}`,
+                    "Accept-Language": self.language
+                }
+            }, function(err, res, data) {
+                if (err) return reject(err);
+                resolve(data.data);
+            });
+        });
+
+    }
 }
 
 //
