@@ -1,6 +1,7 @@
 const TVDB = require("./");
 const tvdb = new TVDB({language: "fr"});
 const serieId = 73255;
+const episodeId = 0;
 
 tvdb.auth(process.env.TVDB_KEY)
     .then(function () {
@@ -51,7 +52,7 @@ tvdb.auth(process.env.TVDB_KEY)
     })
     .then(function (results) {
         console.log("GetSeriesImages Results: " + JSON.stringify(results));
-        return tvdb.getSeriesImagesQuery(serieId, "poster");
+        return tvdb.getSeriesImagesQuery(serieId, { keyType: "poster" });
     })
     .then(function (results) {
         console.log("GetSeriesImagesQuery Results: " + JSON.stringify(results));
@@ -59,11 +60,24 @@ tvdb.auth(process.env.TVDB_KEY)
     })
     .then(function (results) {
         console.log("GetSeriesImagesParams Results: " + JSON.stringify(results));
+        return tvdb.getEpisode(episodeId);
+    })
+    .then(function (results) {
+        console.log("GetEpisode Results: " + JSON.stringify(results));
+        return tvdb.getUpdates(1435784810);
+    })
+    .then(function (results) {
+        console.log("GetUpdates Results: " + JSON.stringify(results));
+        return tvdb.getUpdatesParams();
+    })
+    .then(function (results) {
+        console.log("GetUpdatesParams Results: " + JSON.stringify(results));
+        return tvdb.getSeriesEpisodesParams(serieId);
+    })
+    .then(function (results) {
+        console.log("GetUpdatesParams Results: " + JSON.stringify(results));
     })
     .catch(function (err) {
         // if at any point above we hit an error, print it to the console
         console.log("Error: " + err);
     });
-
-//getSeriesImagesParams
-
