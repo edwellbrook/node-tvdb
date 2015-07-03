@@ -9,3 +9,6 @@ lib-cov
 coverage
 .grunt
 .idea
+_builds
+_projects
+_steps

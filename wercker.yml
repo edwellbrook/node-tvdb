@@ -1,4 +1,4 @@
-box: tablelist/tablelist-io@3.0.0
+box: iojs
 
 build:
   steps:
