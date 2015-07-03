@@ -1,7 +1,7 @@
 const TVDB = require("./");
 const tvdb = new TVDB({language: "fr"});
 const serieId = 73255;
-const episodeId = 0;
+const episodeId = 110992;
 
 tvdb.auth(process.env.TVDB_KEY)
     .then(function () {
@@ -75,7 +75,7 @@ tvdb.auth(process.env.TVDB_KEY)
         return tvdb.getSeriesEpisodesParams(serieId);
     })
     .then(function (results) {
-        console.log("GetUpdatesParams Results: " + JSON.stringify(results));
+        console.log("GetSeriesEpisodesParams Results: " + JSON.stringify(results));
     })
     .catch(function (err) {
         // if at any point above we hit an error, print it to the console

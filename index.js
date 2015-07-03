@@ -282,8 +282,7 @@ class Client {
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
-                },
-                qs: params
+                }
             }, function(err, res, data) {
                 if (err) return reject(err);
 
