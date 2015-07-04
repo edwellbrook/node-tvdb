@@ -51,13 +51,13 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.auth = function(apiKey) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.post({
                 uri: "/login",
                 body: {
                     "apikey": apiKey
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 self.token = data.token;
@@ -72,13 +72,13 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.refreshToken = function() {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/refresh",
                 headers: {
                     Authorization: ("Bearer " + (self.token))
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 self.token = data.token;
@@ -93,13 +93,13 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getLanguages = function() {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/languages",
                 headers: {
                     Authorization: ("Bearer " + (self.token))
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -113,13 +113,13 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getLanguage = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: ("/languages/" + id),
                 headers: {
                     "Authorization": ("Bearer " + (self.token))
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data);
@@ -139,7 +139,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
             key = "name";
         }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var query = {};
             query[key] = value;
 
@@ -150,7 +150,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
                     "Accept-Language": self.language
                 },
                 qs: query
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -164,14 +164,14 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.searchSeriesParams = function() {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/search/series/params",
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data.params);
@@ -185,15 +185,16 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getSeries = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: ("/series/" + id),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -203,25 +204,41 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
 
     proto$0.getSeriesEpisodes = function(id, page) {
         var self = this;
-        var query = {};
 
-        if (page) {
-            query['page'] = page;
-        } else {
-            //defaults to 1
-            query['page'] = 1;
-        }
-
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("/series/" + id) + "/episodes"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: {
+                    page: page ? page : 1
+                }
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
+                resolve(data.data);
+            });
+        });
+    };
+
+    // https://api-dev.thetvdb.com/swagger#!/Episodes
+    // Episode ID
+
+    proto$0.getEpisode = function(id) {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+            self.request.get({
+                uri: ("episodes/" + id),
+                headers: {
+                    "Authorization": ("Bearer " + (self.token)),
+                    "Accept-Language": self.language
+                }
+            }, function (err, res, data) {
+                if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -229,19 +246,40 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
 
     // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
     // TO-DO: Check if query as parameters is ok
-    proto$0.getEpisodeQuery = function(id, query) {
+    proto$0.getEpisodeQuery = function(id, params) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/episodes/query"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: params
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
+                resolve(data.data);
+            });
+        });
+    };
+
+    // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_episodes_query_params
+
+    proto$0.getSeriesEpisodesParams = function(id) {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+            self.request.get({
+                uri: (("series/" + id) + "/episodes/query/params"),
+                headers: {
+                    "Authorization": ("Bearer " + (self.token)),
+                    "Accept-Language": self.language
+                }
+            }, function (err, res, data) {
+                if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -252,15 +290,16 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getEpisodeSummary = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/episodes/summary"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -268,22 +307,22 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
 
     // https://api-dev.thetvdb.com/swagger#!/Series/get_series_id_filter
 
-    proto$0.getSeriesFilter = function(id, key_list) {
+    proto$0.getSeriesFilter = function(id, keys) {
         var self = this;
-        var query = {};
 
-        query['keys'] = key_list;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/filter"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: {
+                    keys: keys
+                }
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -295,15 +334,16 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getSeriesFilterParam = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/filter/params"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -314,15 +354,16 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getSeriesImages = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/images"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -333,24 +374,20 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     // keyType
     // resolution
     // subKey
-    proto$0.getSeriesImagesQuery = function(id, keyType, resolution, subKey) {
+    proto$0.getSeriesImagesQuery = function(id, params) {
         var self = this;
-        var query = {};
 
-        query['keyType'] = keyType;
-        query['resolution'] = resolution;
-        query['subKey'] = subKey;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/images/query"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: params
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
@@ -361,28 +398,73 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
     proto$0.getSeriesImagesParams = function(id) {
         var self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: (("series/" + id) + "/images/query/params"),
                 headers: {
                     "Authorization": ("Bearer " + (self.token)),
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
+
                 resolve(data.data);
             });
         });
     };
 
-    //Updates...
+    //Updates
+    // https://api-dev.thetvdb.com/swagger#!/Updates/get_updated_query
+
+    proto$0.getUpdates = function(fromTime, toTime) {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+            self.request.get({
+                uri: ("updated/query"),
+                headers: {
+                    "Authorization": ("Bearer " + (self.token)),
+                    "Accept-Language": self.language
+                },
+                qs: {
+                    "fromTime": fromTime,
+                    "toTime": toTime
+                }
+            }, function (err, res, data) {
+                if (err) return reject(err);
+
+                resolve(data.data);
+            });
+        });
+    };
+
+
+    // https://api-dev.thetvdb.com/swagger#!/Updates/get_updated_query_params
+
+    proto$0.getUpdatesParams = function() {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+            self.request.get({
+                uri: ("updated/query/params"),
+                headers: {
+                    "Authorization": ("Bearer " + (self.token)),
+                    "Accept-Language": self.language
+                }
+            }, function (err, res, data) {
+                if (err) return reject(err);
+
+                resolve(data.data);
+            });
+        });
+    };
+
 
 MIXIN$0(Client.prototype,proto$0);proto$0=void 0;return Client;})();
 
 //
 // Utilities
 //
-
 
 
 //

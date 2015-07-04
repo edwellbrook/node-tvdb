@@ -51,13 +51,13 @@ class Client {
     auth(apiKey) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.post({
                 uri: "/login",
                 body: {
                     "apikey": apiKey
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 self.token = data.token;
@@ -72,13 +72,13 @@ class Client {
     refreshToken() {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/refresh",
                 headers: {
                     Authorization: `Bearer ${self.token}`
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 self.token = data.token;
@@ -93,13 +93,13 @@ class Client {
     getLanguages() {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/languages",
                 headers: {
                     Authorization: `Bearer ${self.token}`
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -113,13 +113,13 @@ class Client {
     getLanguage(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `/languages/${id}`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data);
@@ -139,7 +139,7 @@ class Client {
             key = "name";
         }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = {};
             query[key] = value;
 
@@ -150,7 +150,7 @@ class Client {
                     "Accept-Language": self.language
                 },
                 qs: query
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -164,14 +164,14 @@ class Client {
     searchSeriesParams() {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: "/search/series/params",
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data.params);
@@ -185,14 +185,14 @@ class Client {
     getSeries(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `/series/${id}`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -204,24 +204,18 @@ class Client {
 
     getSeriesEpisodes(id, page) {
         let self = this;
-        let query = {};
 
-        if (page) {
-            query['page'] = page;
-        } else {
-            //defaults to 1
-            query['page'] = 1;
-        }
-
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `/series/${id}/episodes`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: {
+                    page: page ? page : 1
+                }
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -235,14 +229,14 @@ class Client {
     getEpisode(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `episodes/${id}`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -255,7 +249,7 @@ class Client {
     getEpisodeQuery(id, params) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/episodes/query`,
                 headers: {
@@ -263,7 +257,7 @@ class Client {
                     "Accept-Language": self.language
                 },
                 qs: params
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -276,14 +270,14 @@ class Client {
     getSeriesEpisodesParams(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/episodes/query/params`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -296,14 +290,14 @@ class Client {
     getEpisodeSummary(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/episodes/summary`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -315,19 +309,18 @@ class Client {
 
     getSeriesFilter(id, keys) {
         let self = this;
-        let query = {
-            keys: keys
-        }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/filter`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: {
+                    keys: keys
+                }
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -341,14 +334,14 @@ class Client {
     getSeriesFilterParam(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/filter/params`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -361,14 +354,14 @@ class Client {
     getSeriesImages(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/images`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -383,17 +376,16 @@ class Client {
     // subKey
     getSeriesImagesQuery(id, params) {
         let self = this;
-        let query = params;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/images/query`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: params
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -406,14 +398,14 @@ class Client {
     getSeriesImagesParams(id) {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `series/${id}/images/query/params`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -426,20 +418,19 @@ class Client {
 
     getUpdates(fromTime, toTime) {
         let self = this;
-        let query = {};
 
-        query['fromTime'] = fromTime;
-        query['toTime'] = toTime;
-
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `updated/query`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 },
-                qs: query
-            }, function(err, res, data) {
+                qs: {
+                    fromTime: fromTime,
+                    toTime: toTime
+                }
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -453,14 +444,14 @@ class Client {
     getUpdatesParams() {
         let self = this;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             self.request.get({
                 uri: `updated/query/params`,
                 headers: {
                     "Authorization": `Bearer ${self.token}`,
                     "Accept-Language": self.language
                 }
-            }, function(err, res, data) {
+            }, function (err, res, data) {
                 if (err) return reject(err);
 
                 resolve(data.data);
@@ -474,7 +465,6 @@ class Client {
 //
 // Utilities
 //
-
 
 
 //
