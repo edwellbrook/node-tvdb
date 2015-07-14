@@ -43,7 +43,7 @@ Then just follow this simple example that fetches all the shows containing "The 
 var TVDB = require("node-tvdb");
 var tvdb = new TVDB("ABC123");
 
-tvdb.getSeries("The Simpsons", function(err, response) {
+tvdb.getSeriesByName("The Simpsons", function(err, response) {
     // handle error and response
 });
 ```
