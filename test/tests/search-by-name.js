@@ -34,15 +34,6 @@ module.exports = function(TVDBClient) {
                 });
             });
 
-            it("should return an error for a blank series search", function(done) {
-                var client = new TVDBClient(API_KEY);
-                client.getSeriesByName("", function(error, response) {
-                    assert.notEqual(null, error);
-                    assert.equal(null, response);
-                    done();
-                });
-            });
-
             it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesByName("Planeta Terra", function(error, response) {
@@ -103,18 +94,6 @@ module.exports = function(TVDBClient) {
                     })
                     .catch(function(error) {
                         assert.ifError(error);
-                    })
-                    .then(done);
-            });
-
-            it("should return an error for a blank series search", function(done) {
-                var client = new TVDBClient(API_KEY);
-                client.getSeriesByName("")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
                     })
                     .then(done);
             });
