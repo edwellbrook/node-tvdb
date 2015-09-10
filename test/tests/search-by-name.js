@@ -8,8 +8,8 @@ module.exports = function(TVDBClient) {
         describe("Callback API", function() {
 
             it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
-                var tvdb = new TVDBClient(API_KEY);
-                tvdb.getSeriesByName("The Simpsons", function(error, response) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("The Simpsons", function(error, response) {
                     assert.ifError(error);
                     assert.equal("object", typeof response);
                     done();
@@ -75,8 +75,8 @@ module.exports = function(TVDBClient) {
         describe("Promise API", function() {
 
             it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
-                var tvdb = new TVDBClient(API_KEY);
-                tvdb.getSeriesByName("The Simpsons")
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("The Simpsons")
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
