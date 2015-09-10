@@ -61,15 +61,15 @@ module.exports = function(TVDBClient) {
                 });
             });
 
-    		it("should return an array even when there's only one result returned", function(done) {
-    			var client = new TVDBClient(API_KEY);
-    			client.getSeriesByName("Bob's Burgers", function(error, response) {
-    				assert.ifError(error);
-    				assert.equal("object", typeof response);
-    				assert.equal(1, response.length);
-    				done();
-    			});
-    		});
+            it("should return an array even when there's only one result returned", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("Bob's Burgers", function(error, response) {
+                    assert.ifError(error);
+                    assert.equal("object", typeof response);
+                    assert.equal(1, response.length);
+                    done();
+                });
+            });
 
             it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
                 var client = new TVDBClient(API_KEY);
@@ -155,18 +155,18 @@ module.exports = function(TVDBClient) {
                     .then(done);
             });
 
-    		it("should return an array even when there's only one result returned", function(done) {
-    			var client = new TVDBClient(API_KEY);
-    			client.getSeriesByName("Bob's Burgers")
-    			    .then(function(response) {
-    					assert.equal("object", typeof response);
-    					assert.equal(1, response.length);
-    			    })
-    			    .catch(function(error) {
-    			        assert.ifError(error);
-    			    })
-    			    .then(done);
-    		});
+            it("should return an array even when there's only one result returned", function(done) {
+                var client = new TVDBClient(API_KEY);
+                    client.getSeriesByName("Bob's Burgers")
+                    .then(function(response) {
+                        assert.equal("object", typeof response);
+                        assert.equal(1, response.length);
+                    })
+                    .catch(function(error) {
+                        assert.ifError(error);
+                    })
+                    .then(done);
+            });
 
             it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
                 var client = new TVDBClient(API_KEY);
