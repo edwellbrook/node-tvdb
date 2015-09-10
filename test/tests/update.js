@@ -44,23 +44,21 @@ module.exports = function(TVDBClient) {
                         assert.equal("object", typeof response.Episode);
                         assert.equal("object", typeof response.Series);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return a promise error when getting updates with an invalid time", function(done) {
                 var client = new TVDBClient(API_KEY);
 
                 client.getUpdates("z")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
-                    })
-                    .then(done);
+                    .then(
+                        function(response) {
+                            assert(false);
+                        }, function(error) {
+                            assert.notEqual(null, error);
+                        }
+                    )
+                    .then(done, done);
             });
         });
     });
@@ -105,25 +103,27 @@ module.exports = function(TVDBClient) {
             it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
                 client.getUpdateRecords("day")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
-                    })
-                    .then(done);
+                    .then(
+                        function(response) {
+                            assert(false);
+                        }, function(error) {
+                            assert.notEqual(null, error);
+                        }
+                    )
+                    .then(done, done);
             });
 
             it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getUpdateRecords("year")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
-                    })
-                    .then(done);
+                    .then(
+                        function(response) {
+                            assert(false);
+                        }, function(error) {
+                            assert.notEqual(null, error);
+                        }
+                    )
+                    .then(done, done);
             });
 
             ["day", "week", "month"].forEach(function(interval) {
@@ -136,10 +136,7 @@ module.exports = function(TVDBClient) {
                             assert.equal("object", typeof response.Episode);
                             assert.equal("object", typeof response.Banner);
                         })
-                        .catch(function(error) {
-                            assert.ifError(error);
-                        })
-                        .then(done);
+                        .then(done, done);
                 })
             });
             // skipped "all" due to file size of ~50 MB

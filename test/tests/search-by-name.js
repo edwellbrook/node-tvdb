@@ -80,10 +80,7 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return null for the series search \"asdas\"", function(done) {
@@ -92,22 +89,20 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal(null, response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error for a blank series search", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesByName("")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
-                    })
-                    .then(done);
+                    .then(
+                        function(response) {
+                            assert(false);
+                        }, function(error) {
+                            assert.notEqual(null, error);
+                        }
+                    )
+                    .then(done, done);
             });
 
             it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
@@ -116,10 +111,7 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal(null, response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an array of available matches for the series search \"Planeta Terra\" with the language set to \"pt\"", function(done) {
@@ -128,10 +120,7 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an array even when there's only one result returned", function(done) {
@@ -141,10 +130,7 @@ module.exports = function(TVDBClient) {
                         assert.equal("object", typeof response);
                         assert.equal(1, response.length);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
