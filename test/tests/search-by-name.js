@@ -70,6 +70,15 @@ module.exports = function(TVDBClient) {
     				done();
     			});
     		});
+
+            it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("&The Simpsons", function(error, response) {
+                    assert.ifError(error);
+                    assert.equal("object", typeof response);
+                    done();
+                });
+            });
         });
 
         describe("Promise API", function() {
@@ -158,6 +167,15 @@ module.exports = function(TVDBClient) {
     			    })
     			    .then(done);
     		});
+
+            it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("&The Simpsons")
+                    .then(function(response) {
+                        assert.equal("object", typeof response);
+                    })
+                    .then(done, done);
+            });
         });
     });
 };

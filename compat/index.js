@@ -102,7 +102,7 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
      */
 
     proto$0.getSeriesByName = function(name, callback) {
-        var url = (("" + (this.baseURL)) + ("/GetSeries.php?seriesname=" + name) + ("&language=" + (this.language)) + "");
+        var url = (("" + (this.baseURL)) + ("/GetSeries.php?seriesname=" + (encodeURIComponent(name))) + ("&language=" + (this.language)) + "");
 
         return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             response = (response && response.Data) ? response.Data.Series : null;
