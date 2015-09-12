@@ -56,10 +56,7 @@ module.exports = function(TVDBClient) {
                         assert.equal("object", typeof response);
                         assert.equal("246151", response.id);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an object of the series and its episodes with id \"246151\"", function(done) {
@@ -70,34 +67,29 @@ module.exports = function(TVDBClient) {
                         assert.equal("246151", response.id);
                         assert.equal("object", typeof response.Episodes);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error for a series search with an invalid language", function(done) {
                 var client = new TVDBClient(API_KEY, "00");
                 client.getSeriesAllById("246121")
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error for a series search with an invalid id", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesAllById("0")
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
+                    .then(done, done);
             });
         });
     });

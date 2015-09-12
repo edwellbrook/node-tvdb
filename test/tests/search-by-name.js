@@ -8,8 +8,8 @@ module.exports = function(TVDBClient) {
         describe("Callback API", function() {
 
             it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
-                var tvdb = new TVDBClient(API_KEY);
-                tvdb.getSeriesByName("The Simpsons", function(error, response) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("The Simpsons", function(error, response) {
                     assert.ifError(error);
                     assert.equal("object", typeof response);
                     done();
@@ -34,15 +34,6 @@ module.exports = function(TVDBClient) {
                 });
             });
 
-            it("should return an error for a blank series search", function(done) {
-                var client = new TVDBClient(API_KEY);
-                client.getSeriesByName("", function(error, response) {
-                    assert.notEqual(null, error);
-                    assert.equal(null, response);
-                    done();
-                });
-            });
-
             it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesByName("Planeta Terra", function(error, response) {
@@ -61,15 +52,15 @@ module.exports = function(TVDBClient) {
                 });
             });
 
-    		it("should return an array even when there's only one result returned", function(done) {
-    			var client = new TVDBClient(API_KEY);
-    			client.getSeriesByName("Bob's Burgers", function(error, response) {
-    				assert.ifError(error);
-    				assert.equal("object", typeof response);
-    				assert.equal(1, response.length);
-    				done();
-    			});
-    		});
+            it("should return an array even when there's only one result returned", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("Bob's Burgers", function(error, response) {
+                    assert.ifError(error);
+                    assert.equal("object", typeof response);
+                    assert.equal(1, response.length);
+                    done();
+                });
+            });
 
             it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
                 var client = new TVDBClient(API_KEY);
@@ -84,15 +75,12 @@ module.exports = function(TVDBClient) {
         describe("Promise API", function() {
 
             it("should return an array of available matches for the series search \"The Simpsons\"", function(done) {
-                var tvdb = new TVDBClient(API_KEY);
-                tvdb.getSeriesByName("The Simpsons")
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("The Simpsons")
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return null for the series search \"asdas\"", function(done) {
@@ -101,34 +89,18 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal(null, response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error for a blank series search", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesByName("")
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
-            });
-
-            it("should return an error for a blank series search", function(done) {
-                var client = new TVDBClient(API_KEY);
-                client.getSeriesByName("")
-                    .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
-                        assert.notEqual(null, error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return null for the series search \"Planeta Terra\" with the language set to \"en\"", function(done) {
@@ -137,10 +109,7 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal(null, response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an array of available matches for the series search \"Planeta Terra\" with the language set to \"pt\"", function(done) {
@@ -149,24 +118,18 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
-    		it("should return an array even when there's only one result returned", function(done) {
-    			var client = new TVDBClient(API_KEY);
-    			client.getSeriesByName("Bob's Burgers")
-    			    .then(function(response) {
-    					assert.equal("object", typeof response);
-    					assert.equal(1, response.length);
-    			    })
-    			    .catch(function(error) {
-    			        assert.ifError(error);
-    			    })
-    			    .then(done);
-    		});
+            it("should return an array even when there's only one result returned", function(done) {
+                var client = new TVDBClient(API_KEY);
+                client.getSeriesByName("Bob's Burgers")
+                    .then(function(response) {
+                        assert.equal("object", typeof response);
+                        assert.equal(1, response.length);
+                    })
+                    .then(done, done);
+            });
 
             it("should return an array of available matches for the series search \"&The Simpsons\"", function(done) {
                 var client = new TVDBClient(API_KEY);

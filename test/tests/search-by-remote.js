@@ -50,10 +50,7 @@ module.exports = function(TVDBClient) {
                         assert.equal("81189", response.id);
                         assert.equal("Breaking Bad", response.SeriesName);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an object of the series with zap2it id \"EP01009396\"", function(done) {
@@ -64,10 +61,7 @@ module.exports = function(TVDBClient) {
                         assert.equal("81189", response.id);
                         assert.equal("Breaking Bad", response.SeriesName);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
 
@@ -75,12 +69,11 @@ module.exports = function(TVDBClient) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesAllById("0")
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
+                    .then(done, done);
             });
         });
     });

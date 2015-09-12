@@ -25,10 +25,7 @@ module.exports = function(TVDBClient) {
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
         });
     });

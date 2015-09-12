@@ -10,7 +10,7 @@ module.exports = function(TVDBClient) {
             assert.equal("en", client.language);
         });
 
-        it("should return the language as \"pt\" if initilaised with the language \"pt\"", function() {
+        it("should return the language as \"pt\" if initialised with the language \"pt\"", function() {
             var client = new TVDBClient(API_KEY, "pt");
             assert.equal("pt", client.language);
         });
@@ -23,7 +23,7 @@ module.exports = function(TVDBClient) {
 
         describe("Callback API", function() {
 
-            it("should return an array of available langauages", function(done) {
+            it("should return an array of available languages", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getLanguages(function(error, response) {
                     assert.ifError(error);
@@ -44,28 +44,24 @@ module.exports = function(TVDBClient) {
 
         describe("Promise API", function() {
 
-            it("should return an array of available langauages", function(done) {
+            it("should return an array of available languages", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getLanguages()
                     .then(function(response) {
                         assert.equal("object", typeof response);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error if getLanguages is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
                 client.getLanguages()
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
+                    .then(done, done);
             });
         });
     });

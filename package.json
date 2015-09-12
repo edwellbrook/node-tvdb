@@ -33,5 +33,5 @@
     "test": "gulp && mocha test/runner",
     "transpile": "gulp"
   },
-  "licence": "MIT"
+  "license": "MIT"
 }

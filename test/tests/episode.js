@@ -38,22 +38,18 @@ module.exports = function(TVDBClient) {
                         assert.equal("4768125", response.id);
                         assert.equal("2014-03-30", response.FirstAired);
                     })
-                    .catch(function(error) {
-                        assert.ifError(error);
-                    })
-                    .then(done);
+                    .then(done, done);
             });
 
             it("should return an error for a episode search with an invalid id", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getEpisodeById("0")
                     .then(function(response) {
-                        assert.equal(null, response);
-                    })
-                    .catch(function(error) {
+                        assert(false);
+                    }, function(error) {
                         assert.notEqual(null, error);
                     })
-                    .then(done);
+                    .then(done, done);
             });
         });
     });
