@@ -64,6 +64,7 @@ module.exports = function(TVDBClient) {
     });
 
     describe("Update Record endpoints", function() {
+
         describe("Callback API", function() {
             it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
@@ -96,33 +97,31 @@ module.exports = function(TVDBClient) {
                     })
                 });
             });
-            // skipped "all" due to file size of ~50 MB
 
+            // skipped "all" due to file size of ~50 MB
         });
+
         describe("Promise API", function() {
+
             it("should return an error if getUpdateRecords is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
                 client.getUpdateRecords("day")
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
 
             it("should return an error if getUpdateRecords is called with an invalid interval", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getUpdateRecords("year")
-                    .then(
-                        function(response) {
+                    .then(function(response) {
                             assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
 
@@ -139,8 +138,8 @@ module.exports = function(TVDBClient) {
                         .then(done, done);
                 })
             });
-            // skipped "all" due to file size of ~50 MB
 
+            // skipped "all" due to file size of ~50 MB
         });
     });
 };

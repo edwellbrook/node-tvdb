@@ -73,26 +73,22 @@ module.exports = function(TVDBClient) {
             it("should return an error for a series search with an invalid language", function(done) {
                 var client = new TVDBClient(API_KEY, "00");
                 client.getSeriesAllById("246121")
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
 
             it("should return an error for a series search with an invalid id", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesAllById("0")
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
         });

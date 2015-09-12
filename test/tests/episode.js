@@ -44,13 +44,11 @@ module.exports = function(TVDBClient) {
             it("should return an error for a episode search with an invalid id", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getEpisodeById("0")
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
         });

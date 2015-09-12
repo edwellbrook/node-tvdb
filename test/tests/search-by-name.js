@@ -95,13 +95,11 @@ module.exports = function(TVDBClient) {
             it("should return an error for a blank series search", function(done) {
                 var client = new TVDBClient(API_KEY);
                 client.getSeriesByName("")
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
 
@@ -125,7 +123,7 @@ module.exports = function(TVDBClient) {
 
             it("should return an array even when there's only one result returned", function(done) {
                 var client = new TVDBClient(API_KEY);
-                    client.getSeriesByName("Bob's Burgers")
+                client.getSeriesByName("Bob's Burgers")
                     .then(function(response) {
                         assert.equal("object", typeof response);
                         assert.equal(1, response.length);

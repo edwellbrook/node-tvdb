@@ -56,13 +56,11 @@ module.exports = function(TVDBClient) {
             it("should return an error if getLanguages is called without a valid API key", function(done) {
                 var client = new TVDBClient("test123");
                 client.getLanguages()
-                    .then(
-                        function(response) {
-                            assert(false);
-                        }, function(error) {
-                            assert.notEqual(null, error);
-                        }
-                    )
+                    .then(function(response) {
+                        assert(false);
+                    }, function(error) {
+                        assert.notEqual(null, error);
+                    })
                     .then(done, done);
             });
         });
