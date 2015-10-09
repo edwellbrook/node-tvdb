@@ -27,7 +27,7 @@
   "devDependencies": {
     "gulp": "3.9.0",
     "gulp-es6-transpiler": "1.0.1",
-    "mocha": "2.3.2"
+    "mocha": "2.3.3"
   },
   "scripts": {
     "test": "gulp && mocha test/runner",
