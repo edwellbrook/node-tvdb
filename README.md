@@ -23,23 +23,23 @@ Pull requests are always very welcome.
 
 Install with [npm](http://npmjs.org/):
 
-```shell
+``` shell
 npm install --save node-tvdb
 ```
 
 And run tests with [Mocha](http://visionmedia.github.io/mocha/):
 
-```shell
+``` shell
 TVDB_KEY=[YOUR API KEY HERE] npm test
 ```
+
 > _Mocha is installed as a development dependency; you do not need to install it globally to run the tests._
 
 ## Example Usage
 
-To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister).
-Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
+To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister). Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
-```javascript
+``` javascript
 var TVDB = require("node-tvdb");
 var tvdb = new TVDB("ABC123");
 
@@ -50,7 +50,7 @@ tvdb.getSeriesByName("The Simpsons", function(err, response) {
 
 For use with node engines without `class`/`const`/`let`:
 
-```javascript
+``` javascript
 var TVDB = require("node-tvdb/compat");
 var tvdb = new TVDB("ABC123");
 
@@ -60,7 +60,10 @@ var tvdb = new TVDB("ABC123");
 ## API
 
 ### var client = new Client(API_KEY, [language])
-```javascript
+
+Set up tvdb client with API key and optional language (defaults to "en")
+
+``` javascript
 var Client = require("node-tvdb");
 
 var tvdb           = new Client("ABC123"); // lang defaults to "en"
@@ -68,150 +71,228 @@ var tvdbPortuguese = new Client("ABC123", "pt");
 ```
 
 ### getTime
-```javascript
+
+Get the current server time
+
+``` javascript
 tvdb.getTime(function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getTime()
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
+### getLanguages
+
+Get available languages useable by TheTVDB API
+
+``` javascript
+tvdb.getLanguages(function(error, response) {
+    // handle error and response
+});
+```
+
+OR
+
+``` javascript
+tvdb.getLanguages()
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ });
+```
+
 ### getSeriesByName
-```javascript
+
+Get basic series information by name
+
+``` javascript
 tvdb.getSeriesByName("Breaking Bad", function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getSeriesByName("Breaking Bad")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getSeriesById
-```javascript
+
+Get basic series information by id
+
+``` javascript
 tvdb.getSeriesById(73255, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getSeriesById(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getSeriesByRemoteId
-```javascript
+
+Get basic series information by remote id (zap2it or imdb)
+
+``` javascript
 tvdb.getSeriesByRemoteId("tt0903747", function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getSeriesByRemoteId("tt0903747")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
+
 > Note: `node-tvdb` automatically selects between remote providers (IMDb and zap2it)
 
 ### getSeriesAllById
-```javascript
+
+Get full/all series information by id
+
+``` javascript
 tvdb.getSeriesAllById(73255, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getSeriesAllById(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getEpisodesById
-```javascript
+
+Get all episodes by series id
+
+``` javascript
 tvdb.getEpisodesById(153021, function(error, response) {
     // handle error and response
 });
+```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getEpisodesById(153021)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getEpisodeById
-```javascript
+
+Get episode by episode id
+
+``` javascript
 tvdb.getEpisodeById(4768125, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getEpisodeById(4768125)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getActors
-```javascript
+
+Get series actors by series id
+
+``` javascript
 tvdb.getActors(73255, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getActors(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getBanners
-```javascript
+
+Get series banners by series id
+
+``` javascript
 tvdb.getBanners(73255, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getBanners(73255)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getUpdates
-```javascript
+
+Get series and episode updates since a given unix timestamp
+
+``` javascript
 tvdb.getUpdates(1400611370, function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getUpdates(1400611370)
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### getUpdateRecords
-```javascript
+
+All updates within the given interval
+
+``` javascript
 tvdb.getUpdateRecords("day", function(error, response) {
     // handle error and response
 });
 ```
+
 OR
-```javascript
+
+``` javascript
 tvdb.getUpdateRecords("day")
     .then(function(response) { /* handle response */ })
     .catch(function(error) { /* handle error */ });
 ```
 
 ### utils.parsePipeList
-```javascript
+
+Parse pipe list string to javascript array
+
+``` javascript
 var list = "|Mos Def|Faune A. Chambers|"; // from a previous api call
 var guestStars = Client.utils.parsePipeList(list);
 ```

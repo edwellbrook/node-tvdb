@@ -203,6 +203,25 @@ class Client {
    }
 
     /**
+    * Get episode by episode id
+    *
+    * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
+    *
+    * @param {Number|String} id
+    * @param {Function} [callback]
+    * @return {Promise} promise
+    * @api public
+    */
+
+    getEpisodeById(id, callback) {
+        const url = `${this.baseURL}/${this.token}/episodes/${id}/${this.language}.xml`;
+
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
+          done((response && response.Data) ? response.Data.Episode : null);
+        }, callback);
+    }
+
+    /**
      * Get series actors by series id
      *
      * http://www.thetvdb.com/wiki/index.php?title=API:actors.xml
@@ -237,25 +256,6 @@ class Client {
 
         return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Banners) ? response.Banners.Banner : null);
-        }, callback);
-    }
-
-    /**
-     * Get episode by episode id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getEpisodeById(id, callback) {
-        const url = `${this.baseURL}/${this.token}/episodes/${id}/${this.language}.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Episode : null);
         }, callback);
     }
 
