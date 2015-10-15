@@ -15,6 +15,7 @@ function test(client) {
 
     describe("Series endpoints", function() {
         [
+            "./tests/episodes-by-id",
             "./tests/find-actors",
             "./tests/find-banners",
             "./tests/search-by-id",

@@ -133,6 +133,18 @@ tvdb.getSeriesAllById(73255)
     .catch(function(error) { /* handle error */ });
 ```
 
+### getEpisodesById
+```javascript
+tvdb.getEpisodesById(153021, function(error, response) {
+    // handle error and response
+});
+OR
+```javascript
+tvdb.getEpisodesById(153021)
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ });
+```
+
 ### getEpisodeById
 ```javascript
 tvdb.getEpisodeById(4768125, function(error, response) {

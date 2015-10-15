@@ -182,6 +182,26 @@ class Client {
         }, callback);
     }
 
+   /**
+    * Get all episodes by series id
+    *
+    * http://www.thetvdb.com/wiki/index.php?title=API:Full_Series_Record
+    *
+    * @param {Number|String} id
+    * @param {Function} [callback]
+    * @return {Promise} promise
+    * @api public
+    */
+
+   getEpisodesById(id, callback) {
+       const url = `${this.baseURL}/api/${this.token}/series/${id}/all/${this.language}.xml`;
+
+       return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
+           response = (response && response.Data) ? response.Data.Episode : null;
+           done(!response || Array.isArray(response) ? response : [response]);
+       }, callback);
+   }
+
     /**
      * Get series actors by series id
      *
