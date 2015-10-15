@@ -113,6 +113,10 @@ class Client {
     /**
      * Get all episodes from series by id
      *
+     * http://www.thetvdb.com/wiki/index.php?title=API:Full_Series_Record
+     *
+     * Same as getSeriesById, but we only return all of the Episode elements.
+     *
      * @param {Number|String} id
      * @param {Function} [callback]
      * @return {Promise} promise
