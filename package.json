@@ -22,7 +22,7 @@
   "dependencies": {
     "jszip": "2.5.0",
     "request": "2.65.0",
-    "xml2js": "0.4.13"
+    "xml2js": "0.4.15"
   },
   "devDependencies": {
     "gulp": "3.9.0",
