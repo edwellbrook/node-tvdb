@@ -222,6 +222,26 @@ class Client {
     }
 
     /**
+    * Get episode by air date
+    *
+    * http://www.thetvdb.com/wiki/index.php?title=API:GetEpisodeByAirDate
+    *
+    * @param {Number|String} seriesId
+    * @param {String} airDate
+    * @param {Function} [callback]
+    * @return {Promise} promise
+    * @api public
+    */
+
+    getEpisodeByAirDate(seriesId, airDate, callback) {
+        const url = `${this.baseURL}/GetEpisodeByAirDate.php?apikey=${this.token}&seriesid=${seriesId}&airdate=${airDate}&language=${this.language}`;
+
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
+            done((response && response.Data) ? response.Data.Episode : null);
+        }, callback);
+    }
+
+    /**
      * Get series actors by series id
      *
      * http://www.thetvdb.com/wiki/index.php?title=API:actors.xml

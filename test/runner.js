@@ -16,6 +16,7 @@ function test(client) {
     describe("Series endpoints", function() {
         [
             "./tests/episodes-by-id",
+            "./tests/episode-by-airdate",
             "./tests/find-actors",
             "./tests/find-banners",
             "./tests/search-by-id",
@@ -30,7 +31,6 @@ function test(client) {
 describe("Native client", function() {
     test(NativeClient);
 });
-
 describe("Compatibility client", function() {
     test(CompatClient);
 });

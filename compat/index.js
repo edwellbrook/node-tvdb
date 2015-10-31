@@ -203,6 +203,45 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
    };
 
     /**
+    * Get episode by episode id
+    *
+    * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
+    *
+    * @param {Number|String} id
+    * @param {Function} [callback]
+    * @return {Promise} promise
+    * @api public
+    */
+
+    proto$0.getEpisodeById = function(id, callback) {
+        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + ("/" + (this.language)) + ".xml");
+
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
+          done((response && response.Data) ? response.Data.Episode : null);
+        }, callback);
+    };
+
+    /**
+    * Get episode by air date
+    *
+    * http://www.thetvdb.com/wiki/index.php?title=API:GetEpisodeByAirDate
+    *
+    * @param {Number|String} seriesId
+    * @param {String} airDate
+    * @param {Function} [callback]
+    * @return {Promise} promise
+    * @api public
+    */
+
+    proto$0.getEpisodeByAirDate = function(seriesId, airDate, callback) {
+        var url = (("" + (this.baseURL)) + ("/GetEpisodeByAirDate.php?apikey=" + (this.token)) + ("&seriesid=" + seriesId) + ("&airdate=" + airDate) + ("&language=" + (this.language)) + "");
+
+        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
+            done((response && response.Data) ? response.Data.Episode : null);
+        }, callback);
+    };
+
+    /**
      * Get series actors by series id
      *
      * http://www.thetvdb.com/wiki/index.php?title=API:actors.xml
@@ -237,25 +276,6 @@ var Client = (function(){var PRS$0 = (function(o,t){o["__proto__"]={"a":t};retur
 
         return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
             done((response && response.Banners) ? response.Banners.Banner : null);
-        }, callback);
-    };
-
-    /**
-     * Get episode by episode id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    proto$0.getEpisodeById = function(id, callback) {
-        var url = (("" + (this.baseURL)) + ("/" + (this.token)) + ("/episodes/" + id) + ("/" + (this.language)) + ".xml");
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Episode : null);
         }, callback);
     };
 
