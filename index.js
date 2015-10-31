@@ -217,7 +217,7 @@ class Client {
         const url = `${this.baseURL}/${this.token}/episodes/${id}/${this.language}.xml`;
 
         return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-          done((response && response.Data) ? response.Data.Episode : null);
+            done((response && response.Data) ? response.Data.Episode : null);
         }, callback);
     }
 
