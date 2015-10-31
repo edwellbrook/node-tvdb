@@ -216,6 +216,24 @@ tvdb.getEpisodeById(4768125)
     .catch(function(error) { /* handle error */ });
 ```
 
+### getEpisodeByAirDate
+
+Get series episode by air date
+
+``` javascript
+tvdb.getEpisodeByAirDate(153021, "2011-10-03", function(error, response) {
+    // handle error and response
+});
+```
+
+OR
+
+``` javascript
+tvdb.getEpisodeByAirDate(153021, "2011-10-03")
+    .then(function(response) { /* handle response */ })
+    .catch(function(error) { /* handle error */ });
+```
+
 ### getActors
 
 Get series actors by series id
