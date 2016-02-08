@@ -25,7 +25,7 @@
     "xml2js": "0.4.16"
   },
   "devDependencies": {
-    "gulp": "3.9.0",
+    "gulp": "3.9.1",
     "gulp-es6-transpiler": "1.0.1",
     "mocha": "2.4.4"
   },
