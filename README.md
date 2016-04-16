@@ -48,15 +48,6 @@ tvdb.getSeriesByName("The Simpsons", function(err, response) {
 });
 ```
 
-For use with node engines without `class`/`const`/`let`:
-
-``` javascript
-var TVDB = require("node-tvdb/compat");
-var tvdb = new TVDB("ABC123");
-
-// continue as normal...
-```
-
 ## API
 
 ### var client = new Client(API_KEY, [language])
