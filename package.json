@@ -13,7 +13,7 @@
   "homepage": "https://github.com/edwellbrook/node-tvdb",
   "main": "index.js",
   "engines": {
-    "node": ">=2.0.0"
+    "node": ">=4.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,13 +25,10 @@
     "xml2js": "0.4.16"
   },
   "devDependencies": {
-    "gulp": "3.9.1",
-    "gulp-es6-transpiler": "1.0.1",
     "mocha": "2.4.5"
   },
   "scripts": {
-    "test": "gulp && mocha test/runner",
-    "transpile": "gulp"
+    "test": "mocha test"
   },
   "license": "MIT"
 }
