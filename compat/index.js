@@ -360,6 +360,14 @@ function responseOk(error, resp, data) {
 
 function sendRequest(urlOpts, responseType, normalise, callback) {
     return new Promise(function(resolve, reject) {
+        function done(error, results) {
+            if (callback) {
+                callback(error, results);
+            } else {
+                error ? reject(error) : resolve(results);
+            }
+        }
+
         var reqOpts = {url: urlOpts.url};
         if (responseType === RESPONSE_TYPE.ZIP) {
             reqOpts.encoding = null;
@@ -372,27 +380,24 @@ function sendRequest(urlOpts, responseType, normalise, callback) {
                 }
                 error.statusCode = resp ? resp.statusCode : undefined;
 
-                return (callback ? callback : reject)(error);
+                return done(error);
             } else if (error) {
-                return (callback ? callback : reject)(error);
+                return done(error);
             }
 
             if (responseType === RESPONSE_TYPE.ZIP) {
-                try {
-                    var zip = new Zip(data);
-                    data = zip.file((("" + (urlOpts.lang)) + ".xml")).asText();
-                } catch (err) {
-                    return (callback ? callback : reject)(error);
-                }
-            }
 
-            parseXML(data, normalise, function(error, results) {
-                if (callback) {
-                    callback(error, results);
-                } else {
-                    error ? reject(error) : resolve(results);
-                }
-            });
+                Zip.loadAsync(data).then(function(zip) {
+                    return zip.file((("" + (urlOpts.lang)) + ".xml")).async("string")
+                }).then(function(contents) {
+                    parseXML(contents, normalise, done);
+                }).catch(function(error) {
+                    done(error);
+                });
+
+            } else {
+                parseXML(data, normalise, done);
+            }
         });
     });
 }
