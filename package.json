@@ -22,7 +22,7 @@
   "dependencies": {
     "jszip": "3.0.0",
     "request": "2.72.0",
-    "xml2js": "0.4.16"
+    "xml2js": "0.4.17"
   },
   "devDependencies": {
     "mocha": "2.5.3"
