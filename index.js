@@ -1,3 +1,4 @@
+'use strict';
 /*!
  * node-tvdb
  *
@@ -7,440 +8,140 @@
  * MIT Licensed
  */
 
-"use strict";
+let request  = require('request-promise');
+let defaults = require('lodash/defaults');
+let flatten  = require('lodash/flatten');
 
-const request = require("request");
-const parser  = require("xml2js").parseString;
-const Zip     = require("jszip");
-
-// available providers for remote ids
-const REMOTE_PROVIDERS = {
-    imdbid: /^tt/i,
-    zap2it: /^ep/i
-};
-
-// options for xml2js parser
-const PARSER_OPTS = {
-    trim: true,
-    normalize: true,
-    ignoreAttrs: true,
-    explicitArray: false,
-    emptyTag: null
-};
-
-// available response types
-const RESPONSE_TYPE = {
-    XML: 0,
-    ZIP: 1
-};
-
-//
-// API Client
-//
+let baseUrl = 'https://api.thetvdb.com/';
 
 class Client {
+    constructor(apiKey, language = 'en') {
+        this.language = language;
+        this.apiKey   = apiKey;
 
-    /**
-     * Set up tvdb client with API key and optional language (defaults to "en")
-     *
-     * @param {String} token
-     * @param {String} [language]
-     * @api public
-     */
-
-    constructor(token, language) {
-        if (!token) throw new Error("Access token must be set.");
-
-        this.token = token;
-        this.language = language || "en";
-        this.baseURL = "http://www.thetvdb.com/api";
+        this.login();
     }
 
-    /**
-     * Get available languages useable by TheTVDB API
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:languages.xml
-     *
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getLanguages(callback) {
-        const url = `${this.baseURL}/${this.token}/languages.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Languages) ? response.Languages.Language : null);
-        }, callback);
+    getLanguages() {
+        return this.requestGet({uri: 'languages'});
     }
 
-    /**
-     * Get the current server time
-     *
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getTime(callback) {
-        const url = `${this.baseURL}/Updates.php?type=none`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Items) ? response.Items.Time : null);
-        }, callback);
+    getEpisodeById(id, language) {
+        return this.requestGet({uri: `episodes/${id}`}, language);
     }
 
-    /**
-     * Get basic series information by name
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:GetSeries
-     *
-     * @param {String} name
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getSeriesByName(name, callback) {
-        const url = `${this.baseURL}/GetSeries.php?seriesname=${encodeURIComponent(name)}&language=${this.language}`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            response = (response && response.Data) ? response.Data.Series : null;
-            done(!response || Array.isArray(response) ? response : [response]);
-        }, callback);
+    getEpisodesById(seriesId, language) {
+        return this.getEpisodesBySeriesId(seriesId, language);
     }
 
-    /**
-     * Get basic series information by id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Base_Series_Record
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getSeriesById(id, callback) {
-        const url = `${this.baseURL}/${this.token}/series/${id}/${this.language}.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Series : null);
-        }, callback);
+    getEpisodesBySeriesId(seriesId, language) {
+        return this.requestGet({uri: `series/${seriesId}/episodes`}, language);
     }
 
-    /**
-     * Get basic series information by remote id (zap2it or imdb)
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:GetSeriesByRemoteID
-     *
-     * @param {String} remoteId
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
+    getSeriesById(id, language) {
+        return this.requestGet({uri: `series/${id}`}, language);
+    }
 
-    getSeriesByRemoteId(remoteId, callback) {
-        const keys = Object.keys(REMOTE_PROVIDERS);
+    getEpisodesByAirDate(seriesId, airDate, language) {
+        return this.requestGet({uri: `series/${seriesId}/episodes/query?firstAired=${airDate}`}, language);
+    }
 
-        let provider = "";
-        let len      = keys.length;
+    getSeriesByName(name, language) {
+        return this.requestGet({uri: `search/series?name=${name}`}, language);
+    }
 
-        while (len-- && provider === "") {
-            if (REMOTE_PROVIDERS[keys[len]].exec(remoteId)) {
-                provider = keys[len];
-            }
+    getActors(seriesId, language) {
+        return this.requestGet({uri: `series/${seriesId}/actors`}, language);
+    }
+
+    getSeriesByImdbId(imdbId, language) {
+        return this.requestGet({uri: `search/series?imdbId=${imdbId}`}, language);
+    }
+
+    getSeriesByZap2ItId(zap2ItId, language) {
+        return this.requestGet({uri: `search/series?zap2itId=${zap2ItId}`}, language);
+    }
+
+    getSeriesBanner(seriesId) {
+        return this.requestGet({uri: `series/${seriesId}/filter?keys=banner`})
+            .then(response => response.banner);
+    }
+
+    getUpdates(fromTime, toTime){
+        let uri = `updated/query?fromTime=${fromTime}`;
+        if (toTime){
+            uri = `${uri}&toTime=${toTime}`;
         }
-
-        const url = `${this.baseURL}/GetSeriesByRemoteID.php?${provider}=${remoteId}&language=${this.language}`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Series : null);
-        }, callback);
+        return this.requestGet({uri});
     }
 
-    /**
-     * Get full/all series information by id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Full_Series_Record
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
+    getSeriesAllById(seriesId, language) {
+        return Promise.all([
+            this.getSeriesById(seriesId, language),
+            this.getEpisodesBySeriesId(seriesId, language)
+        ])
+            .then(results => {
+                let series      = results[0];
+                series.Episodes = results[1];
+                return series;
+            });
+    }
 
-    getSeriesAllById(id, callback) {
-        const url = `${this.baseURL}/${this.token}/series/${id}/all/${this.language}.zip`;
+    login() {
+        this.loginPromise = request.post({
+            baseUrl,
 
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.ZIP, function(response, done) {
-            if (response && response.Data && response.Data.Series) {
-                response.Data.Series.Episodes = response.Data.Episode;
+            json: true,
+            uri:  'login',
+            body: {
+                apikey: this.apiKey
             }
+        })
+            .then(data => data.token)
+            .then(token => {
+                this.defaultRequest = request.defaults({
+                    baseUrl,
 
-            done(response ? response.Data.Series : null);
-        }, callback);
-    }
-
-   /**
-    * Get all episodes by series id
-    *
-    * http://www.thetvdb.com/wiki/index.php?title=API:Full_Series_Record
-    *
-    * @param {Number|String} id
-    * @param {Function} [callback]
-    * @return {Promise} promise
-    * @api public
-    */
-
-   getEpisodesById(id, callback) {
-       const url = `${this.baseURL}/api/${this.token}/series/${id}/all/${this.language}.xml`;
-
-       return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-           response = (response && response.Data) ? response.Data.Episode : null;
-           done(!response || Array.isArray(response) ? response : [response]);
-       }, callback);
-   }
-
-    /**
-    * Get episode by episode id
-    *
-    * http://www.thetvdb.com/wiki/index.php?title=API:Base_Episode_Record
-    *
-    * @param {Number|String} id
-    * @param {Function} [callback]
-    * @return {Promise} promise
-    * @api public
-    */
-
-    getEpisodeById(id, callback) {
-        const url = `${this.baseURL}/${this.token}/episodes/${id}/${this.language}.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Episode : null);
-        }, callback);
-    }
-
-    /**
-    * Get episode by air date
-    *
-    * http://www.thetvdb.com/wiki/index.php?title=API:GetEpisodeByAirDate
-    *
-    * @param {Number|String} seriesId
-    * @param {String} airDate
-    * @param {Function} [callback]
-    * @return {Promise} promise
-    * @api public
-    */
-
-    getEpisodeByAirDate(seriesId, airDate, callback) {
-        const url = `${this.baseURL}/GetEpisodeByAirDate.php?apikey=${this.token}&seriesid=${seriesId}&airdate=${airDate}&language=${this.language}`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Data) ? response.Data.Episode : null);
-        }, callback);
-    }
-
-    /**
-     * Get series actors by series id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:actors.xml
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getActors(id, callback) {
-        const url = `${this.baseURL}/${this.token}/series/${id}/actors.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Actors) ? response.Actors.Actor : null);
-        }, callback);
-    }
-
-    /**
-     * Get series banners by series id
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:banners.xml
-     *
-     * @param {Number|String} id
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getBanners(id, callback) {
-        const url = `${this.baseURL}/${this.token}/series/${id}/banners.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done((response && response.Banners) ? response.Banners.Banner : null);
-        }, callback);
-    }
-
-    /**
-     * Get series and episode updates since a given unix timestamp
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Updates
-     *
-     * @param {Number} time
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getUpdates(time, callback) {
-        const url = `${this.baseURL}/Updates.php?type=all&time=${time}`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done(response ? response.Items : null);
-        }, callback);
-    }
-
-    /**
-     * All updates within the given interval
-     *
-     * http://www.thetvdb.com/wiki/index.php?title=API:Update_Records
-     *
-     * @param {String} interval - day|week|month|all
-     * @param {Function} [callback]
-     * @return {Promise} promise
-     * @api public
-     */
-
-    getUpdateRecords(interval, callback) {
-        const url = `${this.baseURL}/${this.token}/updates/updates_${interval}.xml`;
-
-        return sendRequest({url: url, lang: this.language}, RESPONSE_TYPE.XML, function(response, done) {
-            done(response ? response.Data : null);
-        }, callback);
-    }
-}
-
-//
-// Utilities
-//
-
-/**
- * Check if http response is okay to use
- *
- * @param {Error} error
- * @param {Object} resp - request library response object
- * @param {String|Buffer} data - body/data of response
- * @return {Boolean} responseOk
- * @api private
- */
-
-function responseOk(error, resp, data) {
-    if (error) return false;
-    if (!resp) return false;
-    if (resp.statusCode !== 200) return false;
-    if (!data) return false;
-
-    // if dealing with zip data buffer is okay
-    if (data instanceof Buffer) return true;
-
-    if (data === "") return false;
-    if (data.indexOf("404 Not Found") !== -1) return false;
-
-    return true;
-}
-
-/**
- * Send and handle http request
- *
- * @param {String} url
- * @param {Number} responseType - response type from RESPONSE_TYPE
- * @param {Function} normalise - a function to tidy the response object
- * @param {Function} [callback]
- * @return {Promise} promise
- * @api private
- */
-
-function sendRequest(urlOpts, responseType, normalise, callback) {
-    return new Promise(function(resolve, reject) {
-        function done(error, results) {
-            if (callback) {
-                callback(error, results);
-            } else {
-                error ? reject(error) : resolve(results);
-            }
-        }
-
-        let reqOpts = {url: urlOpts.url};
-        if (responseType === RESPONSE_TYPE.ZIP) {
-            reqOpts.encoding = null;
-        }
-
-        request(reqOpts, function(error, resp, data) {
-            if (!responseOk(error, resp, data)) {
-                if (!error) {
-                    error = new Error("Could not complete the request");
-                }
-                error.statusCode = resp ? resp.statusCode : undefined;
-
-                return done(error);
-            } else if (error) {
-                return done(error);
-            }
-
-            if (responseType === RESPONSE_TYPE.ZIP) {
-
-                Zip.loadAsync(data).then(function(zip) {
-                    return zip.file(`${urlOpts.lang}.xml`).async("string")
-                }).then(function(contents) {
-                    parseXML(contents, normalise, done);
-                }).catch(function(error) {
-                    done(error);
+                    json:    true,
+                    headers: {
+                        "User-Agent":      "edwellbrook/node-tvdb",
+                        Authorization:     `Bearer ${token}`,
+                        'Accept-language': this.language
+                    }
                 });
+            });
+    }
 
-            } else {
-                parseXML(data, normalise, done);
-            }
-        });
-    });
+    requestGet(options, language) {
+        options = defaults({}, options, {headers: {'Accept-language': language}});
+        return this.loginPromise
+            .then(() => this.defaultRequest.get(options))
+            .then(response => {
+                if (hasNextPage(response)) {
+                    return this.getNextPage(response, options)
+                        .then(nextPageResponse => [response.data, nextPageResponse])
+                        .then(dataArray => flatten(dataArray));
+                }
+                return response.data;
+            });
+    }
+
+    getNextPage(response, options) {
+        let separator = options.uri.indexOf('?') === -1 ? '?' : '&';
+        let uri       = options.uri + separator + 'page=' + response.links.next;
+        let o         = defaults({uri}, options);
+        return this.requestGet(o);
+    }
+
+    static setBaseUrl(url){
+        baseUrl = url;
+    }
 }
 
-/**
- * Parse XML response
- *
- * @param {String} xml data
- * @param {Function} normalise - a function to tidy the response object
- * @param {Function} callback
- * @api private
- */
+function
 
-function parseXML(data, normalise, callback) {
-    parser(data, PARSER_OPTS, function(error, results) {
-        if (results && results.Error) {
-            return callback(new Error(results.Error));
-        }
-
-        normalise(results, function(results) {
-            callback(error, results);
-        });
-    });
+hasNextPage(response) {
+    return response.links && response.links.next;
 }
-
-/**
- * Parse pipe list string to javascript array
- *
- * @param {String} list
- * @return {Array} parsed list
- * @api public
- */
-
-function parsePipeList(list) {
-    return list.replace(/(^\|)|(\|$)/g, "").split("|");
-}
-
-//
-// Exports
-//
-
-Client.utils = {
-    parsePipeList: parsePipeList
-};
 
 module.exports = Client;
