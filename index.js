@@ -8,91 +8,161 @@
  * MIT Licensed
  */
 
-let request  = require('request-promise');
+let request = require('request-promise');
 let defaults = require('lodash/defaults');
-let flatten  = require('lodash/flatten');
+let flatten = require('lodash/flatten');
 
 let baseUrl = 'https://api.thetvdb.com/';
 
 class Client {
+    /**
+     * @param {string} apiKey
+     * @param {string} [language]
+     */
     constructor(apiKey, language = 'en') {
         this.language = language;
-        this.apiKey   = apiKey;
+        this.apiKey = apiKey;
 
         this.login();
     }
 
+    /**
+     * @returns {Promise}
+     */
     getLanguages() {
         return this.requestGet({uri: 'languages'});
     }
 
-    getEpisodeById(id, language) {
-        return this.requestGet({uri: `episodes/${id}`}, language);
+    /**
+     * @param {Number|String} episodeId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
+    getEpisodeById(episodeId, language) {
+        return this.requestGet({uri: `episodes/${episodeId}`}, language);
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getEpisodesById(seriesId, language) {
         return this.getEpisodesBySeriesId(seriesId, language);
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getEpisodesBySeriesId(seriesId, language) {
         return this.requestGet({uri: `series/${seriesId}/episodes`}, language);
     }
 
-    getSeriesById(id, language) {
-        return this.requestGet({uri: `series/${id}`}, language);
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
+    getSeriesById(seriesId, language) {
+        return this.requestGet({uri: `series/${seriesId}`}, language);
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} airDate
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getEpisodesByAirDate(seriesId, airDate, language) {
         return this.requestGet({uri: `series/${seriesId}/episodes/query?firstAired=${airDate}`}, language);
     }
 
+    /**
+     * @param {String} name
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getSeriesByName(name, language) {
         return this.requestGet({uri: `search/series?name=${name}`}, language);
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getActors(seriesId, language) {
         return this.requestGet({uri: `series/${seriesId}/actors`}, language);
     }
 
+    /**
+     * @param {String} imdbId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getSeriesByImdbId(imdbId, language) {
         return this.requestGet({uri: `search/series?imdbId=${imdbId}`}, language);
     }
 
+    /**
+     * @param {String} zap2ItId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getSeriesByZap2ItId(zap2ItId, language) {
         return this.requestGet({uri: `search/series?zap2itId=${zap2ItId}`}, language);
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @returns {Promise}
+     */
     getSeriesBanner(seriesId) {
         return this.requestGet({uri: `series/${seriesId}/filter?keys=banner`})
             .then(response => response.banner);
     }
 
-    getUpdates(fromTime, toTime){
+    /**
+     * @param {Number} fromTime
+     * @param {Number} toTime
+     * @returns {Promise}
+     */
+    getUpdates(fromTime, toTime) {
         let uri = `updated/query?fromTime=${fromTime}`;
-        if (toTime){
+        if (toTime) {
             uri = `${uri}&toTime=${toTime}`;
         }
         return this.requestGet({uri});
     }
 
+    /**
+     * @param {Number|String} seriesId
+     * @param {String} [language]
+     * @returns {Promise}
+     */
     getSeriesAllById(seriesId, language) {
         return Promise.all([
             this.getSeriesById(seriesId, language),
             this.getEpisodesBySeriesId(seriesId, language)
         ])
             .then(results => {
-                let series      = results[0];
+                let series = results[0];
                 series.Episodes = results[1];
                 return series;
             });
     }
 
+    /**
+     * @private
+     */
     login() {
         this.loginPromise = request.post({
             baseUrl,
 
             json: true,
-            uri:  'login',
+            uri: 'login',
             body: {
                 apikey: this.apiKey
             }
@@ -102,16 +172,19 @@ class Client {
                 this.defaultRequest = request.defaults({
                     baseUrl,
 
-                    json:    true,
+                    json: true,
                     headers: {
-                        "User-Agent":      "edwellbrook/node-tvdb",
-                        Authorization:     `Bearer ${token}`,
+                        "User-Agent": "edwellbrook/node-tvdb",
+                        Authorization: `Bearer ${token}`,
                         'Accept-language': this.language
                     }
                 });
             });
     }
 
+    /**
+     * @private
+     */
     requestGet(options, language) {
         options = defaults({}, options, {headers: {'Accept-language': language}});
         return this.loginPromise
@@ -126,21 +199,25 @@ class Client {
             });
     }
 
+    /**
+     * @private
+     */
     getNextPage(response, options) {
         let separator = options.uri.indexOf('?') === -1 ? '?' : '&';
-        let uri       = options.uri + separator + 'page=' + response.links.next;
-        let o         = defaults({uri}, options);
+        let uri = options.uri + separator + 'page=' + response.links.next;
+        let o = defaults({uri}, options);
         return this.requestGet(o);
     }
 
-    static setBaseUrl(url){
+    /**
+     * @param {String} url
+     */
+    static setBaseUrl(url) {
         baseUrl = url;
     }
 }
 
-function
-
-hasNextPage(response) {
+function hasNextPage(response) {
     return response.links && response.links.next;
 }
 
