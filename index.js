@@ -174,7 +174,7 @@ class Client {
 
                     json: true,
                     headers: {
-                        "User-Agent": "edwellbrook/node-tvdb",
+                        "User-Agent": `node-tvdb/${require('./package.json').version}`,
                         Authorization: `Bearer ${token}`,
                         'Accept-language': this.language
                     }
@@ -207,13 +207,6 @@ class Client {
         let uri = options.uri + separator + 'page=' + response.links.next;
         let o = defaults({uri}, options);
         return this.requestGet(o);
-    }
-
-    /**
-     * @param {String} url
-     */
-    static setBaseUrl(url) {
-        baseUrl = url;
     }
 }
 

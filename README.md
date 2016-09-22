@@ -10,9 +10,9 @@ Pull requests are always very welcome.
 
 - Handle errors from API as JavaScript errors
 - Only returns relevant data (no need to call response.Data.Series etc.)
-- Set language at initialisation or on function call
+- Set language at initialisation or on each function call
 - Return values through promises (dropped callback support)
-- Use new JSON api from TheTVDB
+- Use new JSON API from TheTVDB
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
@@ -61,7 +61,8 @@ let tvdbPortuguese = new Client("ABC123", "pt");
 
 ### getLanguages
 
-Get available languages useable by TheTVDB API
+Get available languages useable by TheTVDB API  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Languages/get_languages))
 
 ``` javascript
 tvdb.getLanguages()
@@ -71,7 +72,8 @@ tvdb.getLanguages()
 
 ### getSeriesByName
 
-Get basic series information by name
+Get basic series information by name  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
 
 ``` javascript
 tvdb.getSeriesByName("Breaking Bad")
@@ -81,7 +83,8 @@ tvdb.getSeriesByName("Breaking Bad")
 
 ### getSeriesById
 
-Get basic series information by id
+Get basic series information by id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
 
 ``` javascript
 tvdb.getSeriesById(73255)
@@ -91,7 +94,8 @@ tvdb.getSeriesById(73255)
 
 ### getSeriesByImdbId
 
-Get basic series information by imdb id
+Get basic series information by imdb id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
 
 ``` javascript
 tvdb.getSeriesByImdbId("tt0903747")
@@ -101,7 +105,8 @@ tvdb.getSeriesByImdbId("tt0903747")
 
 ### getSeriesByZap2ItId
 
-Get basic series information by zap2it id
+Get basic series information by zap2it id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
 
 ``` javascript
 tvdb.getSeriesByZap2ItId("EP00018693")
@@ -111,7 +116,8 @@ tvdb.getSeriesByZap2ItId("EP00018693")
 
 ### getSeriesAllById
 
-Get series and episode information by series id
+Get series and episode information by series id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id) / [thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes))
 
 ``` javascript
 tvdb.getSeriesAllById(73255)
@@ -125,7 +131,8 @@ tvdb.getSeriesAllById(73255)
 
 ### getEpisodesBySeriesId (alias: getEpisodesById)
 
-Get all episodes by series id
+Get all episodes by series id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes))
 
 ``` javascript
 tvdb.getEpisodesBySeriesId(153021)
@@ -135,7 +142,8 @@ tvdb.getEpisodesBySeriesId(153021)
 
 ### getEpisodeById
 
-Get episode by episode id
+Get episode by episode id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id))
 
 ``` javascript
 tvdb.getEpisodeById(4768125)
@@ -145,7 +153,8 @@ tvdb.getEpisodeById(4768125)
 
 ### getEpisodeByAirDate
 
-Get series episode by air date
+Get series episode by air date  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query))
 
 ``` javascript
 tvdb.getEpisodeByAirDate(153021, "2011-10-03")
@@ -153,19 +162,21 @@ tvdb.getEpisodeByAirDate(153021, "2011-10-03")
     .catch(error    => { /* handle error */    });
 ```
 
-### getActorsForSeries
+### getActors
 
-Get series actors by series id
+Get series actors by series id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id_actors))
 
 ``` javascript
-tvdb.getActorsForSeries(73255)
+tvdb.getActors(73255)
     .then (response => { /* handle response */ })
     .catch(error    => { /* handle error */    });
 ```
 
 ### getSeriesBanner
 
-Get series banners by series id
+Get series banner by series id  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Series/get_series_id_filter))
 
 ``` javascript
 tvdb.getSeriesBanner(73255)
@@ -175,7 +186,8 @@ tvdb.getSeriesBanner(73255)
 
 ### getUpdates
 
-Get a list of series updated since one or between two given unix timestamps
+Get a list of series updated since one or between two given unix timestamps  
+([thetvdb API](https://api.thetvdb.com/swagger#!/Updates/get_updated_query))
 
 ``` javascript
 tvdb.getUpdates(1400611370, 1400621370)
