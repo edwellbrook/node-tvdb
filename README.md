@@ -59,6 +59,8 @@ let tvdb           = new Client("ABC123"); // lang defaults to "en"
 let tvdbPortuguese = new Client("ABC123", "pt");
 ```
 
+<!--- Function documentation -->
+
 ### getLanguages
 
 Get available languages useable by TheTVDB API  
@@ -194,6 +196,8 @@ tvdb.getUpdates(1400611370, 1400621370)
     .then (response => { /* handle response */ })
     .catch(error    => { /* handle error */    });
 ```
+
+<!--- Function documentation -->
 
 ## License
 
