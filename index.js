@@ -155,6 +155,8 @@ class Client {
     }
 
     /**
+     * Performs the login into the thetvdb api and creates the loginPromise all later requests will use.
+     *
      * @private
      */
     login() {
@@ -183,6 +185,11 @@ class Client {
     }
 
     /**
+     * Runs a get request with the given options, follows pages and returns the combined returned data of the request.
+     *
+     * @param {object} options
+     * @param {string} [language]
+     * @returns {Promise}
      * @private
      */
     requestGet(options, language) {
@@ -200,6 +207,11 @@ class Client {
     }
 
     /**
+     * Returns the next page of a paged response.
+     *
+     * @param {object} response
+     * @param {object} options
+     * @returns {Promise}
      * @private
      */
     getNextPage(response, options) {
@@ -210,6 +222,12 @@ class Client {
     }
 }
 
+/**
+ * Returns true if the response is paged and there is a next page, false otherwise.
+ *
+ * @param {object} response
+ * @returns {boolean}
+ */
 function hasNextPage(response) {
     return response.links && response.links.next;
 }
