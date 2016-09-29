@@ -91,6 +91,7 @@
         "no-script-url": 2,
         "no-self-compare": 2,
         "no-sequences": 2,
+        "no-trailing-spaces": 2,
         "no-useless-call": 2,
         "no-useless-concat": 2,
         "no-void": 2,

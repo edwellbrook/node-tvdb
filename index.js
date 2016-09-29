@@ -17,13 +17,12 @@ const BASE_URL = 'https://api.thetvdb.com/';
 const LIB_VERSION = require('./package.json').version;
 const USER_AGENT = `node-tvdb/${LIB_VERSION}`;
 
-
 //
 // API Client
 //
 
 class Client {
-    
+
     /**
      * @param {String} apiKey
      * @param {String} [language]
@@ -38,7 +37,7 @@ class Client {
     /**
      * @returns {Promise}
      */
-    
+
     getLanguages() {
         return this.sendRequest('languages');
     }
@@ -48,7 +47,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getEpisodeById(episodeId, language) {
         return this.sendRequest(`episodes/${episodeId}`, language);
     }
@@ -58,7 +57,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getEpisodesById(seriesId, language) {
         return this.getEpisodesBySeriesId(seriesId, language);
     }
@@ -68,7 +67,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getEpisodesBySeriesId(seriesId, language) {
         return this.sendRequest(`series/${seriesId}/episodes`, language);
     }
@@ -78,7 +77,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getSeriesById(seriesId, language) {
         return this.sendRequest(`series/${seriesId}`, language);
     }
@@ -89,7 +88,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getEpisodesByAirDate(seriesId, airDate, language) {
         return this.sendRequest(`series/${seriesId}/episodes/query?firstAired=${airDate}`, language);
     }
@@ -99,7 +98,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getSeriesByName(name, language) {
         return this.sendRequest(`search/series?name=${name}`, language);
     }
@@ -109,7 +108,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getActors(seriesId, language) {
         return this.sendRequest(`series/${seriesId}/actors`, language);
     }
@@ -119,7 +118,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getSeriesByImdbId(imdbId, language) {
         return this.sendRequest(`search/series?imdbId=${imdbId}`, language);
     }
@@ -129,7 +128,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getSeriesByZap2ItId(zap2ItId, language) {
         return this.sendRequest(`search/series?zap2itId=${zap2ItId}`, language);
     }
@@ -138,7 +137,7 @@ class Client {
      * @param {Number|String} seriesId
      * @returns {Promise}
      */
-    
+
     getSeriesBanner(seriesId) {
         return this.sendRequest(`series/${seriesId}/filter?keys=banner`)
             .then(response => response.banner);
@@ -149,7 +148,7 @@ class Client {
      * @param {Number} toTime
      * @returns {Promise}
      */
-    
+
     getUpdates(fromTime, toTime) {
         let uri = `updated/query?fromTime=${fromTime}`;
         if (toTime) {
@@ -163,7 +162,7 @@ class Client {
      * @param {String} [language]
      * @returns {Promise}
      */
-    
+
     getSeriesAllById(seriesId, language) {
         return Promise.all([
             this.getSeriesById(seriesId, language),
@@ -185,7 +184,7 @@ class Client {
      * @returns {Promise}
      * @private
      */
-    
+
     sendRequest(path, language = this.language) {
         // TODO: use saved token instead of requesting a new one
         return request.post({
@@ -200,7 +199,7 @@ class Client {
         .then(token => {
             // save token for future requests
             this.token = token;
-            
+
             return request.get({
                 baseUrl: BASE_URL,
                 uri: path,
@@ -231,16 +230,15 @@ class Client {
      * @returns {Promise}
      * @private
      */
-    
+
     getNextPage(response, path, language) {
         let urlObj = url.parse(path, true);
         urlObj.query.page = response.links.next;
-        
+
         const newPath = url.format(urlObj);
         return this.sendRequest(newPath, language);
     }
 }
-
 
 /**
  * Returns true if the response is paged and there is a next page, false
@@ -253,7 +251,6 @@ class Client {
 function hasNextPage(response) {
     return response && response.links && response.links.next;
 }
-
 
 //
 // Exports
