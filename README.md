@@ -60,76 +60,29 @@ let tvdbPortuguese = new Client("ABC123", "pt");
 ```
 
 <!--- Function documentation -->
-
-### getLanguages
+### getLanguages 
 
 Get available languages useable by TheTVDB API  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Languages/get_languages))
 
 ``` javascript
 tvdb.getLanguages()
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getSeriesByName
 
-Get basic series information by name  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
+### getEpisodeById 
+
+Get episode by episode id  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id))
 
 ``` javascript
-tvdb.getSeriesByName("Breaking Bad")
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+tvdb.getEpisodeById(4768125)
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getSeriesById
-
-Get basic series information by id  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
-
-``` javascript
-tvdb.getSeriesById(73255)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
-```
-
-### getSeriesByImdbId
-
-Get basic series information by imdb id  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
-
-``` javascript
-tvdb.getSeriesByImdbId("tt0903747")
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
-```
-
-### getSeriesByZap2ItId
-
-Get basic series information by zap2it id  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
-
-``` javascript
-tvdb.getSeriesByZap2ItId("EP00018693")
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
-```
-
-### getSeriesAllById
-
-Get series and episode information by series id  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id) / [TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes))
-
-``` javascript
-tvdb.getSeriesAllById(73255)
-    .then(response {
-      /* handle response */
-      console.log(response.seriesName); // response contains series data
-      console.log(response.Episodes.length); // response contains an array of episodes
-    })
-    .catch(error { /* handle error */ });
-```
 
 ### getEpisodesBySeriesId (alias: getEpisodesById)
 
@@ -138,65 +91,122 @@ Get all episodes by series id
 
 ``` javascript
 tvdb.getEpisodesBySeriesId(153021)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getEpisodeById
 
-Get episode by episode id  
-([TheTVDB API](https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id))
+### getSeriesById 
+
+Get basic series information by id  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
 
 ``` javascript
-tvdb.getEpisodeById(4768125)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
-```
+tvdb.getSeriesById(73255)
+  .then (response => { /* handle response */ })
+  .catch(error    => { /* handle error */    });
+  ```
 
-### getEpisodeByAirDate
+
+### getEpisodesByAirDate 
 
 Get series episode by air date  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query))
 
 ``` javascript
 tvdb.getEpisodeByAirDate(153021, "2011-10-03")
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getActors
+
+### getSeriesByName 
+
+Get basic series information by name  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
+
+``` javascript
+tvdb.getSeriesByName("Breaking Bad")
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
+```
+
+
+### getActors 
 
 Get series actors by series id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_actors))
 
 ``` javascript
 tvdb.getActors(73255)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getSeriesBanner
+
+### getSeriesByImdbId 
+
+Get basic series information by imdb id  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
+
+``` javascript
+tvdb.getSeriesByImdbId("tt0903747")
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
+```
+
+
+### getSeriesByZap2ItId 
+
+Get basic series information by zap2it id  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
+
+``` javascript
+tvdb.getSeriesByZap2ItId("EP00018693")
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
+```
+
+
+### getSeriesBanner 
 
 Get series banner by series id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_filter))
 
 ``` javascript
 tvdb.getSeriesBanner(73255)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
-### getUpdates
+
+### getUpdates 
 
 Get a list of series updated since one or between two given unix timestamps  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Updates/get_updated_query))
 
 ``` javascript
 tvdb.getUpdates(1400611370, 1400621370)
-    .then (response => { /* handle response */ })
-    .catch(error    => { /* handle error */    });
+  .then (response => { /* handle response */})
+  .catch(error    => { /* handle error */   });
 ```
 
+
+### getSeriesAllById 
+
+Get series and episode information by series id  
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
+([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes))
+
+``` javascript
+tvdb.getSeriesAllById(73255)
+  .then(response {
+    /* handle response */
+    console.log(response.seriesName); // response contains series data
+    console.log(response.Episodes.length); // response contains an array of episodes
+  })
+  .catch(error { /* handle error */});
+```
 <!--- Function documentation -->
 
 ## License
