@@ -35,7 +35,19 @@ class Client {
     }
 
     /**
+     * Get available languages useable by TheTVDB API
+     *
+     * https://api.thetvdb.com/swagger#!/Languages/get_languages
+     *
+     * ``` javascript
+     * tvdb.getLanguages()
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @returns {Promise}
+     * @name getLanguages
+     * @public
      */
 
     getLanguages() {
@@ -43,9 +55,21 @@ class Client {
     }
 
     /**
+     * Get episode by episode id
+     *
+     * https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
+     *
+     * ``` javascript
+     * tvdb.getEpisodeById(4768125)
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {Number|String} episodeId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getEpisodeById
+     * @public
      */
 
     getEpisodeById(episodeId, language) {
@@ -53,19 +77,22 @@ class Client {
     }
 
     /**
+     * Get all episodes by series id
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
+     *
+     * ``` javascript
+     * tvdb.getEpisodesBySeriesId(153021)
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
+     * @alias getEpisodesById
      * @param {Number|String} seriesId
      * @param {String} [language]
      * @returns {Promise}
-     */
-
-    getEpisodesById(seriesId, language) {
-        return this.getEpisodesBySeriesId(seriesId, language);
-    }
-
-    /**
-     * @param {Number|String} seriesId
-     * @param {String} [language]
-     * @returns {Promise}
+     * @name getEpisodesBySeriesId
+     * @public
      */
 
     getEpisodesBySeriesId(seriesId, language) {
@@ -73,9 +100,36 @@ class Client {
     }
 
     /**
+     * Alias for getEpisodesBySeriesId
+     *
+     * @isAlias
      * @param {Number|String} seriesId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getEpisodesById
+     * @public
+     */
+
+    getEpisodesById(seriesId, language) {
+        return this.sendRequest(`series/${seriesId}/episodes`, language);
+    }
+
+    /**
+     * Get basic series information by id
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id
+     *
+     * ``` javascript
+     * tvdb.getSeriesById(73255)
+     *   .then (response => { /* handle response *\/ })
+     *   .catch(error    => { /* handle error *\/    });
+     *   ```
+     *
+     * @param {Number|String} seriesId
+     * @param {String} [`language`]
+     * @returns {Promise}
+     * @name getSeriesById
+     * @public
      */
 
     getSeriesById(seriesId, language) {
@@ -83,10 +137,22 @@ class Client {
     }
 
     /**
+     * Get series episode by air date
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
+     *
+     * ``` javascript
+     * tvdb.getEpisodeByAirDate(153021, "2011-10-03")
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {Number|String} seriesId
      * @param {String} airDate
      * @param {String} [language]
      * @returns {Promise}
+     * @name getEpisodesByAirDate
+     * @public
      */
 
     getEpisodesByAirDate(seriesId, airDate, language) {
@@ -94,9 +160,21 @@ class Client {
     }
 
     /**
+     * Get basic series information by name
+     *
+     * https://api.thetvdb.com/swagger#!/Search/get_search_series
+     *
+     * ``` javascript
+     * tvdb.getSeriesByName("Breaking Bad")
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {String} name
      * @param {String} [language]
      * @returns {Promise}
+     * @name getSeriesByName
+     * @public
      */
 
     getSeriesByName(name, language) {
@@ -104,9 +182,21 @@ class Client {
     }
 
     /**
+     * Get series actors by series id
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
+     *
+     * ``` javascript
+     * tvdb.getActors(73255)
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {Number|String} seriesId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getActors
+     * @public
      */
 
     getActors(seriesId, language) {
@@ -114,9 +204,21 @@ class Client {
     }
 
     /**
+     * Get basic series information by imdb id
+     *
+     * https://api.thetvdb.com/swagger#!/Search/get_search_series
+     *
+     * ``` javascript
+     * tvdb.getSeriesByImdbId("tt0903747")
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {String} imdbId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getSeriesByImdbId
+     * @public
      */
 
     getSeriesByImdbId(imdbId, language) {
@@ -124,9 +226,21 @@ class Client {
     }
 
     /**
+     * Get basic series information by zap2it id
+     *
+     * https://api.thetvdb.com/swagger#!/Search/get_search_series
+     *
+     * ``` javascript
+     * tvdb.getSeriesByZap2ItId("EP00018693")
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {String} zap2ItId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getSeriesByZap2ItId
+     * @public
      */
 
     getSeriesByZap2ItId(zap2ItId, language) {
@@ -134,8 +248,20 @@ class Client {
     }
 
     /**
+     * Get series banner by series id
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     *
+     * ``` javascript
+     * tvdb.getSeriesBanner(73255)
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {Number|String} seriesId
      * @returns {Promise}
+     * @name getSeriesBanner
+     * @public
      */
 
     getSeriesBanner(seriesId) {
@@ -144,9 +270,21 @@ class Client {
     }
 
     /**
+     * Get a list of series updated since one or between two given unix timestamps
+     *
+     * https://api.thetvdb.com/swagger#!/Updates/get_updated_query
+     *
+     * ``` javascript
+     * tvdb.getUpdates(1400611370, 1400621370)
+     *   .then (response => { /* handle response *\/})
+     *   .catch(error    => { /* handle error *\/   });
+     * ```
+     *
      * @param {Number} fromTime
      * @param {Number} toTime
      * @returns {Promise}
+     * @name getUpdates
+     * @public
      */
 
     getUpdates(fromTime, toTime) {
@@ -158,9 +296,26 @@ class Client {
     }
 
     /**
+     * Get series and episode information by series id
+     *
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id
+     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
+     *
+     * ``` javascript
+     * tvdb.getSeriesAllById(73255)
+     *   .then(response {
+     *     /* handle response *\/
+     *     console.log(response.seriesName); // response contains series data
+     *     console.log(response.Episodes.length); // response contains an array of episodes
+     *   })
+     *   .catch(error { /* handle error *\/});
+     * ```
+     *
      * @param {Number|String} seriesId
      * @param {String} [language]
      * @returns {Promise}
+     * @name getSeriesAllById
+     * @public
      */
 
     getSeriesAllById(seriesId, language) {

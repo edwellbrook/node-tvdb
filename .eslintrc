@@ -147,7 +147,8 @@
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
         "no-console": 2,
-        "no-var": 2
+        "no-var": 2,
+        "eol-last": 2
     },
     "globals": {
         "_": false,

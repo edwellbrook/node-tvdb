@@ -29,11 +29,13 @@
     "chai-as-promised": "5.3.0",
     "eslint": "3.5.0",
     "eslint-plugin-mocha": "4.5.1",
-    "mocha": "3.1.0"
+    "mocha": "3.1.0",
+    "parse-comments": "0.4.3"
   },
   "scripts": {
     "test": "mocha test",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "update-readme": "node ./scripts/update-readme"
   },
   "license": "MIT"
 }
