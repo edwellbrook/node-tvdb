@@ -5,7 +5,7 @@ const fs = require('fs');
 const _ = require('lodash');
 
 function updateReadme() {
-    let comments = parseComments(fs.readFileSync('index.js').toString());
+    const comments = parseComments(fs.readFileSync('index.js').toString());
 
     const functionSection = _.chain(comments)
         .filter(comment => comment.public && !comment.isAlias)
@@ -14,6 +14,7 @@ function updateReadme() {
         .join('\n');
 
     const separator = '<!--- Function documentation -->';
+    
     let readmeContent = fs.readFileSync('./README.md').toString();
     let readmeParts = readmeContent.split(separator);
     readmeParts[1] = functionSection;
@@ -22,7 +23,7 @@ function updateReadme() {
 }
 
 let functionDocTemplate = _.template(`
-### <%= name %> <% if (hasAlias) { %>(alias: <%= alias %>)<% } %>
+### <%= name %><% if (hasAlias) { %> (alias: <%= alias %>)<% } %>
 
 <%= lead %>  
 <% urls.forEach(function(url) {%>([TheTVDB API](<%= url %>))

@@ -60,7 +60,7 @@ let tvdbPortuguese = new Client("ABC123", "pt");
 ```
 
 <!--- Function documentation -->
-### getLanguages 
+### getLanguages
 
 Get available languages useable by TheTVDB API  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Languages/get_languages))
@@ -72,7 +72,7 @@ tvdb.getLanguages()
 ```
 
 
-### getEpisodeById 
+### getEpisodeById
 
 Get episode by episode id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id))
@@ -96,7 +96,7 @@ tvdb.getEpisodesBySeriesId(153021)
 ```
 
 
-### getSeriesById 
+### getSeriesById
 
 Get basic series information by id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
@@ -108,7 +108,7 @@ tvdb.getSeriesById(73255)
   ```
 
 
-### getEpisodesByAirDate 
+### getEpisodesByAirDate
 
 Get series episode by air date  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query))
@@ -120,7 +120,7 @@ tvdb.getEpisodeByAirDate(153021, "2011-10-03")
 ```
 
 
-### getSeriesByName 
+### getSeriesByName
 
 Get basic series information by name  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
@@ -132,7 +132,7 @@ tvdb.getSeriesByName("Breaking Bad")
 ```
 
 
-### getActors 
+### getActors
 
 Get series actors by series id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_actors))
@@ -144,7 +144,7 @@ tvdb.getActors(73255)
 ```
 
 
-### getSeriesByImdbId 
+### getSeriesByImdbId
 
 Get basic series information by imdb id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
@@ -156,7 +156,7 @@ tvdb.getSeriesByImdbId("tt0903747")
 ```
 
 
-### getSeriesByZap2ItId 
+### getSeriesByZap2ItId
 
 Get basic series information by zap2it id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Search/get_search_series))
@@ -168,7 +168,7 @@ tvdb.getSeriesByZap2ItId("EP00018693")
 ```
 
 
-### getSeriesBanner 
+### getSeriesBanner
 
 Get series banner by series id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id_filter))
@@ -180,7 +180,7 @@ tvdb.getSeriesBanner(73255)
 ```
 
 
-### getUpdates 
+### getUpdates
 
 Get a list of series updated since one or between two given unix timestamps  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Updates/get_updated_query))
@@ -192,7 +192,7 @@ tvdb.getUpdates(1400611370, 1400621370)
 ```
 
 
-### getSeriesAllById 
+### getSeriesAllById
 
 Get series and episode information by series id  
 ([TheTVDB API](https://api.thetvdb.com/swagger#!/Series/get_series_id))
