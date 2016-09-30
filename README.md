@@ -67,8 +67,8 @@ Get available languages useable by TheTVDB API
 
 ``` javascript
 tvdb.getLanguages()
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -79,8 +79,8 @@ Get episode by episode id
 
 ``` javascript
 tvdb.getEpisodeById(4768125)
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -91,8 +91,8 @@ Get all episodes by series id
 
 ``` javascript
 tvdb.getEpisodesBySeriesId(153021)
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -103,9 +103,9 @@ Get basic series information by id
 
 ``` javascript
 tvdb.getSeriesById(73255)
-  .then (response => { /* handle response */ })
-  .catch(error    => { /* handle error */    });
-  ```
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
+```
 
 
 ### getEpisodesByAirDate
@@ -115,8 +115,8 @@ Get series episode by air date
 
 ``` javascript
 tvdb.getEpisodeByAirDate(153021, "2011-10-03")
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -127,8 +127,8 @@ Get basic series information by name
 
 ``` javascript
 tvdb.getSeriesByName("Breaking Bad")
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -139,8 +139,8 @@ Get series actors by series id
 
 ``` javascript
 tvdb.getActors(73255)
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -151,8 +151,8 @@ Get basic series information by imdb id
 
 ``` javascript
 tvdb.getSeriesByImdbId("tt0903747")
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -163,8 +163,8 @@ Get basic series information by zap2it id
 
 ``` javascript
 tvdb.getSeriesByZap2ItId("EP00018693")
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -175,8 +175,8 @@ Get series banner by series id
 
 ``` javascript
 tvdb.getSeriesBanner(73255)
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -187,8 +187,8 @@ Get a list of series updated since one or between two given unix timestamps
 
 ``` javascript
 tvdb.getUpdates(1400611370, 1400621370)
-  .then (response => { /* handle response */})
-  .catch(error    => { /* handle error */   });
+    .then(response => { /* handle response */ })
+    .catch(error => { /* handle error */ });
 ```
 
 
@@ -200,12 +200,12 @@ Get series and episode information by series id
 
 ``` javascript
 tvdb.getSeriesAllById(73255)
-  .then(response {
-    /* handle response */
-    console.log(response.seriesName); // response contains series data
-    console.log(response.Episodes.length); // response contains an array of episodes
-  })
-  .catch(error { /* handle error */});
+    .then(response => {
+        /* handle response */
+        console.log(response.seriesName); // response contains series data
+        console.log(response.Episodes.length); // response contains an array of episodes
+    })
+    .catch(error => { /* handle error */ });
 ```
 <!--- Function documentation -->
 

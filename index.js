@@ -41,8 +41,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getLanguages()
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @returns {Promise}
@@ -61,8 +61,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getEpisodeById(4768125)
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number|String} episodeId
@@ -83,8 +83,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getEpisodesBySeriesId(153021)
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @alias getEpisodesById
@@ -121,9 +121,9 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesById(73255)
-     *   .then (response => { /* handle response *\/ })
-     *   .catch(error    => { /* handle error *\/    });
-     *   ```
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
+     * ```
      *
      * @param {Number|String} seriesId
      * @param {String} [`language`]
@@ -143,8 +143,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getEpisodeByAirDate(153021, "2011-10-03")
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number|String} seriesId
@@ -166,8 +166,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesByName("Breaking Bad")
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {String} name
@@ -188,8 +188,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getActors(73255)
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number|String} seriesId
@@ -210,8 +210,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesByImdbId("tt0903747")
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {String} imdbId
@@ -232,8 +232,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesByZap2ItId("EP00018693")
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {String} zap2ItId
@@ -254,8 +254,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesBanner(73255)
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number|String} seriesId
@@ -276,8 +276,8 @@ class Client {
      *
      * ``` javascript
      * tvdb.getUpdates(1400611370, 1400621370)
-     *   .then (response => { /* handle response *\/})
-     *   .catch(error    => { /* handle error *\/   });
+     *     .then(response => { /* handle response *\/ })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number} fromTime
@@ -303,12 +303,12 @@ class Client {
      *
      * ``` javascript
      * tvdb.getSeriesAllById(73255)
-     *   .then(response {
-     *     /* handle response *\/
-     *     console.log(response.seriesName); // response contains series data
-     *     console.log(response.Episodes.length); // response contains an array of episodes
-     *   })
-     *   .catch(error { /* handle error *\/});
+     *     .then(response => {
+     *         /* handle response *\/
+     *         console.log(response.seriesName); // response contains series data
+     *         console.log(response.Episodes.length); // response contains an array of episodes
+     *     })
+     *     .catch(error => { /* handle error *\/ });
      * ```
      *
      * @param {Number|String} seriesId
