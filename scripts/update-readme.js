@@ -24,7 +24,7 @@ function makeFunctionDocTemplate(comment) {
     if (comment.name === ''){
         throw new Error(`@name tag missing for comment starting at index.js:${comment.comment.begin}`);
     }
-    
+
     if (comment.examples.length === 0){
         throw new Error(`example code missing for ${comment.name} doc (index.js:${comment.comment.begin})`);
     }
