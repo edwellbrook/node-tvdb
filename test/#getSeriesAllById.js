@@ -14,7 +14,7 @@ describe('#getSeriesAllById', () => {
             .then(response => {
                 expect(response.id).to.eql(71470);
                 expect(response.seriesName).to.eql('Star Trek: The Next Generation');
-                expect(response.Episodes.length).to.eql(178);
+                expect(response.episodes.length).to.eql(178);
                 let firstEpisode = response.Episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
                 expect(firstEpisode.episodeName).to.eql('Encounter at Farpoint (1)');
             });
@@ -26,7 +26,7 @@ describe('#getSeriesAllById', () => {
                 .then(response => {
                     expect(response.id).to.eql(71470);
                     expect(response.seriesName).to.eql('Raumschiff Enterprise - Das nächste Jahrhundert');
-                    expect(response.Episodes.length).to.eql(178);
+                    expect(response.episodes.length).to.eql(178);
                     let firstEpisode = response.Episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
                     expect(firstEpisode.episodeName).to.eql('Der Mächtige');
                 });
@@ -36,7 +36,7 @@ describe('#getSeriesAllById', () => {
                 .then(response => {
                     expect(response.id).to.eql(71470);
                     expect(response.seriesName).to.eql('Raumschiff Enterprise - Das nächste Jahrhundert');
-                    expect(response.Episodes.length).to.eql(178);
+                    expect(response.episodes.length).to.eql(178);
                     let firstEpisode = response.Episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
                     expect(firstEpisode.episodeName).to.eql('Der Mächtige');
                 });

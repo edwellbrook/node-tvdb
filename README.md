@@ -202,8 +202,8 @@ Get series and episode information by series id
 tvdb.getSeriesAllById(73255)
     .then(response => {
         /* handle response */
-        console.log(response.seriesName); // response contains series data
-        console.log(response.Episodes.length); // response contains an array of episodes
+        console.log(response); // response contains series data (e.g. `response.id`, `response.seriesName`)
+        console.log(response.episodes); // response contains an array of episodes
     })
     .catch(error => { /* handle error */ });
 ```

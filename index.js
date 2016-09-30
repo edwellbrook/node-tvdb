@@ -305,8 +305,8 @@ class Client {
      * tvdb.getSeriesAllById(73255)
      *     .then(response => {
      *         /* handle response *\/
-     *         console.log(response.seriesName); // response contains series data
-     *         console.log(response.Episodes.length); // response contains an array of episodes
+     *         console.log(response); // response contains series data (e.g. `response.id`, `response.seriesName`)
+     *         console.log(response.episodes); // response contains an array of episodes
      *     })
      *     .catch(error => { /* handle error *\/ });
      * ```
@@ -325,7 +325,7 @@ class Client {
         ])
         .then(results => {
             let series = results[0];
-            series.Episodes = results[1];
+            series.episodes = results[1];
             return series;
         });
     }
