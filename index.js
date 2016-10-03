@@ -390,6 +390,9 @@ class Client {
         let urlObj = url.parse(path, true);
         urlObj.query.page = response.links.next;
 
+        // remove urlObj.search to force url.format() to use urlObj.query
+        urlObj.search = undefined;
+
         const newPath = url.format(urlObj);
         return this.sendRequest(newPath, language);
     }
