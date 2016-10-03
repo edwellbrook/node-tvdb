@@ -42,4 +42,11 @@ describe('#getEpisodesBySeriesId', () => {
                 });
         });
     });
+
+    it('returns data from several pages', () => {
+        return new TVDB(API_KEY).getEpisodesBySeriesId(71663)
+            .then(response => {
+                expect(response).to.have.length.above(600);
+            });
+    });
 });
