@@ -40,8 +40,8 @@ let TVDB = require("node-tvdb");
 let tvdb = new TVDB("ABC123");
 
 tvdb.getSeriesByName("The Simpsons")
-  .then(response => { /* process data */})
-  .catch(error   => { /* handle error */});
+    .then(response => { /* process data */})
+    .catch(error   => { /* handle error */});
 ```
 
 ## API
