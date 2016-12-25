@@ -18,13 +18,13 @@ describe('#getLanguages', () => {
             const enLang = langs.find(entry => entry.abbreviation === 'en')
             const deLang = langs.find(entry => entry.abbreviation === 'de')
 
-            expect(enLang.abbreviation).to.eql('en');
-            expect(enLang.id).to.eql(7);
-            expect(enLang.name).to.eql('English');
+            expect(enLang.abbreviation).to.equal('en');
+            expect(enLang.id).to.equal(7);
+            expect(enLang.name).to.equal('English');
 
-            expect(deLang.abbreviation).to.eql('de');
-            expect(deLang.id).to.eql(14);
-            expect(deLang.name).to.eql('Deutsch');
+            expect(deLang.abbreviation).to.equal('de');
+            expect(deLang.id).to.equal(14);
+            expect(deLang.name).to.equal('Deutsch');
         });
     });
 

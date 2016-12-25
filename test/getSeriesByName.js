@@ -19,13 +19,13 @@ describe("#getSeriesByName", () => {
 
             let theWalkingDeadShow = response.find(show => show.id === 153021);
             expect(theWalkingDeadShow).to.exist;
-            expect(theWalkingDeadShow.id).to.eql(153021);
-            expect(theWalkingDeadShow.seriesName).to.eql('The Walking Dead');
+            expect(theWalkingDeadShow.id).to.equal(153021);
+            expect(theWalkingDeadShow.seriesName).to.equal('The Walking Dead');
 
             let fearTheWalkingDeadShow = response.find(show => show.id === 290853);
             expect(fearTheWalkingDeadShow).to.exist;
-            expect(fearTheWalkingDeadShow.id).to.eql(290853);
-            expect(fearTheWalkingDeadShow.seriesName).to.eql('Fear the Walking Dead');
+            expect(fearTheWalkingDeadShow.id).to.equal(290853);
+            expect(fearTheWalkingDeadShow.seriesName).to.equal('Fear the Walking Dead');
         });
     });
 
@@ -39,8 +39,8 @@ describe("#getSeriesByName", () => {
 
                 let show = response.find(s => s.id === 71663);
                 expect(show).to.exist;
-                expect(show.id).to.eql(71663);
-                expect(show.seriesName).to.eql('Die Simpsons');
+                expect(show.id).to.equal(71663);
+                expect(show.seriesName).to.equal('Die Simpsons');
             });
         });
 
@@ -52,8 +52,8 @@ describe("#getSeriesByName", () => {
 
                 const show = response.find(s => s.id === 71663);
                 expect(show).to.exist;
-                expect(show.id).to.eql(71663);
-                expect(show.seriesName).to.eql('Die Simpsons');
+                expect(show.id).to.equal(71663);
+                expect(show.seriesName).to.equal('Die Simpsons');
             });
         });
 
@@ -91,7 +91,7 @@ describe("#getSeriesByName", () => {
 
                 let show = response.find(s => s.id === 153221);
                 expect(show).to.exist;
-                expect(show.id).to.eql(153221);
+                expect(show.id).to.equal(153221);
             });
         });
 

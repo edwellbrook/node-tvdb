@@ -14,13 +14,13 @@ describe("Language", () => {
     it("should return the default language as \"en\"", () => {
         const tvdb = new TVDB(API_KEY);
 
-        return expect(tvdb.language).to.eql('en');
+        return expect(tvdb.language).to.equal('en');
     });
 
     it("should return the language as \"pt\" if initialised with the language \"pt\"", () => {
         const tvdb = new TVDB(API_KEY, 'pt');
 
-        return expect(tvdb.language).to.eql('pt');
+        return expect(tvdb.language).to.equal('pt');
     });
 
     it("should return the lanaguage as \"pt\" if changed to \"pt\"", () => {

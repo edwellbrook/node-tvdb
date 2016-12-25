@@ -15,12 +15,12 @@ describe('#getSeriesAllById', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getSeriesAllById("71470").then(response => {
-            expect(response.id).to.eql(71470);
-            expect(response.seriesName).to.eql('Star Trek: The Next Generation');
+            expect(response.id).to.equal(71470);
+            expect(response.seriesName).to.equal('Star Trek: The Next Generation');
             expect(response.episodes).to.have.length.above(0);
 
             const firstEpisode = response.episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
-            expect(firstEpisode.episodeName).to.eql('Encounter at Farpoint (1)');
+            expect(firstEpisode.episodeName).to.equal('Encounter at Farpoint (1)');
         });
     });
 
@@ -30,12 +30,12 @@ describe('#getSeriesAllById', () => {
             const tvdb = new TVDB(API_KEY, 'de');
 
             return tvdb.getSeriesAllById(71470).then(response => {
-                expect(response.id).to.eql(71470);
-                expect(response.seriesName).to.eql('Raumschiff Enterprise - Das nächste Jahrhundert');
+                expect(response.id).to.equal(71470);
+                expect(response.seriesName).to.equal('Raumschiff Enterprise - Das nächste Jahrhundert');
                 expect(response.episodes).to.have.length.above(0);
 
                 const firstEpisode = response.episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
-                expect(firstEpisode.episodeName).to.eql('Der Mächtige');
+                expect(firstEpisode.episodeName).to.equal('Der Mächtige');
             });
         });
 
@@ -43,12 +43,12 @@ describe('#getSeriesAllById', () => {
             const tvdb = new TVDB(API_KEY, 'en');
 
             return tvdb.getSeriesAllById(71470, { lang: 'de' }).then(response => {
-                expect(response.id).to.eql(71470);
-                expect(response.seriesName).to.eql('Raumschiff Enterprise - Das nächste Jahrhundert');
+                expect(response.id).to.equal(71470);
+                expect(response.seriesName).to.equal('Raumschiff Enterprise - Das nächste Jahrhundert');
                 expect(response.episodes).to.have.length.above(0);
 
                 const firstEpisode = response.episodes.find(ep => ep.airedSeason === 1 && ep.airedEpisodeNumber === 1);
-                expect(firstEpisode.episodeName).to.eql('Der Mächtige');
+                expect(firstEpisode.episodeName).to.equal('Der Mächtige');
             });
         });
 

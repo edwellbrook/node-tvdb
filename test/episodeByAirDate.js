@@ -15,7 +15,7 @@ describe('#episodeByAirDate', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getEpisodesByAirDate(153021, '2011-10-03').then(response => {
-            expect(response.length).to.eql(6);
+            expect(response.length).to.equal(6);
 
             [4185563, 4185564, 4185565, 4185566, 4185567, 4185568].forEach(episodeId => {
                 return expect(response.find(episode => episode.id === episodeId)).to.exist;

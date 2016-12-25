@@ -19,7 +19,7 @@ describe('#getEpisodesBySeriesId', () => {
 
             let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
 
-            expect(someEpisode.episodeName).to.eql('The Most Toys');
+            expect(someEpisode.episodeName).to.equal('The Most Toys');
         });
     });
 
@@ -33,7 +33,7 @@ describe('#getEpisodesBySeriesId', () => {
 
                 let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
 
-                expect(someEpisode.episodeName).to.eql('Der Sammler');
+                expect(someEpisode.episodeName).to.equal('Der Sammler');
             });
         });
 
@@ -45,7 +45,7 @@ describe('#getEpisodesBySeriesId', () => {
 
                 let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
 
-                expect(someEpisode.episodeName).to.eql('Der Sammler');
+                expect(someEpisode.episodeName).to.equal('Der Sammler');
             });
         });
 

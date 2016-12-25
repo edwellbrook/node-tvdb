@@ -15,8 +15,8 @@ describe('#getSeriesById', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getSeriesById("71663").then(response => {
-            expect(response.id).to.eql(71663);
-            expect(response.seriesName).to.eql('The Simpsons');
+            expect(response.id).to.equal(71663);
+            expect(response.seriesName).to.equal('The Simpsons');
         });
     });
 
@@ -27,8 +27,8 @@ describe('#getSeriesById', () => {
 
             return tvdb.getSeriesById("71663")
                 .then(response => {
-                    expect(response.id).to.eql(71663);
-                    expect(response.seriesName).to.eql('Die Simpsons');
+                    expect(response.id).to.equal(71663);
+                    expect(response.seriesName).to.equal('Die Simpsons');
                 });
         });
 
@@ -36,8 +36,8 @@ describe('#getSeriesById', () => {
             const tvdb = new TVDB(API_KEY, 'en');
 
             return tvdb.getSeriesById("71663", { lang: 'de' }).then(response => {
-                expect(response.id).to.eql(71663);
-                expect(response.seriesName).to.eql('Die Simpsons');
+                expect(response.id).to.equal(71663);
+                expect(response.seriesName).to.equal('Die Simpsons');
             });
         });
 
