@@ -20,9 +20,8 @@
     "url": "git://github.com/edwellbrook/node-tvdb.git"
   },
   "dependencies": {
-    "lodash": "4.16.4",
-    "request": "2.75.0",
-    "request-promise": "4.1.1"
+    "lodash": "^4.17.3",
+    "node-fetch": "^1.6.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",

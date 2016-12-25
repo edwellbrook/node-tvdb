@@ -10,12 +10,21 @@
 'use strict';
 
 const url = require('url');
-const request = require('request-promise');
+const request = require('node-fetch');
 const flatten = require('lodash/flatten');
 
-const BASE_URL = 'https://api.thetvdb.com/';
+const BASE_URL = 'https://api.thetvdb.com';
 const LIB_VERSION = require('./package.json').version;
-const USER_AGENT = `node-tvdb/${LIB_VERSION}`;
+const API_VERSION = 'v2.1.1';
+const AV_HEADER = `application/vnd.thetvdb.${API_VERSION}`;
+
+const DEFAULT_OPTS = {
+    getAllPages: true,
+    headers: {
+        'User-Agent': `node-tvdb/${LIB_VERSION} (+https://github.com/edwellbrook/node-tvdb)`
+    }
+};
+
 
 //
 // API Client
@@ -29,9 +38,23 @@ class Client {
      */
 
     constructor(apiKey, language = 'en') {
-        this.token = undefined;
+        if (!apiKey) {
+            throw new Error('API key is required');
+        }
+
         this.apiKey = apiKey;
         this.language = language;
+
+        // store and manage auth token
+        let tokenPromise = undefined;
+
+        this.getToken = function() {
+            if (tokenPromise === undefined) {
+                tokenPromise = logIn(this.apiKey);
+            }
+
+            return tokenPromise;
+        };
     }
 
     /**
@@ -46,7 +69,7 @@ class Client {
      * ```
      *
      * @returns {Promise}
-     * @name getLanguages
+     * @name    getLanguages
      * @public
      */
 
@@ -65,15 +88,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} episodeId
-     * @param {String} [language]
+     * @param   {Number|String} episodeId
+     * @param   {String}        [language]
      * @returns {Promise}
-     * @name getEpisodeById
+     * @name    getEpisodeById
      * @public
      */
 
-    getEpisodeById(episodeId, language) {
-        return this.sendRequest(`episodes/${episodeId}`, language);
+    getEpisodeById(episodeId, opts = {}) {
+        return this.sendRequest(`episodes/${episodeId}`, opts);
     }
 
     /**
@@ -87,31 +110,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @alias getEpisodesById
-     * @param {Number|String} seriesId
-     * @param {String} [language]
+     * @param   {Number|String} seriesId
+     * @param   {String} [language]
      * @returns {Promise}
-     * @name getEpisodesBySeriesId
+     * @name    getEpisodesBySeriesId
      * @public
      */
 
-    getEpisodesBySeriesId(seriesId, language) {
-        return this.sendRequest(`series/${seriesId}/episodes`, language);
-    }
-
-    /**
-     * Alias for getEpisodesBySeriesId
-     *
-     * @isAlias
-     * @param {Number|String} seriesId
-     * @param {String} [language]
-     * @returns {Promise}
-     * @name getEpisodesById
-     * @public
-     */
-
-    getEpisodesById(seriesId, language) {
-        return this.sendRequest(`series/${seriesId}/episodes`, language);
+    getEpisodesBySeriesId(seriesId, opts = {}) {
+        return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
 
     /**
@@ -125,15 +132,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} seriesId
-     * @param {String} [`language`]
+     * @param   {Number|String} seriesId
+     * @param   {String} [`language`]
      * @returns {Promise}
-     * @name getSeriesById
+     * @name    getSeriesById
      * @public
      */
 
-    getSeriesById(seriesId, language) {
-        return this.sendRequest(`series/${seriesId}`, language);
+    getSeriesById(seriesId, opts = {}) {
+        return this.sendRequest(`series/${seriesId}`, opts);
     }
 
     /**
@@ -147,16 +154,16 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} seriesId
-     * @param {String} airDate
-     * @param {String} [language]
+     * @param   {Number|String} seriesId
+     * @param   {String} airDate
+     * @param   {String} [language]
      * @returns {Promise}
-     * @name getEpisodesByAirDate
+     * @name    getEpisodesByAirDate
      * @public
      */
 
-    getEpisodesByAirDate(seriesId, airDate, language) {
-        return this.sendRequest(`series/${seriesId}/episodes/query?firstAired=${airDate}`, language);
+    getEpisodesByAirDate(seriesId, airDate, opts = {}) {
+        return this.sendRequest(`series/${seriesId}/episodes/query?firstAired=${airDate}`, opts);
     }
 
     /**
@@ -170,15 +177,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {String} name
-     * @param {String} [language]
+     * @param   {String} name
+     * @param   {String} [language]
      * @returns {Promise}
-     * @name getSeriesByName
+     * @name    getSeriesByName
      * @public
      */
 
-    getSeriesByName(name, language) {
-        return this.sendRequest(`search/series?name=${name}`, language);
+    getSeriesByName(name, opts = {}) {
+        return this.sendRequest(`search/series?name=${name}`, opts);
     }
 
     /**
@@ -192,15 +199,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} seriesId
-     * @param {String} [language]
+     * @param   {Number|String} seriesId
+     * @param   {String} [language]
      * @returns {Promise}
-     * @name getActors
+     * @name    getActors
      * @public
      */
 
-    getActors(seriesId, language) {
-        return this.sendRequest(`series/${seriesId}/actors`, language);
+    getActors(seriesId, opts = {}) {
+        return this.sendRequest(`series/${seriesId}/actors`, opts);
     }
 
     /**
@@ -214,15 +221,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {String} imdbId
-     * @param {String} [language]
+     * @param   {String}          imdbId
+     * @param   {String}          [language]
      * @returns {Promise}
-     * @name getSeriesByImdbId
+     * @name    getSeriesByImdbId
      * @public
      */
 
-    getSeriesByImdbId(imdbId, language) {
-        return this.sendRequest(`search/series?imdbId=${imdbId}`, language);
+    getSeriesByImdbId(imdbId, opts = {}) {
+        return this.sendRequest(`search/series?imdbId=${imdbId}`, opts);
     }
 
     /**
@@ -236,15 +243,15 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {String} zap2ItId
-     * @param {String} [language]
+     * @param   {String}            zap2ItId
+     * @param   {String}            [language]
      * @returns {Promise}
-     * @name getSeriesByZap2ItId
+     * @name    getSeriesByZap2ItId
      * @public
      */
 
-    getSeriesByZap2ItId(zap2ItId, language) {
-        return this.sendRequest(`search/series?zap2itId=${zap2ItId}`, language);
+    getSeriesByZap2ItId(zap2ItId, opts = {}) {
+        return this.sendRequest(`search/series?zap2itId=${zap2ItId}`, opts);
     }
 
     /**
@@ -258,9 +265,9 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} seriesId
+     * @param   {Number|String} seriesId
      * @returns {Promise}
-     * @name getSeriesBanner
+     * @name    getSeriesBanner
      * @public
      */
 
@@ -280,10 +287,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number} fromTime
-     * @param {Number} toTime
+     * @param   {Number}   fromTime
+     * @param   {Number}   toTime
      * @returns {Promise}
-     * @name getUpdates
+     * @name    getUpdates
      * @public
      */
 
@@ -311,17 +318,17 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @param {Number|String} seriesId
-     * @param {String} [language]
+     * @param   {Number|String}  seriesId
+     * @param   {String}         [language]
      * @returns {Promise}
-     * @name getSeriesAllById
+     * @name    getSeriesAllById
      * @public
      */
 
-    getSeriesAllById(seriesId, language) {
+    getSeriesAllById(seriesId, opts = {}) {
         return Promise.all([
-            this.getSeriesById(seriesId, language),
-            this.getEpisodesBySeriesId(seriesId, language)
+            this.getSeriesById(seriesId, opts),
+            this.getEpisodesBySeriesId(seriesId, opts)
         ])
         .then(results => {
             let series = results[0];
@@ -331,78 +338,104 @@ class Client {
     }
 
     /**
-     * Runs a get request with the given options, follows pages and returns the
-     * combined returned data of the request.
-     *
-     * @param {String} path
-     * @param {String} [language]
-     * @returns {Promise}
-     * @private
-     */
+    * Runs a get request with the given options, follows pages and returns the
+    * combined returned data of the request.
+    *
+    * @param   {String}  path
+    * @param   {Object}  opts additional options for request
+    * @returns {Promise}
+    * @public
+    */
 
-    sendRequest(path, language = this.language) {
-        // TODO: use saved token instead of requesting a new one
-        return request.post({
-            baseUrl: BASE_URL,
-            json: true,
-            uri: 'login',
-            body: {
-                apikey: this.apiKey
-            }
-        })
-        .then(data => data.token)
-        .then(token => {
-            // save token for future requests
-            this.token = token;
+    sendRequest(path, opts = {}) {
+        const options = Object.assign({}, DEFAULT_OPTS, opts);
+        const headers = Object.assign({
+            'Accept':          AV_HEADER,
+            'Accept-language': options.lang || this.language
+        }, options.headers);
 
-            return request.get({
-                baseUrl: BASE_URL,
-                uri: path,
-                json: true,
-                headers: {
-                    'User-Agent': USER_AGENT,
-                    'Authorization': `Bearer ${token}`,
-                    'Accept-language': language
-                }
-            });
-        })
-        .then(response => {
-            if (hasNextPage(response)) {
-                return this.getNextPage(response, path, language)
-                    .then(nextPageResponse => [response.data, nextPageResponse])
-                    .then(dataArray => flatten(dataArray));
-            }
-            return response.data;
-        });
+        return this.getToken()
+            .then(token => {
+                headers['Authorization'] = `Bearer ${token}`;
+
+                return request(`${BASE_URL}/${path}`, { headers: headers })
+            })
+            .then(res => res.json())
+            .then(res => checkError(res))
+            .then(res => this.getNextPages(res, path, options))
+            .then(res => res.data);
     }
 
-    /**
-     * Returns the next page of a paged response.
-     *
-     * @param {Object} response
-     * @param {String} path - path for previous request
-     * @param {String} language
-     * @returns {Promise}
-     * @private
-     */
+   /**
+    * Returns the next page of a paged response.
+    *
+    * @param   {Object}  res      response from previous request
+    * @param   {String}  token    auth token for request
+    * @param   {String}  path     path for previous request
+    * @param   {String}  language
+    * @returns {Promise}
+    * @private
+    */
 
-    getNextPage(response, path, language) {
-        let urlObj = url.parse(path, true);
-        urlObj.query.page = response.links.next;
+   getNextPages(res, path, opts) {
+       if (!hasNextPage(res) || !opts.getAllPages) {
+           return Promise.resolve(res);
+       }
 
-        // remove urlObj.search to force url.format() to use urlObj.query
-        urlObj.search = undefined;
+       let urlObj = url.parse(path, true);
+       urlObj.query.page = res.links.next;
 
-        const newPath = url.format(urlObj);
-        return this.sendRequest(newPath, language);
+       // remove urlObj.search to force url.format() to use urlObj.query
+       urlObj.search = undefined;
+
+       let newPath = url.format(urlObj);
+
+       return this.sendRequest(newPath, opts)
+           .then(nextRes => [res.data, nextRes])
+           .then(dataArr => {
+               return { data: flatten(dataArr) }
+           });
+   }
+
+}
+
+function checkError(json) {
+    if (json.Error) {
+        return Promise.reject(new Error(json.Error));
     }
+
+    return Promise.resolve(json);
 }
 
 /**
- * Returns true if the response is paged and there is a next page, false
- * otherwise.
+ * Perform login flow with given API Key
  *
- * @param {Object} response
+ * @param   {String}  apiKey
+ * @returns {Promise}
+ * @private
+ */
+
+function logIn(apiKey) {
+    const opts = {
+        method: 'POST',
+        body: JSON.stringify({ apikey: apiKey }),
+        headers: {
+            'Accept':       AV_HEADER,
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return request(`${BASE_URL}/login`, opts)
+        .then(res => res.json())
+        .then(res => checkError(res))
+        .then(json => json.token)
+}
+
+/**
+ * Returns true if the response has additional pages, otherwise returns
+ * false
+ *
+ * @param   {Object}  response
  * @returns {Boolean}
  */
 

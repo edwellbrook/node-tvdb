@@ -1,6 +1,6 @@
 'use strict';
 
-let TVDB    = require("..");
+let TVDB = require('..');
 let API_KEY = process.env.TVDB_KEY;
 
 let chai           = require('chai');
@@ -9,33 +9,22 @@ chai.use(chaiAsPromised);
 let expect = chai.expect;
 
 describe('#getLanguages', () => {
-    describe('with valid API key', () => {
-        let promise;
-        before(() => promise = (new TVDB(API_KEY)).getLanguages()); //eslint-disable-line mocha/no-synchronous-tests
 
-        it('result should contain an english language object', () =>
-            promise
-                .then(response => response.find(entry => entry.abbreviation === 'en'))
-                .then(lang => {
-                    expect(lang.abbreviation).to.eql('en');
-                    expect(lang.id).to.eql(7);
-                    expect(lang.name).to.eql('English');
-                })
-        );
-        it('result should contain an german language object', () =>
-            promise
-                .then(response => response.find(entry => entry.abbreviation === 'de'))
-                .then(lang => {
-                    expect(lang.abbreviation).to.eql('de');
-                    expect(lang.id).to.eql(14);
-                    expect(lang.name).to.eql('Deutsch');
-                })
-        );
+    it('result should contain english and german language objects', () => {
+        const tvdb = new TVDB(API_KEY);
 
-    });
-    describe('without a valid API key', () => {
-        it("should return an error", () => {
-            return expect(new TVDB("test123").getLanguages()).to.be.rejected;
+        return tvdb.getLanguages().then(langs => {
+            const enLang = langs.find(entry => entry.abbreviation === 'en')
+            const deLang = langs.find(entry => entry.abbreviation === 'de')
+
+            expect(enLang.abbreviation).to.eql('en');
+            expect(enLang.id).to.eql(7);
+            expect(enLang.name).to.eql('English');
+
+            expect(deLang.abbreviation).to.eql('de');
+            expect(deLang.id).to.eql(14);
+            expect(deLang.name).to.eql('Deutsch');
         });
     });
+
 });

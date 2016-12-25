@@ -1,6 +1,6 @@
 'use strict';
 
-let TVDB    = require("..");
+let TVDB = require('..');
 let API_KEY = process.env.TVDB_KEY;
 
 let chai           = require('chai');
@@ -9,44 +9,53 @@ chai.use(chaiAsPromised);
 let expect = chai.expect;
 
 describe('#getEpisodesBySeriesId', () => {
+
     it('should return the episodes of the series with id "71470"', () => {
-        return new TVDB(API_KEY).getEpisodesBySeriesId(71470)
-            .then(response => {
+        const tvdb = new TVDB(API_KEY);
+
+        return tvdb.getEpisodesBySeriesId(71470).then(response => {
+            expect(response).to.have.length.above(0);
+
+            let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
+
+            expect(someEpisode.episodeName).to.eql('The Most Toys');
+        });
+    });
+
+    describe('returns correct record for other languages', () => {
+
+        it('if given in constructor', () => {
+            const tvdb = new TVDB(API_KEY, 'de');
+
+            return tvdb.getEpisodesBySeriesId(71470).then(response => {
                 expect(response).to.have.length.above(0);
 
                 let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
 
-                expect(someEpisode.episodeName).to.eql('The Most Toys');
+                expect(someEpisode.episodeName).to.eql('Der Sammler');
             });
-    });
-
-    describe('returns correct record for other languages', () => {
-        it('if given in constructor', () => {
-            return new TVDB(API_KEY, 'de').getEpisodesBySeriesId(71470)
-                .then(response => {
-                    expect(response).to.have.length.above(0);
-
-                    let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
-
-                    expect(someEpisode.episodeName).to.eql('Der Sammler');
-                });
         });
+
         it('if given in function call', () => {
-            return new TVDB(API_KEY).getEpisodesBySeriesId(71470, 'de')
-                .then(response => {
-                    expect(response).to.have.length.above(0);
+            const tvdb = new TVDB(API_KEY, 'en');
 
-                    let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
+            return tvdb.getEpisodesBySeriesId(71470, { lang: 'de' }).then(response => {
+                expect(response).to.have.length.above(0);
 
-                    expect(someEpisode.episodeName).to.eql('Der Sammler');
-                });
+                let someEpisode = response.find(ep => ep.airedSeason === 3 && ep.airedEpisodeNumber === 22);
+
+                expect(someEpisode.episodeName).to.eql('Der Sammler');
+            });
         });
+
     });
 
     it('returns data from several pages', () => {
-        return new TVDB(API_KEY).getEpisodesBySeriesId(71663)
-            .then(response => {
-                expect(response).to.have.length.above(600);
-            });
+        const tvdb = new TVDB(API_KEY);
+
+        return tvdb.getEpisodesBySeriesId(71663).then(response => {
+            expect(response).to.have.length.above(600);
+        });
     });
+
 });

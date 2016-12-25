@@ -1,23 +1,31 @@
 'use strict';
 
-let TVDB    = require("..");
+let TVDB = require('..');
 let API_KEY = process.env.TVDB_KEY;
 
 let chai = require('chai');
 let expect = chai.expect;
 
 describe("Language", () => {
+
     it("should return the default language as \"en\"", () => {
-        return expect(new TVDB(API_KEY).language).to.eql('en');
+        const tvdb = new TVDB(API_KEY);
+
+        return expect(tvdb.language).to.eql('en');
     });
 
     it("should return the language as \"pt\" if initialised with the language \"pt\"", () => {
-        return expect(new TVDB(API_KEY, "pt").language).to.eql('pt');
+        const tvdb = new TVDB(API_KEY, 'pt');
+
+        return expect(tvdb.language).to.eql('pt');
     });
 
     it("should return the lanaguage as \"pt\" if changed to \"pt\"", () => {
-        let client      = new TVDB(API_KEY);
-        client.language = "pt";
-        return expect(client.language).to.eql('pt');
+        const tvdb = new TVDB(API_KEY);
+        expect(tvdb.language).to.equal('en');
+
+        tvdb.language = 'pt';
+        return expect(tvdb.language).to.equal('pt');
     });
+
 });
