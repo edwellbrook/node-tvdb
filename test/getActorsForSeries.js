@@ -11,7 +11,7 @@ chai.use(chaiAsPromised);
 
 describe("#getActorsForSeries", () => {
 
-    it(`should return an array of the actors for the series with id '153021'`, () => {
+    it('should return an array of the actors for the series with id "153021"', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getActors(246151).then(response => {

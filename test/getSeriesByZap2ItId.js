@@ -9,9 +9,9 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe("#getSeriesByZap2ItId", function () {
+describe('#getSeriesByZap2ItId', function () {
 
-    it(`should return a series with zap2it id 'EP00018693'`, () => {
+    it('should return a series with zap2it id "EP00018693"', () => {
         const tvdb = new TVDB(API_KEY)
 
         return tvdb.getSeriesByZap2ItId('EP00018693').then(function(response) {
@@ -45,7 +45,7 @@ describe("#getSeriesByZap2ItId", function () {
 
     });
 
-    it("should return an error for a series search with an invalid id", () => {
+    it('should return an error for a series search with an invalid id', () => {
         const tvdb = new TVDB(API_KEY);
 
         return expect(tvdb.getSeriesByZap2ItId('')).to.be.rejected;

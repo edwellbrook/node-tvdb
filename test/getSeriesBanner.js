@@ -9,9 +9,9 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe("#getSeriesBanner", () => {
+describe('#getSeriesBanner', () => {
 
-    it("should return an array of the banners for the series with id \"246151\"", () => {
+    it('should return an array of the banners for the series with id "246151"', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getSeriesBanner(71663).then(response => {

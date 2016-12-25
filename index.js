@@ -149,7 +149,7 @@ class Client {
      * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      *
      * ``` javascript
-     * tvdb.getEpisodeByAirDate(153021, "2011-10-03")
+     * tvdb.getEpisodeByAirDate(153021, '2011-10-03')
      *     .then(response => { /* handle response *\/ })
      *     .catch(error => { /* handle error *\/ });
      * ```
@@ -172,7 +172,7 @@ class Client {
      * https://api.thetvdb.com/swagger#!/Search/get_search_series
      *
      * ``` javascript
-     * tvdb.getSeriesByName("Breaking Bad")
+     * tvdb.getSeriesByName('Breaking Bad')
      *     .then(response => { /* handle response *\/ })
      *     .catch(error => { /* handle error *\/ });
      * ```
@@ -216,7 +216,7 @@ class Client {
      * https://api.thetvdb.com/swagger#!/Search/get_search_series
      *
      * ``` javascript
-     * tvdb.getSeriesByImdbId("tt0903747")
+     * tvdb.getSeriesByImdbId('tt0903747')
      *     .then(response => { /* handle response *\/ })
      *     .catch(error => { /* handle error *\/ });
      * ```
@@ -238,7 +238,7 @@ class Client {
      * https://api.thetvdb.com/swagger#!/Search/get_search_series
      *
      * ``` javascript
-     * tvdb.getSeriesByZap2ItId("EP00018693")
+     * tvdb.getSeriesByZap2ItId('EP00018693')
      *     .then(response => { /* handle response *\/ })
      *     .catch(error => { /* handle error *\/ });
      * ```

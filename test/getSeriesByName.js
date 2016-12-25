@@ -9,12 +9,12 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe("#getSeriesByName", () => {
+describe('#getSeriesByName', () => {
 
-    it("should return an array of available matches", () => {
+    it('should return an array of available matches', () => {
         const tvdb = new TVDB(API_KEY);
 
-        return tvdb.getSeriesByName("The Walking Dead").then(response => {
+        return tvdb.getSeriesByName('The Walking Dead').then(response => {
             expect(response).to.have.length.of.at.least(2);
 
             let theWalkingDeadShow = response.find(show => show.id === 153021);
@@ -83,7 +83,7 @@ describe("#getSeriesByName", () => {
             return expect(tvdb.getSeriesByName('Jessica Simpsons The Price of Beauty')).to.be.rejected;
         });
 
-        it(`show does exist for language 'de'`, () => {
+        it('show does exist for language "de"', () => {
             const tvdb = new TVDB(API_KEY);
 
             return tvdb.getSeriesByName('Jessica Simpsons The Price of Beauty').then(response => {

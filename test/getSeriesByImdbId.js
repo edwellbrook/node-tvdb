@@ -9,9 +9,9 @@ const expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe("#getSeriesByImdbId", function () {
+describe('#getSeriesByImdbId', function () {
 
-    it(`should return a series with IMDB id 'tt0096697'`, () => {
+    it('should return a series with IMDB id "tt0096697"', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getSeriesByImdbId('tt0096697')
@@ -47,7 +47,7 @@ describe("#getSeriesByImdbId", function () {
 
     });
 
-    it("should return an error for a series search with an invalid id", () => {
+    it('should return an error for a series search with an invalid id', () => {
         const tvdb = new TVDB(API_KEY);
 
         return expect(tvdb.getSeriesByImdbId('')).to.be.rejected;
