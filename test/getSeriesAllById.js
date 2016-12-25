@@ -1,12 +1,13 @@
 'use strict';
 
-let TVDB = require('..');
-let API_KEY = process.env.TVDB_KEY;
+const TVDB = require('..');
+const API_KEY = process.env.TVDB_KEY;
 
-let chai           = require('chai');
-let chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const expect = chai.expect;
+
 chai.use(chaiAsPromised);
-let expect = chai.expect;
 
 describe('#getSeriesAllById', () => {
 
