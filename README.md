@@ -36,10 +36,10 @@ TVDB_KEY=[YOUR API KEY HERE] npm test
 To start using this library you first need an API key. You can request one [here](http://thetvdb.com/?tab=apiregister). Then just follow this simple example that fetches all the shows containing "The Simpsons" in the name.
 
 ``` javascript
-const TVDB = require("node-tvdb");
-const tvdb = new TVDB("ABC123");
+const TVDB = require('node-tvdb');
+const tvdb = new TVDB('ABC123');
 
-tvdb.getSeriesByName("The Simpsons")
+tvdb.getSeriesByName('The Simpsons')
     .then(response => { /* process data */ })
     .catch(error => { /* handle error */ });
 ```
@@ -53,10 +53,10 @@ See [tests](test) and [TheTVDB API documentation](https://api.thetvdb.com/swagge
 Set up a client with your API key and optionally a default language
 
 ``` javascript
-const Client = require("node-tvdb");
+const Client = require('node-tvdb');
 
-const tvdb           = new Client("ABC123"); // lang defaults to "en"
-const tvdbPortuguese = new Client("ABC123", "pt");
+const tvdb           = new Client('ABC123'); // lang defaults to "en"
+const tvdbPortuguese = new Client('ABC123', 'pt');
 ```
 
 <!--- Function documentation -->
