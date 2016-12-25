@@ -68,8 +68,8 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
-     * @returns {Promise}
      * @name    getLanguages
+     * @returns {Promise}
      * @public
      */
 
@@ -88,10 +88,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getEpisodeById
      * @param   {Number|String} episodeId
      * @param   {String}        [language]
      * @returns {Promise}
-     * @name    getEpisodeById
      * @public
      */
 
@@ -110,10 +110,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getEpisodesBySeriesId
      * @param   {Number|String} seriesId
      * @param   {String} [language]
      * @returns {Promise}
-     * @name    getEpisodesBySeriesId
      * @public
      */
 
@@ -132,10 +132,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesById
      * @param   {Number|String} seriesId
      * @param   {String} [`language`]
      * @returns {Promise}
-     * @name    getSeriesById
      * @public
      */
 
@@ -154,11 +154,11 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getEpisodesByAirDate
      * @param   {Number|String} seriesId
      * @param   {String} airDate
      * @param   {String} [language]
      * @returns {Promise}
-     * @name    getEpisodesByAirDate
      * @public
      */
 
@@ -177,10 +177,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesByName
      * @param   {String} name
      * @param   {String} [language]
      * @returns {Promise}
-     * @name    getSeriesByName
      * @public
      */
 
@@ -199,10 +199,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getActors
      * @param   {Number|String} seriesId
      * @param   {String} [language]
      * @returns {Promise}
-     * @name    getActors
      * @public
      */
 
@@ -221,10 +221,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesByImdbId
      * @param   {String}          imdbId
      * @param   {String}          [language]
      * @returns {Promise}
-     * @name    getSeriesByImdbId
      * @public
      */
 
@@ -243,10 +243,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesByZap2ItId
      * @param   {String}            zap2ItId
      * @param   {String}            [language]
      * @returns {Promise}
-     * @name    getSeriesByZap2ItId
      * @public
      */
 
@@ -265,9 +265,9 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesBanner
      * @param   {Number|String} seriesId
      * @returns {Promise}
-     * @name    getSeriesBanner
      * @public
      */
 
@@ -287,10 +287,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getUpdates
      * @param   {Number}   fromTime
      * @param   {Number}   toTime
      * @returns {Promise}
-     * @name    getUpdates
      * @public
      */
 
@@ -318,10 +318,10 @@ class Client {
      *     .catch(error => { /* handle error *\/ });
      * ```
      *
+     * @name    getSeriesAllById
      * @param   {Number|String}  seriesId
      * @param   {String}         [language]
      * @returns {Promise}
-     * @name    getSeriesAllById
      * @public
      */
 
@@ -338,9 +338,17 @@ class Client {
     }
 
     /**
-    * Runs a get request with the given options, follows pages and returns the
-    * combined returned data of the request.
+    * Runs a get request with the given options, useful for running custom requests
     *
+    * ``` javascript
+    * tvdb.sendRequest('unimplmented/endpoint', { custom: 'options' })
+    *     .then(response => {
+    *         /* handle response *\/
+    *     })
+    *     .catch(error => { /* handle error *\/ });
+    * ```
+    *
+    * @name    sendRequest
     * @param   {String}  path
     * @param   {Object}  opts additional options for request
     * @returns {Promise}
@@ -362,42 +370,52 @@ class Client {
             })
             .then(res => res.json())
             .then(res => checkError(res))
-            .then(res => this.getNextPages(res, path, options))
+            .then(res => getNextPages(this, res, path, options))
             .then(res => res.data);
     }
 
-   /**
-    * Returns the next page of a paged response.
-    *
-    * @param   {Object}  res      response from previous request
-    * @param   {String}  token    auth token for request
-    * @param   {String}  path     path for previous request
-    * @param   {String}  language
-    * @returns {Promise}
-    * @private
-    */
-
-   getNextPages(res, path, opts) {
-       if (!hasNextPage(res) || !opts.getAllPages) {
-           return Promise.resolve(res);
-       }
-
-       let urlObj = url.parse(path, true);
-       urlObj.query.page = res.links.next;
-
-       // remove urlObj.search to force url.format() to use urlObj.query
-       urlObj.search = undefined;
-
-       let newPath = url.format(urlObj);
-
-       return this.sendRequest(newPath, opts)
-           .then(nextRes => [res.data, nextRes])
-           .then(dataArr => {
-               return { data: flatten(dataArr) }
-           });
-   }
-
 }
+
+/**
+ * Returns the next page of a paged response.
+ *
+ * @param   {TVDB}    client   TVDB client to run next request with
+ * @param   {Object}  res      response from previous request
+ * @param   {String}  token    auth token for request
+ * @param   {String}  path     path for previous request
+ * @param   {String}  language
+ * @returns {Promise}
+ * @private
+ */
+
+function getNextPages(client, res, path, opts) {
+    if (!hasNextPage(res) || !opts.getAllPages) {
+        return Promise.resolve(res);
+    }
+
+    let urlObj = url.parse(path, true);
+    urlObj.query.page = res.links.next;
+
+    // remove urlObj.search to force url.format() to use urlObj.query
+    urlObj.search = undefined;
+
+    let newPath = url.format(urlObj);
+
+    return client.sendRequest(newPath, opts)
+        .then(nextRes => [res.data, nextRes])
+        .then(dataArr => {
+            return { data: flatten(dataArr) }
+        });
+}
+
+/**
+ * Check response for error. Return a rejected promise if there's an error
+ * otherwise resolve the response
+ *
+ * @param   {Object}  json JSON response
+ * @returns {Promise}
+ * @private
+ */
 
 function checkError(json) {
     if (json.Error) {

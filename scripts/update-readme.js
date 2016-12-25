@@ -7,7 +7,7 @@ const _ = require('lodash');
 const functionDocTemplate = _.template(`
 ### <%= name %><% if (hasAlias) { %> (alias: <%= alias %>)<% } %>
 
-<%= lead %>  
+<%= lead %>
 <% urls.forEach(function(url) {%>([TheTVDB API](<%= url %>))
 <% }) %>
 <%= exampleCode %>
@@ -18,7 +18,7 @@ function makeFunctionDocTemplate(comment) {
         return str.match(/\b(https):\/\/([\-A-Z0-9.]+)(\/[\-A-Z0-9+&@#\/%=~_|!:,.;]*)/ig);
     }
 
-    comment.urls = urls(comment.description);
+    comment.urls = urls(comment.description) || [];
     comment.hasAlias = !_.isUndefined(comment.alias);
 
     if (comment.name === ''){
