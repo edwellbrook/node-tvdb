@@ -44,9 +44,11 @@ tvdb.getSeriesByName('The Simpsons')
     .catch(error => { /* handle error */ });
 ```
 
-## API
+## Full API Docs
 
-See [tests](test) and [TheTVDB API documentation](https://api.thetvdb.com/swagger/) for details about response data format.
+Generated API docs with code examples can be found at: [edwellbrook.github.io/node-tvdb](https://edwellbrook.github.io/node-tvdb/).
+
+For details on response data, please see [TheTVDB API docs](https://api.thetvdb.com/swagger/).
 
 ## License
 
