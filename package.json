@@ -32,7 +32,7 @@
     "parse-comments": "^0.4.3"
   },
   "scripts": {
-    "test": "mocha test",
+    "test": "mocha test && eslint .",
     "eslint": "eslint .",
     "update-readme": "node ./scripts/update-readme"
   },
