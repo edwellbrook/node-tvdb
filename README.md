@@ -2,7 +2,7 @@
 
 [![wercker status](https://app.wercker.com/status/19dcad373ede868e37754a0367d68382/s/master "wercker status")](https://app.wercker.com/project/bykey/19dcad373ede868e37754a0367d68382)
 
-Node.js library for accessing [TheTVDB API](https://api.thetvdb.com/swagger/). Refactored from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
+Node.js library for accessing [TheTVDB JSON API](https://api.thetvdb.com/swagger/). Refactored from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
 
 Pull requests are always very welcome.
 
@@ -12,7 +12,7 @@ Pull requests are always very welcome.
 - Only returns relevant data (no need to call response.Data.Series etc.)
 - Set language at initialisation or on each function call
 - Return values through promises (dropped callback support)
-- Use new JSON API from TheTVDB
+- Uses the new JSON API from TheTVDB
 - [Tests with Mocha and Wercker CI](https://app.wercker.com/#applications/53f155d02094f9781d058f98)
 
 ## Installation
