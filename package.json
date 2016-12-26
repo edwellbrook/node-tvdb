@@ -31,13 +31,14 @@
     "chai-as-promised": "^6.0.0",
     "eslint": "^3.12.2",
     "eslint-plugin-mocha": "^4.8.0",
-    "mocha": "^3.2.0",
-    "parse-comments": "^0.4.3"
+    "jsdoc": "^3.4.3",
+    "minami": "github:edwellbrook/minami",
+    "mocha": "^3.2.0"
   },
   "scripts": {
     "test": "mocha test && eslint .",
     "eslint": "eslint .",
-    "update-readme": "node ./scripts/update-readme"
+    "generate-docs": "jsdoc -c .jsdoc.json"
   },
   "license": "MIT"
 }

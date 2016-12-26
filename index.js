@@ -60,17 +60,16 @@ class Client {
     /**
      * Get available languages useable by TheTVDB API
      *
-     * https://api.thetvdb.com/swagger#!/Languages/get_languages
-     *
      * ``` javascript
      * tvdb.getLanguages()
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getLanguages
-     * @param   {Object}     opts - additional options for request
+     * @param   {Object}  [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Languages/get_languages
      * @public
      */
 
@@ -81,18 +80,17 @@ class Client {
     /**
      * Get episode by episode id
      *
-     * https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
-     *
      * ``` javascript
      * tvdb.getEpisodeById(4768125)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getEpisodeById
      * @param   {Number|String} episodeId
-     * @param   {Object}        opts - additional options for request
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      * @public
      */
 
@@ -103,18 +101,17 @@ class Client {
     /**
      * Get all episodes by series id
      *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
-     *
      * ``` javascript
      * tvdb.getEpisodesBySeriesId(153021)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getEpisodesBySeriesId
-     * @param   {Number|String}       seriesId
-     * @param   {Object}              opts - additional options for request
+     * @param   {Number|String} seriesId
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
      * @public
      */
 
@@ -125,18 +122,17 @@ class Client {
     /**
      * Get basic series information by id
      *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id
-     *
      * ``` javascript
      * tvdb.getSeriesById(73255)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesById
      * @param   {Number|String} seriesId
-     * @param   {Object}        opts - additional options for request
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id
      * @public
      */
 
@@ -147,19 +143,18 @@ class Client {
     /**
      * Get series episode by air date
      *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
-     *
      * ``` javascript
      * tvdb.getEpisodeByAirDate(153021, '2011-10-03')
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getEpisodesByAirDate
      * @param   {Number|String}      seriesId
      * @param   {String}             airDate
-     * @param   {Object}             opts - additional options for request
+     * @param   {Object}             [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      * @public
      */
 
@@ -170,18 +165,17 @@ class Client {
     /**
      * Get basic series information by name
      *
-     * https://api.thetvdb.com/swagger#!/Search/get_search_series
-     *
      * ``` javascript
      * tvdb.getSeriesByName('Breaking Bad')
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesByName
      * @param   {String}        name
-     * @param   {Object}        opts - additional options for request
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      * @public
      */
 
@@ -192,18 +186,17 @@ class Client {
     /**
      * Get series actors by series id
      *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
-     *
      * ``` javascript
      * tvdb.getActors(73255)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getActors
      * @param   {Number|String} seriesId
-     * @param   {Object}        opts - additional options for request
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
      * @public
      */
 
@@ -214,18 +207,17 @@ class Client {
     /**
      * Get basic series information by imdb id
      *
-     * https://api.thetvdb.com/swagger#!/Search/get_search_series
-     *
      * ``` javascript
      * tvdb.getSeriesByImdbId('tt0903747')
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesByImdbId
      * @param   {String}          imdbId
-     * @param   {Object}          opts - additional options for request
+     * @param   {Object}          [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      * @public
      */
 
@@ -236,18 +228,17 @@ class Client {
     /**
      * Get basic series information by zap2it id
      *
-     * https://api.thetvdb.com/swagger#!/Search/get_search_series
-     *
      * ``` javascript
      * tvdb.getSeriesByZap2ItId('EP00018693')
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesByZap2ItId
      * @param   {String}            zap2ItId
-     * @param   {Object}            opts - additional options for request
+     * @param   {Object}            [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      * @public
      */
 
@@ -258,18 +249,17 @@ class Client {
     /**
      * Get series banner by series id
      *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
-     *
      * ``` javascript
      * tvdb.getSeriesBanner(73255)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesBanner
      * @param   {Number|String} seriesId
-     * @param   {Object}        opts - additional options for request
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
      * @public
      */
 
@@ -282,19 +272,18 @@ class Client {
      * Get a list of series updated since a given unix timestamp (and, if given,
      * between a second timestamp).
      *
-     * https://api.thetvdb.com/swagger#!/Updates/get_updated_query
-     *
      * ``` javascript
      * tvdb.getUpdates(1400611370, 1400621370)
-     *     .then(response => { /* handle response *\/ })
-     *     .catch(error => { /* handle error *\/ });
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getUpdates
      * @param   {Number}   fromTime - timestamp to get series updates from
      * @param   {Number}   toTime - timestamp to get series updates to
-     * @param   {Object}   opts - additional options for request
+     * @param   {Object}   [opts] - additional options for request
      * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      * @public
      */
 
@@ -313,17 +302,16 @@ class Client {
      * ``` javascript
      * tvdb.getSeriesAllById(73255)
      *     .then(response => {
-     *         /* handle response *\/
      *         console.log(response); // response contains series data (e.g. `response.id`, `response.seriesName`)
      *         console.log(response.episodes); // response contains an array of episodes
      *     })
-     *     .catch(error => { /* handle error *\/ });
+     *     .catch(error => { handle error });
      * ```
      *
-     * @name    getSeriesAllById
      * @param   {Number|String}  seriesId
-     * @param   {Object}         opts - additional options for request
+     * @param   {Object}         [opts] - additional options for request
      * @returns {Promise}
+     *
      * @public
      */
 
@@ -343,17 +331,15 @@ class Client {
     * Runs a get request with the given options, useful for running custom requests
     *
     * ``` javascript
-    * tvdb.sendRequest('unimplmented/endpoint', { custom: 'options' })
-    *     .then(response => {
-    *         /* handle response *\/
-    *     })
-    *     .catch(error => { /* handle error *\/ });
+    * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
+    *     .then(response => { handle response })
+    *     .catch(error => { handle error });
     * ```
     *
-    * @name    sendRequest
-    * @param   {String}  path
-    * @param   {Object}  opts - additional options for request
+    * @param   {String}  path   - path for http resource
+    * @param   {Object}  [opts] - additional options for request
     * @returns {Promise}
+    *
     * @public
     */
 
@@ -457,6 +443,7 @@ function logIn(apiKey) {
  *
  * @param   {Object}  response
  * @returns {Boolean}
+ * @private
  */
 
 function hasNextPage(response) {
