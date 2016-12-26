@@ -29,4 +29,10 @@ describe('#episodeByAirDate', () => {
         return expect(tvdb.getEpisodesByAirDate(153021, '2000-01-01')).to.be.rejected;
     });
 
+    it('should return an error if given an invalid series', () => {
+        const tvdb = new TVDB(API_KEY);
+
+        return expect(tvdb.getEpisodesByAirDate('', '2016-01-01')).to.be.rejected;
+    });
+
 });
