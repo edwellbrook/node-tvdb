@@ -279,7 +279,7 @@ class Client {
      * ```
      *
      * @param   {Number}   fromTime - timestamp to get series updates from
-     * @param   {Number}   toTime - timestamp to get series updates to
+     * @param   {Number}   [toTime] - timestamp to get series updates to
      * @param   {Object}   [opts] - additional options for request
      * @returns {Promise}
      *
