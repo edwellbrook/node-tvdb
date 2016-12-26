@@ -366,7 +366,7 @@ class Client {
             .then(token => {
                 headers['Authorization'] = `Bearer ${token}`;
 
-                return request(`${BASE_URL}/${path}`, { headers: headers })
+                return request(`${BASE_URL}/${path}`, { headers: headers });
             })
             .then(res => res.json())
             .then(res => checkError(res))
@@ -404,7 +404,7 @@ function getNextPages(client, res, path, opts) {
     return client.sendRequest(newPath, opts)
         .then(nextRes => [res.data, nextRes])
         .then(dataArr => {
-            return { data: flatten(dataArr) }
+            return { data: flatten(dataArr) };
         });
 }
 
@@ -441,12 +441,12 @@ function logIn(apiKey) {
             'Accept':       AV_HEADER,
             'Content-Type': 'application/json'
         }
-    }
+    };
 
     return request(`${BASE_URL}/login`, opts)
         .then(res => res.json())
         .then(res => checkError(res))
-        .then(json => json.token)
+        .then(json => json.token);
 }
 
 /**

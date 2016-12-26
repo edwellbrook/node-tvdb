@@ -15,8 +15,8 @@ describe('#getLanguages', () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getLanguages().then(langs => {
-            const enLang = langs.find(entry => entry.abbreviation === 'en')
-            const deLang = langs.find(entry => entry.abbreviation === 'de')
+            const enLang = langs.find(entry => entry.abbreviation === 'en');
+            const deLang = langs.find(entry => entry.abbreviation === 'de');
 
             expect(enLang.abbreviation).to.equal('en');
             expect(enLang.id).to.equal(7);

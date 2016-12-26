@@ -15,7 +15,7 @@ describe("#getActorsForSeries", () => {
         const tvdb = new TVDB(API_KEY);
 
         return tvdb.getActors(246151).then(response => {
-            expect(response).to.have.length.of.at.least(5)
+            expect(response).to.have.length.of.at.least(5);
         });
     });
 
