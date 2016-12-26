@@ -5,11 +5,9 @@ const fs = require('fs');
 const _ = require('lodash');
 
 const functionDocTemplate = _.template(`
-### <%= name %><% if (hasAlias) { %> (alias: <%= alias %>)<% } %>
+### <%= name %><% if (urls.length === 1) { %> ([API Reference](<%= urls[0] %>))<% } %>
 
 <%= lead %>
-<% urls.forEach(function(url) {%>([TheTVDB API](<%= url %>))
-<% }) %>
 <%= exampleCode %>
 `);
 
@@ -19,7 +17,6 @@ function makeFunctionDocTemplate(comment) {
     }
 
     comment.urls = urls(comment.description) || [];
-    comment.hasAlias = !_.isUndefined(comment.alias);
 
     if (comment.name === ''){
         throw new Error(`@name tag missing for comment starting at index.js:${comment.comment.begin}`);

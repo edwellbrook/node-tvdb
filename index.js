@@ -69,12 +69,13 @@ class Client {
      * ```
      *
      * @name    getLanguages
+     * @param   {Object}     opts - additional options for request
      * @returns {Promise}
      * @public
      */
 
-    getLanguages() {
-        return this.sendRequest('languages');
+    getLanguages(opts = {}) {
+        return this.sendRequest('languages', opts);
     }
 
     /**
@@ -90,7 +91,7 @@ class Client {
      *
      * @name    getEpisodeById
      * @param   {Number|String} episodeId
-     * @param   {String}        [language]
+     * @param   {Object}        opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -111,8 +112,8 @@ class Client {
      * ```
      *
      * @name    getEpisodesBySeriesId
-     * @param   {Number|String} seriesId
-     * @param   {String} [language]
+     * @param   {Number|String}       seriesId
+     * @param   {Object}              opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -134,7 +135,7 @@ class Client {
      *
      * @name    getSeriesById
      * @param   {Number|String} seriesId
-     * @param   {String} [`language`]
+     * @param   {Object}        opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -155,9 +156,9 @@ class Client {
      * ```
      *
      * @name    getEpisodesByAirDate
-     * @param   {Number|String} seriesId
-     * @param   {String} airDate
-     * @param   {String} [language]
+     * @param   {Number|String}      seriesId
+     * @param   {String}             airDate
+     * @param   {Object}             opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -178,8 +179,8 @@ class Client {
      * ```
      *
      * @name    getSeriesByName
-     * @param   {String} name
-     * @param   {String} [language]
+     * @param   {String}        name
+     * @param   {Object}        opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -201,7 +202,7 @@ class Client {
      *
      * @name    getActors
      * @param   {Number|String} seriesId
-     * @param   {String} [language]
+     * @param   {Object}        opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -223,7 +224,7 @@ class Client {
      *
      * @name    getSeriesByImdbId
      * @param   {String}          imdbId
-     * @param   {String}          [language]
+     * @param   {Object}          opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -245,7 +246,7 @@ class Client {
      *
      * @name    getSeriesByZap2ItId
      * @param   {String}            zap2ItId
-     * @param   {String}            [language]
+     * @param   {Object}            opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -267,17 +268,19 @@ class Client {
      *
      * @name    getSeriesBanner
      * @param   {Number|String} seriesId
+     * @param   {Object}        opts - additional options for request
      * @returns {Promise}
      * @public
      */
 
-    getSeriesBanner(seriesId) {
-        return this.sendRequest(`series/${seriesId}/filter?keys=banner`)
+    getSeriesBanner(seriesId, opts = {}) {
+        return this.sendRequest(`series/${seriesId}/filter?keys=banner`, opts)
             .then(response => response.banner);
     }
 
     /**
-     * Get a list of series updated since one or between two given unix timestamps
+     * Get a list of series updated since a given unix timestamp (and, if given,
+     * between a second timestamp).
      *
      * https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      *
@@ -288,25 +291,24 @@ class Client {
      * ```
      *
      * @name    getUpdates
-     * @param   {Number}   fromTime
-     * @param   {Number}   toTime
+     * @param   {Number}   fromTime - timestamp to get series updates from
+     * @param   {Number}   toTime - timestamp to get series updates to
+     * @param   {Object}   opts - additional options for request
      * @returns {Promise}
      * @public
      */
 
-    getUpdates(fromTime, toTime) {
+    getUpdates(fromTime, toTime, opts = {}) {
         let uri = `updated/query?fromTime=${fromTime}`;
         if (toTime) {
-            uri = `${uri}&toTime=${toTime}`;
+            uri += `&toTime=${toTime}`;
         }
-        return this.sendRequest(uri);
+        return this.sendRequest(uri, opts);
     }
 
     /**
-     * Get series and episode information by series id
-     *
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id
-     * https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
+     * Get series and episode information by series id. Helper for calling
+     * `getSeriesById` and `getEpisodesBySeriesId` at the same time.
      *
      * ``` javascript
      * tvdb.getSeriesAllById(73255)
@@ -320,7 +322,7 @@ class Client {
      *
      * @name    getSeriesAllById
      * @param   {Number|String}  seriesId
-     * @param   {String}         [language]
+     * @param   {Object}         opts - additional options for request
      * @returns {Promise}
      * @public
      */
@@ -350,7 +352,7 @@ class Client {
     *
     * @name    sendRequest
     * @param   {String}  path
-    * @param   {Object}  opts additional options for request
+    * @param   {Object}  opts - additional options for request
     * @returns {Promise}
     * @public
     */
