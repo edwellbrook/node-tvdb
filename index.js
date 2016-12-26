@@ -149,9 +149,9 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {Number|String}      seriesId
-     * @param   {String}             airDate
-     * @param   {Object}             [opts] - additional options for request
+     * @param   {Number|String} seriesId
+     * @param   {String}        airDate
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
@@ -171,8 +171,8 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {String}        name
-     * @param   {Object}        [opts] - additional options for request
+     * @param   {String}  name
+     * @param   {Object}  [opts] - additional options for request
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
@@ -213,8 +213,8 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {String}          imdbId
-     * @param   {Object}          [opts] - additional options for request
+     * @param   {String}  imdbId
+     * @param   {Object}  [opts] - additional options for request
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
@@ -234,8 +234,8 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {String}            zap2ItId
-     * @param   {Object}            [opts] - additional options for request
+     * @param   {String}  zap2ItId
+     * @param   {Object}  [opts] - additional options for request
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
@@ -278,9 +278,9 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {Number}   fromTime - timestamp to get series updates from
-     * @param   {Number}   [toTime] - timestamp to get series updates to
-     * @param   {Object}   [opts] - additional options for request
+     * @param   {Number}  fromTime - timestamp to get series updates from
+     * @param   {Number}  [toTime] - timestamp to get series updates to
+     * @param   {Object}  [opts] - additional options for request
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Updates/get_updated_query
@@ -308,8 +308,8 @@ class Client {
      *     .catch(error => { handle error });
      * ```
      *
-     * @param   {Number|String}  seriesId
-     * @param   {Object}         [opts] - additional options for request
+     * @param   {Number|String} seriesId
+     * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
      * @public
