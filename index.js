@@ -328,7 +328,8 @@ class Client {
     }
 
     /**
-    * Runs a get request with the given options, useful for running custom requests
+    * Runs a get request with the given options, useful for running custom
+    * requests
     *
     * ``` javascript
     * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
@@ -369,9 +370,8 @@ class Client {
  *
  * @param   {TVDB}    client   TVDB client to run next request with
  * @param   {Object}  res      response from previous request
- * @param   {String}  token    auth token for request
- * @param   {String}  path     path for previous request
- * @param   {String}  language
+ * @param   {String}  path     path from previous request
+ * @param   {Object}  opts     additional options from previous request
  * @returns {Promise}
  * @private
  */
@@ -438,8 +438,7 @@ function logIn(apiKey) {
 }
 
 /**
- * Returns true if the response has additional pages, otherwise returns
- * false
+ * Returns true if the response has additional pages, otherwise returns false
  *
  * @param   {Object}  response
  * @returns {Boolean}
