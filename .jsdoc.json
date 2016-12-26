@@ -1,0 +1,22 @@
+{
+  "source": {
+    "include": [
+      "index.js",
+      "README.md"
+    ]
+  },
+  "templates": {
+    "outputSourceFiles": false
+  },
+  "plugins": [
+      "plugins/markdown"
+  ],
+  "markdown": {
+    "tags": [ "description" ]
+  },
+  "opts": {
+    "destination": "./docs",
+    "encoding": "utf8",
+    "template": "./node_modules/minami"
+  }
+}
