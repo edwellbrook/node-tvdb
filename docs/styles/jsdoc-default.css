@@ -12,6 +12,7 @@ body {
   background-color: white;
   margin: 0 auto;
   padding: 0 20px;
+  max-width: 960px;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
@@ -32,50 +33,56 @@ p, ul, ol, blockquote {
   margin-bottom: 1em;
 }
 
+blockquote {
+  margin-left: 0;
+  padding-left: 1em;
+  border-left: 3px solid rgba(0,0,0,.1);
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: #000;
   font-weight: 400;
-  margin: 0;
 }
 
 h1 {
   font-weight: 300;
   font-size: 48px;
-  margin: 1em 0 .5em;
 }
 
 h1.page-title {
   font-size: 48px;
-  margin: 1em 30px;
 }
 
 h2 {
-  font-size: 24px;
-  margin: 1.5em 0 .3em;
+  font-size: 22px;
+  padding: 0.6em 0;
 }
 
 h3 {
   font-size: 24px;
-  margin: 1.2em 0 .3em;
 }
 
 h4 {
   font-size: 18px;
-  margin: 1em 0 .2em;
   color: #4d4e53;
+  margin: 1em 0;
 }
 
-h5, .container-overview .subsection-title {
-  font-size: 120%;
-  letter-spacing: -0.01em;
-  margin: 8px 0 3px 0;
+h5,
+.container-overview .subsection-title {
+  font-size: 1.1em;
+  margin: 1.4em 0 1em;
 }
 
 h6 {
   font-size: 100%;
-  letter-spacing: -0.01em;
   margin: 6px 0 3px 0;
   font-style: italic;
+}
+
+
+article h2 {
+  border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
 pre {
@@ -99,24 +106,30 @@ tt, code, kbd, samp {
   margin: 0
 }
 
-#main {
+#main,
+footer {
   float: right;
   min-width: 360px;
-  width: calc(100% - 250px);
+  width: calc(100% - 240px);
+  position: relative;
+  z-index: 3;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
 }
 
 header {
   display: block
 }
 
-section {
-  display: block;
-  background-color: #fff;
-  padding: 0 30px;
-}
-
 .variation {
   display: none
+}
+
+.signature .optional-param {
+  color: #aaa;
 }
 
 .signature-attributes {
@@ -129,7 +142,7 @@ section {
 nav {
   float: left;
   display: block;
-  width: 250px;
+  width: 240px;
   background: #fff;
   overflow: auto;
   position: fixed;
@@ -206,11 +219,18 @@ nav > h2 > a {
 
 footer {
   color: hsl(0, 0%, 28%);
-  margin-left: 250px;
   display: block;
-  padding: 15px;
   font-style: italic;
   font-size: 90%;
+}
+
+.subsection-methods .method {
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.subsection-methods .method:first-child {
+  padding-top: 0;
 }
 
 .ancestors {
@@ -223,6 +243,7 @@ footer {
 }
 
 .clear {
+  display: block;
   clear: both
 }
 
@@ -247,6 +268,8 @@ footer {
   margin-top: 14px;
   border-left: 2px solid #DDD;
   line-height: 30px;
+  width: 100%;
+  overflow: scroll;
 }
 
 .details dt {
@@ -290,23 +313,19 @@ footer {
   margin: 0;
 }
 
-.params, .props {
+.params,
+.props {
   border-spacing: 0;
-  border: 1px solid #ddd;
-  border-collapse: collapse;
   border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.1);
   width: 100%;
   font-size: 14px;
 }
 
-.params .name, .props .name, .name code {
-   color: #4D4E53;
-   font-family: Consolas, Monaco, "Andale Mono", monospace;
-   font-size: 100%;
-}
-
-.params td, .params th, .props td, .props th {
+.params td,
+.params th,
+.props td,
+.props th {
    margin: 0px;
    text-align: left;
    vertical-align: top;
@@ -318,12 +337,14 @@ footer {
    border-top: 1px solid #eee
 }
 
-.params thead tr, .props thead tr {
-   background-color: #fff;
+.params thead tr,
+.props thead tr {
+   background-color: rgba(0,0,0,0.02);
    font-weight: bold;
 }
 
-.params .params thead tr, .props .props thead tr {
+.params .params thead tr,
+.props .props thead tr {
    background-color: #fff;
    font-weight: bold;
 }
@@ -336,12 +357,6 @@ footer {
 .params td.description > p:last-child, .props td.description > p:last-child {
    margin-bottom: 0;
    padding-bottom: 0;
-}
-
-dl.param-type {
-  border-bottom: 1px solid hsl(0, 0%, 87%);
-  margin-bottom: 30px;
-  padding-bottom: 30px;
 }
 
 .param-type dt, .param-type dd {

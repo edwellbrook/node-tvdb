@@ -38,7 +38,7 @@
   "scripts": {
     "test": "mocha test && eslint .",
     "eslint": "eslint .",
-    "generate-docs": "jsdoc -c .jsdoc.json"
+    "generate-docs": "rm -rf ./docs && jsdoc -c .jsdoc.json"
   },
   "license": "MIT"
 }

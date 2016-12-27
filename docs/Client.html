@@ -1,34 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Client - Documentation</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Client - Documentation</title>
 
-    <script src="scripts/prism.min.js"></script>
+        <script src="scripts/prism.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-    <link type="text/css" rel="stylesheet" href="styles/prism.css">
-</head>
-<body>
+        <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+        <link type="text/css" rel="stylesheet" href="styles/prism.css">
+    </head>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
+    <body>
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger" class="navicon-button x">
+            <div class="navicon"></div>
+        </label>
 
-<label for="nav-trigger" class="overlay"></label>
+        <label for="nav-trigger" class="overlay"></label>
 
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a><ul class='methods'><li data-type='method'><a href="Client.html#getActors">getActors</a></li><li data-type='method'><a href="Client.html#getEpisodeById">getEpisodeById</a></li><li data-type='method'><a href="Client.html#getEpisodesByAirDate">getEpisodesByAirDate</a></li><li data-type='method'><a href="Client.html#getEpisodesBySeriesId">getEpisodesBySeriesId</a></li><li data-type='method'><a href="Client.html#getLanguages">getLanguages</a></li><li data-type='method'><a href="Client.html#getSeriesAllById">getSeriesAllById</a></li><li data-type='method'><a href="Client.html#getSeriesBanner">getSeriesBanner</a></li><li data-type='method'><a href="Client.html#getSeriesById">getSeriesById</a></li><li data-type='method'><a href="Client.html#getSeriesByImdbId">getSeriesByImdbId</a></li><li data-type='method'><a href="Client.html#getSeriesByName">getSeriesByName</a></li><li data-type='method'><a href="Client.html#getSeriesByZap2ItId">getSeriesByZap2ItId</a></li><li data-type='method'><a href="Client.html#getUpdates">getUpdates</a></li><li data-type='method'><a href="Client.html#sendRequest">sendRequest</a></li></ul></li></ul>
-</nav>
+        <nav>
+            <h2><a href="index.html">Home</a></h2>
 
-<div id="main">
+
+
+
+<h3>classes</h3>
+<ul>
+
+
+<li>
     
-    <h1 class="page-title">Client</h1>
-    
+    <a href="Client.html">Client</a>
+    <ul class="methods">
+        
+            <li data-type="method"><a href="Client.html#getActors">getActors</a></li>
+        
+            <li data-type="method"><a href="Client.html#getEpisodeById">getEpisodeById</a></li>
+        
+            <li data-type="method"><a href="Client.html#getEpisodesByAirDate">getEpisodesByAirDate</a></li>
+        
+            <li data-type="method"><a href="Client.html#getEpisodesBySeriesId">getEpisodesBySeriesId</a></li>
+        
+            <li data-type="method"><a href="Client.html#getLanguages">getLanguages</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesAllById">getSeriesAllById</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesBanner">getSeriesBanner</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesById">getSeriesById</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesByImdbId">getSeriesByImdbId</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesByName">getSeriesByName</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesByZap2ItId">getSeriesByZap2ItId</a></li>
+        
+            <li data-type="method"><a href="Client.html#getUpdates">getUpdates</a></li>
+        
+            <li data-type="method"><a href="Client.html#sendRequest">sendRequest</a></li>
+        
+    </ul>
+<li>
 
-    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </nav>
+
+        <div id="main">
+            
+            <h1 class="page-title">Client</h1>
+            
+
+            
 
 
 
@@ -51,7 +121,7 @@
 
     
 
-    <h4 class="name" id="Client"><span class="type-signature"></span>new Client<span class="signature">(apiKey, language<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Client"><span class="type-signature"></span>new Client<span class="signature">(apiKey, <span class="optional-param">[language]</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -94,10 +164,10 @@
 
         <tr>
             
-                <td class="name"><code>apiKey</code></td>
+                <td><code>apiKey</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -107,7 +177,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -117,7 +187,7 @@
             
 
             
-                <td class="default">
+                <td>
                 
                 </td>
             
@@ -129,10 +199,10 @@
 
         <tr>
             
-                <td class="name"><code>language</code></td>
+                <td><code>language</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -142,7 +212,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -154,7 +224,7 @@
             
 
             
-                <td class="default">
+                <td>
                 
                     en
                 
@@ -241,12 +311,14 @@
     
         <h3 class="subsection-title">Methods</h3>
 
+        <div class="subsection-methods">
         
-            
+            <div class="method">
+                
 
     
 
-    <h4 class="name" id="getActors"><span class="type-signature"></span>getActors<span class="signature">(seriesId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getActors"><span class="type-signature"></span>getActors<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -294,10 +366,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -310,7 +382,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -328,10 +400,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -341,7 +413,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -420,33 +492,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getEpisodeById"><span class="type-signature"></span>getEpisodeById<span class="signature">(episodeId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getEpisodeById"><span class="type-signature"></span>getEpisodeById<span class="signature">(episodeId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -494,10 +550,10 @@
 
         <tr>
             
-                <td class="name"><code>episodeId</code></td>
+                <td><code>episodeId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -510,7 +566,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -528,10 +584,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -541,7 +597,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -620,33 +676,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getEpisodesByAirDate"><span class="type-signature"></span>getEpisodesByAirDate<span class="signature">(seriesId, airDate, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getEpisodesByAirDate"><span class="type-signature"></span>getEpisodesByAirDate<span class="signature">(seriesId, airDate, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -694,10 +734,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -710,7 +750,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -728,10 +768,10 @@
 
         <tr>
             
-                <td class="name"><code>airDate</code></td>
+                <td><code>airDate</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -741,7 +781,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -759,10 +799,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -772,7 +812,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -851,33 +891,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getEpisodesBySeriesId"><span class="type-signature"></span>getEpisodesBySeriesId<span class="signature">(seriesId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getEpisodesBySeriesId"><span class="type-signature"></span>getEpisodesBySeriesId<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -925,10 +949,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -941,7 +965,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -959,10 +983,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -972,7 +996,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -1051,33 +1075,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getLanguages"><span class="type-signature"></span>getLanguages<span class="signature">(opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getLanguages"><span class="type-signature"></span>getLanguages<span class="signature">(<span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -1125,10 +1133,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -1138,7 +1146,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -1217,33 +1225,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesAllById"><span class="type-signature"></span>getSeriesAllById<span class="signature">(seriesId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesAllById"><span class="type-signature"></span>getSeriesAllById<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -1254,8 +1246,8 @@
 <code>getSeriesById</code> and <code>getEpisodesBySeriesId</code> at the same time.</p>
 <pre class="prettyprint source lang-javascript"><code>tvdb.getSeriesAllById(73255)
     .then(response => {
-        console.log(response); // response contains series data (e.g. `response.id`, `response.seriesName`)
-        console.log(response.episodes); // response contains an array of episodes
+        response; // contains series data (i.e. `id`, `seriesName`)
+        response.episodes; // contains an array of episodes
     })
     .catch(error => { handle error });</code></pre>
 </div>
@@ -1295,10 +1287,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -1311,7 +1303,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -1329,10 +1321,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -1342,7 +1334,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -1414,33 +1406,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesBanner"><span class="type-signature"></span>getSeriesBanner<span class="signature">(seriesId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesBanner"><span class="type-signature"></span>getSeriesBanner<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -1488,10 +1464,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -1504,7 +1480,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -1522,10 +1498,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -1535,7 +1511,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -1614,33 +1590,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesById"><span class="type-signature"></span>getSeriesById<span class="signature">(seriesId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesById"><span class="type-signature"></span>getSeriesById<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -1688,10 +1648,10 @@
 
         <tr>
             
-                <td class="name"><code>seriesId</code></td>
+                <td><code>seriesId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -1704,7 +1664,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -1722,10 +1682,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -1735,7 +1695,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -1814,33 +1774,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesByImdbId"><span class="type-signature"></span>getSeriesByImdbId<span class="signature">(imdbId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesByImdbId"><span class="type-signature"></span>getSeriesByImdbId<span class="signature">(imdbId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -1888,10 +1832,10 @@
 
         <tr>
             
-                <td class="name"><code>imdbId</code></td>
+                <td><code>imdbId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -1901,7 +1845,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -1919,10 +1863,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -1932,7 +1876,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2011,33 +1955,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesByName"><span class="type-signature"></span>getSeriesByName<span class="signature">(name, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesByName"><span class="type-signature"></span>getSeriesByName<span class="signature">(name, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -2085,10 +2013,10 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td><code>name</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -2098,7 +2026,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -2116,10 +2044,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -2129,7 +2057,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2208,33 +2136,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getSeriesByZap2ItId"><span class="type-signature"></span>getSeriesByZap2ItId<span class="signature">(zap2ItId, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getSeriesByZap2ItId"><span class="type-signature"></span>getSeriesByZap2ItId<span class="signature">(zap2ItId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -2282,10 +2194,10 @@
 
         <tr>
             
-                <td class="name"><code>zap2ItId</code></td>
+                <td><code>zap2ItId</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -2295,7 +2207,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -2313,10 +2225,10 @@
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -2326,7 +2238,7 @@
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2405,33 +2317,17 @@
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getUpdates"><span class="type-signature"></span>getUpdates<span class="signature">(fromTime, toTime<span class="signature-attributes">opt</span>, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getUpdates"><span class="type-signature"></span>getUpdates<span class="signature">(fromTime, <span class="optional-param">[toTime]</span>, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -2480,10 +2376,10 @@ between a second timestamp).</p>
 
         <tr>
             
-                <td class="name"><code>fromTime</code></td>
+                <td><code>fromTime</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -2493,7 +2389,7 @@ between a second timestamp).</p>
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -2511,10 +2407,10 @@ between a second timestamp).</p>
 
         <tr>
             
-                <td class="name"><code>toTime</code></td>
+                <td><code>toTime</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Number</span>
@@ -2524,7 +2420,7 @@ between a second timestamp).</p>
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2544,10 +2440,10 @@ between a second timestamp).</p>
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -2557,7 +2453,7 @@ between a second timestamp).</p>
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2636,40 +2532,25 @@ between a second timestamp).</p>
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+            <div class="method">
+                
 
     
 
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="sendRequest"><span class="type-signature"></span>sendRequest<span class="signature">(path, opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="sendRequest"><span class="type-signature"></span>sendRequest<span class="signature">(path, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Runs a get request with the given options, useful for running custom requests</p>
+    <p>Runs a get request with the given options, useful for running custom
+requests</p>
 <pre class="prettyprint source lang-javascript"><code>tvdb.sendRequest('custom/endpoint', { custom: 'options' })
     .then(response => { handle response })
     .catch(error => { handle error });</code></pre>
@@ -2710,10 +2591,10 @@ between a second timestamp).</p>
 
         <tr>
             
-                <td class="name"><code>path</code></td>
+                <td><code>path</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">String</span>
@@ -2723,7 +2604,7 @@ between a second timestamp).</p>
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
 
                 
@@ -2741,10 +2622,10 @@ between a second timestamp).</p>
 
         <tr>
             
-                <td class="name"><code>opts</code></td>
+                <td><code>opts</code></td>
             
 
-            <td class="type">
+            <td>
             
                 
 <span class="param-type">Object</span>
@@ -2754,7 +2635,7 @@ between a second timestamp).</p>
             </td>
 
             
-                <td class="attributes">
+                <td>
                 
                     &lt;optional><br>
                 
@@ -2826,28 +2707,12 @@ between a second timestamp).</p>
 
 
 
-<h5>Returns:</h5>
 
+
+
+            </div>
         
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
+        </div>
     
 
     
@@ -2860,13 +2725,14 @@ between a second timestamp).</p>
 
 
 
-</div>
+        </div>
 
-<br class="clear">
+        <span class="clear"></span>
 
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Dec 26 2016 16:56:01 GMT+0000 (GMT) using the Minami theme.
-</footer>
-
-</body>
+        <footer>
+            
+            <span>Documentation last generated Tue Dec 27 2016 20:03:44 GMT+0000 (GMT)</span>
+            
+        </footer>
+    </body>
 </html>

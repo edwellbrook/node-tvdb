@@ -6,7 +6,10 @@
     ]
   },
   "templates": {
-    "outputSourceFiles": false
+    "default": {
+        "outputSourceFiles": false,
+        "useLongnameInNav": true
+    }
   },
   "plugins": [
       "plugins/markdown"
