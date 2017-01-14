@@ -3,7 +3,7 @@
  *
  * Node.js library for accessing TheTVDB API at <https://api.thetvdb.com/swagger>
  *
- * Copyright (c) 2014-2016 Edward Wellbrook <edwellbrook@gmail.com>
+ * Copyright (c) 2014-2017 Edward Wellbrook <edwellbrook@gmail.com>
  * MIT Licensed
  */
 
