@@ -37,13 +37,13 @@ class Client {
      * @param {String} [language]
      */
 
-    constructor(apiKey, language = 'en') {
+    constructor(apiKey, language) {
         if (!apiKey) {
             throw new Error('API key is required');
         }
 
         this.apiKey = apiKey;
-        this.language = language;
+        this.language = language || 'en';
 
         // store and manage auth token
         let tokenPromise = undefined;
@@ -73,7 +73,7 @@ class Client {
      * @public
      */
 
-    getLanguages(opts = {}) {
+    getLanguages(opts) {
         return this.sendRequest('languages', opts);
     }
 
@@ -94,7 +94,7 @@ class Client {
      * @public
      */
 
-    getEpisodeById(episodeId, opts = {}) {
+    getEpisodeById(episodeId, opts) {
         return this.sendRequest(`episodes/${episodeId}`, opts);
     }
 
@@ -115,7 +115,7 @@ class Client {
      * @public
      */
 
-    getEpisodesBySeriesId(seriesId, opts = {}) {
+    getEpisodesBySeriesId(seriesId, opts) {
         return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
 
@@ -136,7 +136,7 @@ class Client {
      * @public
      */
 
-    getSeriesById(seriesId, opts = {}) {
+    getSeriesById(seriesId, opts) {
         return this.sendRequest(`series/${seriesId}`, opts);
     }
 
@@ -158,7 +158,7 @@ class Client {
      * @public
      */
 
-    getEpisodesByAirDate(seriesId, airDate, opts = {}) {
+    getEpisodesByAirDate(seriesId, airDate, opts) {
         return this.sendRequest(`series/${seriesId}/episodes/query?firstAired=${airDate}`, opts);
     }
 
@@ -179,7 +179,7 @@ class Client {
      * @public
      */
 
-    getSeriesByName(name, opts = {}) {
+    getSeriesByName(name, opts) {
         return this.sendRequest(`search/series?name=${name}`, opts);
     }
 
@@ -200,7 +200,7 @@ class Client {
      * @public
      */
 
-    getActors(seriesId, opts = {}) {
+    getActors(seriesId, opts) {
         return this.sendRequest(`series/${seriesId}/actors`, opts);
     }
 
@@ -221,7 +221,7 @@ class Client {
      * @public
      */
 
-    getSeriesByImdbId(imdbId, opts = {}) {
+    getSeriesByImdbId(imdbId, opts) {
         return this.sendRequest(`search/series?imdbId=${imdbId}`, opts);
     }
 
@@ -242,7 +242,7 @@ class Client {
      * @public
      */
 
-    getSeriesByZap2ItId(zap2ItId, opts = {}) {
+    getSeriesByZap2ItId(zap2ItId, opts) {
         return this.sendRequest(`search/series?zap2itId=${zap2ItId}`, opts);
     }
 
@@ -263,7 +263,7 @@ class Client {
      * @public
      */
 
-    getSeriesBanner(seriesId, opts = {}) {
+    getSeriesBanner(seriesId, opts) {
         return this.sendRequest(`series/${seriesId}/filter?keys=banner`, opts)
             .then(response => response.banner);
     }
@@ -287,7 +287,7 @@ class Client {
      * @public
      */
 
-    getUpdates(fromTime, toTime, opts = {}) {
+    getUpdates(fromTime, toTime, opts) {
         let uri = `updated/query?fromTime=${fromTime}`;
         if (toTime) {
             uri += `&toTime=${toTime}`;
@@ -315,7 +315,7 @@ class Client {
      * @public
      */
 
-    getSeriesAllById(seriesId, opts = {}) {
+    getSeriesAllById(seriesId, opts) {
         return Promise.all([
             this.getSeriesById(seriesId, opts),
             this.getEpisodesBySeriesId(seriesId, opts)
@@ -344,7 +344,7 @@ class Client {
     * @public
     */
 
-    sendRequest(path, opts = {}) {
+    sendRequest(path, opts) {
         const options = Object.assign({}, DEFAULT_OPTS, opts);
         const headers = Object.assign({
             'Accept':          AV_HEADER,
