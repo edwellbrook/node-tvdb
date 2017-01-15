@@ -1,4 +1,6 @@
 language: node_js
 node_js:
   - "6"
-  - "6.1"
+  - "5"
+  - "4"
+  - "4.3.2" # aws lambda version
