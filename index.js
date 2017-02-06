@@ -284,9 +284,9 @@ class Client {
      * @public
      */
 
-    getSeriesPosters(seriesId) {
-        return this.sendRequest(`series/${seriesId}/images`)
-            .then(response => response.poster);
+     getSeriesPosters(seriesId) {
+        return this.sendRequest(`series/${seriesId}/images/query?keyType=poster`)
+            .then(response => response);
     }
 
     /**
