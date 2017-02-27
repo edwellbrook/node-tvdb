@@ -269,6 +269,26 @@ class Client {
     }
 
     /**
+     * Get series poster by series id
+     *
+     * ``` javascript
+     * tvdb.getSeriesPoster(73255)
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {Number|String} seriesId
+     * @param   {Object}        [opts] - additional options for request
+     * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     * @public
+     */
+    getSeriesPosters(seriesId, opts) {
+        return this.sendRequest(`series/${seriesId}/images/query?keyType=poster`, opts);
+    }
+
+    /**
      * Get a list of series updated since a given unix timestamp (and, if given,
      * between a second timestamp).
      *
