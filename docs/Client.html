@@ -56,6 +56,8 @@
         
             <li data-type="method"><a href="Client.html#getSeriesByZap2ItId">getSeriesByZap2ItId</a></li>
         
+            <li data-type="method"><a href="Client.html#getSeriesPosters">getSeriesPosters</a></li>
+        
             <li data-type="method"><a href="Client.html#getUpdates">getUpdates</a></li>
         
             <li data-type="method"><a href="Client.html#sendRequest">sendRequest</a></li>
@@ -2315,6 +2317,190 @@
 
     
 
+    <h4 class="name" id="getSeriesPosters"><span class="type-signature"></span>getSeriesPosters<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get series poster by series id</p>
+<pre class="prettyprint source lang-javascript"><code>tvdb.getSeriesPoster(73255)
+    .then(response => { handle response })
+    .catch(error => { handle error });</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td><code>seriesId</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td><code>opts</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>additional options for request</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_filter">https://api.thetvdb.com/swagger#!/Series/get_series_id_filter</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        
+            <div class="method">
+                
+
+    
+
     <h4 class="name" id="getUpdates"><span class="type-signature"></span>getUpdates<span class="signature">(fromTime, <span class="optional-param">[toTime]</span>, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
@@ -2719,7 +2905,7 @@ requests</p>
 
         <footer>
             
-            <span>Documentation last generated Mon Jan 16 2017 00:14:33 GMT+0000 (GMT)</span>
+            <span>Documentation last generated Tue Feb 28 2017 01:19:37 GMT+0000 (GMT)</span>
             
         </footer>
     </body>
