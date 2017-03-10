@@ -1,6 +1,7 @@
 # node-tvdb
 
 [![Build Status](https://travis-ci.org/edwellbrook/node-tvdb.svg?branch=master)](https://travis-ci.org/edwellbrook/node-tvdb)
+![npm Downloads](https://img.shields.io/npm/dm/node-tvdb.svg?style=flat)
 
 Node.js library for accessing [TheTVDB JSON API](https://api.thetvdb.com/swagger). Refactored from [joaocampinhos/thetvdb-api](https://github.com/joaocampinhos/thetvdb-api) to give nicer output and lots of additional features.
 
