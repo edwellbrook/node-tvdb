@@ -463,9 +463,7 @@ function logIn(apiKey) {
 
     return request(`${BASE_URL}/login`, opts)
         .then(res => checkError(res))
-        .then(res => {
-            return res.json();
-        })
+        .then(res => res.json())
         .then(json => json.token);
 }
 
