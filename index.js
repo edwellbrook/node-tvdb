@@ -377,10 +377,10 @@ class Client {
 
                 return request(`${BASE_URL}/${path}`, { headers: headers });
             })
-            .then(res => res.json())
             .then(res => checkError(res))
-            .then(res => getNextPages(this, res, path, options))
-            .then(res => res.data);
+            .then(res => res.json())
+            .then(json => getNextPages(this, json, path, options))
+            .then(json => json.data);
     }
 
 }
@@ -418,19 +418,29 @@ function getNextPages(client, res, path, opts) {
 
 /**
  * Check response for error. Return a rejected promise if there's an error
- * otherwise resolve the response
+ * otherwise resolve the full response object
  *
- * @param   {Object}  json JSON response
+ * @param   {Object}  res node-fetch response object
  * @returns {Promise}
  * @private
  */
 
-function checkError(json) {
-    if (json.Error) {
-        return Promise.reject(new Error(json.Error));
+function checkError(res) {
+    if (res.status && res.status >= 400) {
+        let e = new Error(res.statusText);
+        e.response = res;
+        return res.json()
+        .then((json) => {
+            if (json.Error) {
+                e.message += (e.message ? ' - ' : '') + json.Error;
+            }
+            throw e;
+        })
+        .catch(() => {
+            throw e;
+        });
     }
-
-    return Promise.resolve(json);
+    return Promise.resolve(res);
 }
 
 /**
@@ -452,8 +462,10 @@ function logIn(apiKey) {
     };
 
     return request(`${BASE_URL}/login`, opts)
-        .then(res => res.json())
         .then(res => checkError(res))
+        .then(res => {
+            return res.json();
+        })
         .then(json => json.token);
 }
 
