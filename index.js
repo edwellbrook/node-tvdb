@@ -58,7 +58,7 @@ class Client {
     }
 
     /**
-     * Get available languages useable by TheTVDB API
+     * Get available languages useable by TheTVDB API.
      *
      * ``` javascript
      * tvdb.getLanguages()
@@ -78,7 +78,7 @@ class Client {
     }
 
     /**
-     * Get episode by episode id
+     * Get episode by episode id.
      *
      * ``` javascript
      * tvdb.getEpisodeById(4768125)
@@ -99,7 +99,7 @@ class Client {
     }
 
     /**
-     * Get all episodes by series id
+     * Get all episodes by series id.
      *
      * ``` javascript
      * tvdb.getEpisodesBySeriesId(153021)
@@ -120,7 +120,7 @@ class Client {
     }
 
     /**
-     * Get basic series information by id
+     * Get basic series information by id.
      *
      * ``` javascript
      * tvdb.getSeriesById(73255)
@@ -141,7 +141,7 @@ class Client {
     }
 
     /**
-     * Get series episode by air date
+     * Get series episode by air date.
      *
      * ``` javascript
      * tvdb.getEpisodeByAirDate(153021, '2011-10-03')
@@ -163,7 +163,7 @@ class Client {
     }
 
     /**
-     * Get basic series information by name
+     * Get basic series information by name.
      *
      * ``` javascript
      * tvdb.getSeriesByName('Breaking Bad')
@@ -184,7 +184,7 @@ class Client {
     }
 
     /**
-     * Get series actors by series id
+     * Get series actors by series id.
      *
      * ``` javascript
      * tvdb.getActors(73255)
@@ -205,7 +205,7 @@ class Client {
     }
 
     /**
-     * Get basic series information by imdb id
+     * Get basic series information by imdb id.
      *
      * ``` javascript
      * tvdb.getSeriesByImdbId('tt0903747')
@@ -226,7 +226,7 @@ class Client {
     }
 
     /**
-     * Get basic series information by zap2it id
+     * Get basic series information by zap2it id.
      *
      * ``` javascript
      * tvdb.getSeriesByZap2ItId('EP00018693')
@@ -247,7 +247,7 @@ class Client {
     }
 
     /**
-     * Get series banner by series id
+     * Get series banner by series id.
      *
      * ``` javascript
      * tvdb.getSeriesBanner(73255)
@@ -269,7 +269,7 @@ class Client {
     }
 
     /**
-     * Get series poster by series id
+     * Get series poster by series id.
      *
      * ``` javascript
      * tvdb.getSeriesPoster(73255)
@@ -349,7 +349,7 @@ class Client {
 
     /**
     * Runs a get request with the given options, useful for running custom
-    * requests
+    * requests.
     *
     * ``` javascript
     * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
@@ -377,8 +377,8 @@ class Client {
 
                 return request(`${BASE_URL}/${path}`, { headers: headers });
             })
-            .then(res => checkError(res))
-            .then(res => res.json())
+            .then(res => checkHttpError(res))
+            .then(res => checkJsonError(res))
             .then(json => getNextPages(this, json, path, options))
             .then(json => json.data);
     }
@@ -417,34 +417,47 @@ function getNextPages(client, res, path, opts) {
 }
 
 /**
- * Check response for error. Return a rejected promise if there's an error
- * otherwise resolve the full response object
+ * Check response for HTTP error. Return a rejected promise if there's an error
+ * otherwise resolve the full response object.
  *
  * @param   {Object}  res node-fetch response object
  * @returns {Promise}
  * @private
  */
 
-function checkError(res) {
-    if (res.status && res.status >= 400) {
-        let e = new Error(res.statusText);
-        e.response = res;
-        return res.json()
-        .then((json) => {
-            if (json.Error) {
-                e.message += (e.message ? ' - ' : '') + json.Error;
-            }
-            throw e;
-        })
-        .catch(() => {
-            throw e;
-        });
+function checkHttpError(res) {
+    const contentType = res.headers.get('content-type') || '';
+
+    if (res.status && res.status >= 400 && !contentType.includes('application/json')) {
+        let err = new Error(res.statusText);
+        err.response = res;
+        return Promise.reject(err);
     }
     return Promise.resolve(res);
 }
 
 /**
- * Perform login flow with given API Key
+ * Check response for JSON error. Return a rejected promise if there's an error
+ * otherwise resolve the response body as a JSON object.
+ *
+ * @param   {Object}  res node-fetch response object
+ * @returns {Promise}
+ * @private
+ */
+
+function checkJsonError(res) {
+    return res.json().then((json) => {
+        if (json.Error) {
+            let err = new Error(json.Error);
+            err.response = res;
+            return Promise.reject(err);
+        }
+        return Promise.resolve(json);
+    });
+}
+
+/**
+ * Perform login flow with given API Key.
  *
  * @param   {String}  apiKey
  * @returns {Promise}
@@ -462,13 +475,13 @@ function logIn(apiKey) {
     };
 
     return request(`${BASE_URL}/login`, opts)
-        .then(res => checkError(res))
-        .then(res => res.json())
+        .then(res => checkHttpError(res))
+        .then(res => checkJsonError(res))
         .then(json => json.token);
 }
 
 /**
- * Returns true if the response has additional pages, otherwise returns false
+ * Returns true if the response has additional pages, otherwise returns false.
  *
  * @param   {Object}  response
  * @returns {Boolean}

@@ -1,8 +1,15 @@
 'use strict';
 
-/* eslint mocha/no-synchronous-tests: "off" */
-
 const TVDB = require('..');
+const chai = require('chai');
+const expect = chai.expect;
+const nock = require('nock');
+const sinon = require('sinon');
+const Body = require('node-fetch/lib/body');
+
+chai.use(require('chai-as-promised'));
+chai.use(require('sinon-chai'));
+
 const API_KEY = 'fake-api-key';
 const JWT_TOKEN = 'fake-jwt-token';
 const BASE_URL = 'https://api.thetvdb.com';
@@ -11,25 +18,20 @@ const API_VERSION = 'v2.1.1';
 const AV_HEADER = `application/vnd.thetvdb.${API_VERSION}`;
 const AGENT_STRING = `node-tvdb/${LIB_VERSION} (+https://github.com/edwellbrook/node-tvdb)`;
 
-const chai = require('chai');
-const expect = chai.expect;
-const nock = require('nock');
-const sinon = require('sinon');
-const Body = require('node-fetch/lib/body');
-
-chai
-.use(require('chai-as-promised'))
-.use(require('sinon-chai'));
+const HTML_RESPONSE_HEADERS = { 'content-type': 'text/html; charset=utf-8' };
+const JSON_RESPONSE_HEADERS = { 'content-type': 'application/json; charset=utf-8' };
 
 describe('Client', () => {
 
-    before(() => {
+    before((done) => {
         nock.disableNetConnect();
+        done();
     });
 
-    after(() => {
+    after((done) => {
         nock.cleanAll();
         nock.enableNetConnect();
+        done();
     });
 
     describe('#constructor', () => {
@@ -37,9 +39,7 @@ describe('Client', () => {
         describe('when called with no arguments', () => {
 
             it('should throw', () => {
-                expect(() => {
-                    return new TVDB();
-                }).to.throw(Error, 'API key is required');
+                return expect(() => new TVDB()).to.throw(Error, 'API key is required');
             });
 
         });
@@ -48,16 +48,18 @@ describe('Client', () => {
 
             let client;
 
-            before(() => {
+            before((done) => {
                 client = new TVDB(API_KEY);
+
+                done();
             });
 
             it('should store the api key', () => {
-                expect(client.apiKey).to.equal(API_KEY);
+                return expect(client.apiKey).to.equal(API_KEY);
             });
 
             it('should set the default language (en)', () => {
-                expect(client.language).to.equal('en');
+                return expect(client.language).to.equal('en');
             });
 
         });
@@ -66,16 +68,18 @@ describe('Client', () => {
 
             let client;
 
-            before(() => {
+            before((done) => {
                 client = new TVDB(API_KEY, 'ja');
+
+                done();
             });
 
             it('should store the api key', () => {
-                expect(client.apiKey).to.equal(API_KEY);
+                return expect(client.apiKey).to.equal(API_KEY);
             });
 
             it('should set the given language', () => {
-                expect(client.language).to.equal('ja');
+                return expect(client.language).to.equal('ja');
             });
 
         });
@@ -86,9 +90,10 @@ describe('Client', () => {
 
         describe('when api key is valid', () => {
 
-            let api, client;
+            let api;
+            let client;
 
-            before(() => {
+            before((done) => {
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -100,20 +105,17 @@ describe('Client', () => {
                 })
                 .reply(200, {
                     token: JWT_TOKEN
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                });
+                }, JSON_RESPONSE_HEADERS);
+
                 client = new TVDB(API_KEY);
+
+                done();
             });
 
             it('should call the /login endpoint', () => {
                 return expect(client.getToken()).to.be.fulfilled.then(() => {
                     expect(api.isDone()).to.be.true;
                 });
-            });
-
-            it('should return a promise', () => {
-                expect(client.getToken()).to.be.instanceOf(Promise);
             });
 
             it('should yield the token from the api response', () => {
@@ -124,9 +126,10 @@ describe('Client', () => {
 
         describe('when api key is not valid', () => {
 
-            let api, client;
+            let api;
+            let client;
 
-            before(() => {
+            before((done) => {
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -138,10 +141,11 @@ describe('Client', () => {
                 })
                 .reply(401, {
                     Error: 'API Key Required'
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                });
+                }, JSON_RESPONSE_HEADERS);
+
                 client = new TVDB(API_KEY);
+
+                done();
             });
 
             it('should call the /login endpoint', () => {
@@ -151,7 +155,7 @@ describe('Client', () => {
             });
 
             it('should throw the error from the api response', () => {
-                return expect(client.getToken()).to.be.rejectedWith(Error, 'Unauthorized - API Key Required');
+                return expect(client.getToken()).to.be.rejectedWith(Error, 'API Key Required');
             });
 
             it('should put the response on the error', () => {
@@ -165,9 +169,10 @@ describe('Client', () => {
 
         describe('when the api is down', () => {
 
-            let api, client;
+            let api;
+            let client;
 
-            before(() => {
+            before((done) => {
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -177,10 +182,11 @@ describe('Client', () => {
                 .post('/login', {
                     apikey: API_KEY
                 })
-                .reply(522, '<HTML>', {
-                    'content-type': 'text/html; charset=utf-8'
-                });
+                .reply(522, '<HTML>', HTML_RESPONSE_HEADERS);
+
                 client = new TVDB(API_KEY);
+
+                done();
             });
 
             it('should call the /login endpoint', () => {
@@ -206,24 +212,29 @@ describe('Client', () => {
 
     describe('#sendRequest', () => {
 
-        let client, getTokenSpy;
+        let client;
+        let getTokenSpy;
 
-        before(() => {
+        before((done) => {
             client = new TVDB(API_KEY);
             getTokenSpy = sinon.stub(client, 'getToken', () => Promise.resolve(JWT_TOKEN));
+
+            done();
         });
 
         describe('single page result', () => {
 
-            let api, p;
             let data = [
                 {id: 0},
                 {id: 1},
                 {id: 2}
             ];
 
-            before(() => {
+            let api;
+
+            beforeEach((done) => {
                 getTokenSpy.reset();
+
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -235,37 +246,35 @@ describe('Client', () => {
                 .get('/some/path')
                 .reply(200, {
                     data: data
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                });
-                p = client.sendRequest('some/path');
-            });
+                }, JSON_RESPONSE_HEADERS);
 
-            it('should return a promise', () => {
-                expect(p).to.be.instanceOf(Promise);
+                done();
             });
 
             it('should call getToken', () => {
-                return expect(p).to.be.fulfilled.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.fulfilled.then(() => {
                     expect(getTokenSpy).to.have.been.calledOnce;
                 });
             });
 
             it('should call the specified endpoint', () => {
-                return expect(p).to.be.fulfilled.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.fulfilled.then(() => {
                     expect(api.isDone()).to.be.true;
                 });
             });
 
             it('should resolve to the data returned by the api', () => {
-                return expect(p).to.eventually.deep.equal(data);
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.eventually.deep.equal(data);
             });
 
         });
 
         describe('multi page result', () => {
 
-            let api, p;
+            let api;
             let data = [
                 {id: 0},
                 {id: 1},
@@ -275,8 +284,9 @@ describe('Client', () => {
                 {id: 5}
             ];
 
-            before(() => {
+            beforeEach((done) => {
                 getTokenSpy.reset();
+
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -291,46 +301,43 @@ describe('Client', () => {
                     links: {
                         next: 2
                     }
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                })
+                }, JSON_RESPONSE_HEADERS)
                 .get('/some/path?page=2')
                 .reply(200, {
                     data: data.slice(3, 6)
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                });
-                p = client.sendRequest('some/path');
-            });
+                }, JSON_RESPONSE_HEADERS);
 
-            it('should return a promise', () => {
-                expect(p).to.be.instanceOf(Promise);
+                done();
             });
 
             it('should call getToken twice', () => {
-                return expect(p).to.be.fulfilled.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.fulfilled.then(() => {
                     expect(getTokenSpy).to.have.been.calledTwice;
                 });
             });
 
             it('should call the specified endpoint twice', () => {
-                return expect(p).to.be.fulfilled.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.fulfilled.then(() => {
                     expect(api.isDone()).to.be.true;
                 });
             });
 
             it('should resolve to the combined data returned by the api', () => {
-                return expect(p).to.eventually.deep.equal(data);
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.eventually.deep.equal(data);
             });
 
         });
 
         describe('when the api returns an error', () => {
 
-            let api, p;
+            let api;
 
-            before(() => {
+            beforeEach((done) => {
                 getTokenSpy.reset();
+
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -342,34 +349,33 @@ describe('Client', () => {
                 .get('/some/path')
                 .reply(404, {
                     Error: 'ID Not Found'
-                }, {
-                    'content-type': 'application/json; charset=utf-8'
-                });
-                p = client.sendRequest('some/path');
-            });
+                }, JSON_RESPONSE_HEADERS);
 
-            it('should return a promise', () => {
-                expect(p).to.be.instanceOf(Promise);
+                done();
             });
 
             it('should call getToken', () => {
-                return expect(p).to.be.rejected.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejected.then(() => {
                     expect(getTokenSpy).to.have.been.calledOnce;
                 });
             });
 
             it('should call the specified endpoint', () => {
-                return expect(p).to.be.rejected.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejected.then(() => {
                     expect(api.isDone()).to.be.true;
                 });
             });
 
             it('should throw the error returned by the api', () => {
-                return expect(p).to.be.rejectedWith(Error, 'Not Found - ID Not Found');
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejectedWith(Error, 'ID Not Found');
             });
 
             it('should put the response on the error', () => {
-                return p.catch((e) => {
+                const promise = client.sendRequest('some/path');
+                return promise.catch((e) => {
                     expect(e.response).to.be.instanceOf(Body);
                     expect(e.response.status).to.equal(404);
                 });
@@ -379,10 +385,11 @@ describe('Client', () => {
 
         describe('when the api is down', () => {
 
-            let api, p;
+            let api;
 
-            before(() => {
+            beforeEach((done) => {
                 getTokenSpy.reset();
+
                 api = nock(BASE_URL, {
                     reqheaders: {
                         'accept': AV_HEADER,
@@ -392,34 +399,33 @@ describe('Client', () => {
                     }
                 })
                 .get('/some/path')
-                .reply(522, '<html>', {
-                    'content-type': 'text/html; charset=utf-8'
-                });
-                p = client.sendRequest('some/path');
-            });
+                .reply(522, '<html>', HTML_RESPONSE_HEADERS);
 
-            it('should return a promise', () => {
-                expect(p).to.be.instanceOf(Promise);
+                done();
             });
 
             it('should call getToken', () => {
-                return expect(p).to.be.rejected.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejected.then(() => {
                     expect(getTokenSpy).to.have.been.calledOnce;
                 });
             });
 
             it('should call the specified endpoint', () => {
-                return expect(p).to.be.rejected.then(() => {
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejected.then(() => {
                     expect(api.isDone()).to.be.true;
                 });
             });
 
             it('should throw', () => {
-                return expect(p).to.be.rejectedWith(Error);
+                const promise = client.sendRequest('some/path');
+                return expect(promise).to.be.rejectedWith(Error);
             });
 
             it('should put the response on the error', () => {
-                return p.catch((e) => {
+                const promise = client.sendRequest('some/path');
+                return promise.catch((e) => {
                     expect(e.response).to.be.instanceOf(Body);
                     expect(e.response.status).to.equal(522);
                 });
