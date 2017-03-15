@@ -35,7 +35,7 @@
     "minami": "github:edwellbrook/minami",
     "mocha": "^3.2.0",
     "nock": "^9.0.9",
-    "sinon": "^1.17.7",
+    "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0"
   },
   "scripts": {
