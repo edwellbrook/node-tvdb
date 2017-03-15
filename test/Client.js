@@ -213,11 +213,11 @@ describe('Client', () => {
     describe('#sendRequest', () => {
 
         let client;
-        let getTokenSpy;
+        let getTokenStub;
 
         before((done) => {
             client = new TVDB(API_KEY);
-            getTokenSpy = sinon.stub(client, 'getToken', () => Promise.resolve(JWT_TOKEN));
+            getTokenStub = sinon.stub(client, 'getToken').callsFake(() => Promise.resolve(JWT_TOKEN));
 
             done();
         });
@@ -233,7 +233,7 @@ describe('Client', () => {
             let api;
 
             beforeEach((done) => {
-                getTokenSpy.reset();
+                getTokenStub.resetHistory();
 
                 api = nock(BASE_URL, {
                     reqheaders: {
@@ -254,7 +254,7 @@ describe('Client', () => {
             it('should call getToken', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.be.fulfilled.then(() => {
-                    expect(getTokenSpy).to.have.been.calledOnce;
+                    expect(getTokenStub).to.have.been.calledOnce;
                 });
             });
 
@@ -285,7 +285,7 @@ describe('Client', () => {
             ];
 
             beforeEach((done) => {
-                getTokenSpy.reset();
+                getTokenStub.resetHistory();
 
                 api = nock(BASE_URL, {
                     reqheaders: {
@@ -313,7 +313,7 @@ describe('Client', () => {
             it('should call getToken twice', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.be.fulfilled.then(() => {
-                    expect(getTokenSpy).to.have.been.calledTwice;
+                    expect(getTokenStub).to.have.been.calledTwice;
                 });
             });
 
@@ -336,7 +336,7 @@ describe('Client', () => {
             let api;
 
             beforeEach((done) => {
-                getTokenSpy.reset();
+                getTokenStub.resetHistory();
 
                 api = nock(BASE_URL, {
                     reqheaders: {
@@ -357,7 +357,7 @@ describe('Client', () => {
             it('should call getToken', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.be.rejected.then(() => {
-                    expect(getTokenSpy).to.have.been.calledOnce;
+                    expect(getTokenStub).to.have.been.calledOnce;
                 });
             });
 
@@ -388,7 +388,7 @@ describe('Client', () => {
             let api;
 
             beforeEach((done) => {
-                getTokenSpy.reset();
+                getTokenStub.resetHistory();
 
                 api = nock(BASE_URL, {
                     reqheaders: {
@@ -407,7 +407,7 @@ describe('Client', () => {
             it('should call getToken', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.be.rejected.then(() => {
-                    expect(getTokenSpy).to.have.been.calledOnce;
+                    expect(getTokenStub).to.have.been.calledOnce;
                 });
             });
 
@@ -436,4 +436,3 @@ describe('Client', () => {
     });
 
 });
-
