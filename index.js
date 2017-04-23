@@ -159,7 +159,9 @@ class Client {
      */
 
     getEpisodesByAirDate(seriesId, airDate, opts) {
-        return this.sendRequest(`series/${seriesId}/episodes/query?firstAired=${airDate}`, opts);
+        const query = { firstAired: airDate };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`series/${seriesId}/episodes/query`, reqOpts);
     }
 
     /**
@@ -180,7 +182,9 @@ class Client {
      */
 
     getSeriesByName(name, opts) {
-        return this.sendRequest(`search/series?name=${name}`, opts);
+        const query = { name: name };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`search/series`, reqOpts);
     }
 
     /**
@@ -222,7 +226,9 @@ class Client {
      */
 
     getSeriesByImdbId(imdbId, opts) {
-        return this.sendRequest(`search/series?imdbId=${imdbId}`, opts);
+        const query = { imdbId: imdbId };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`search/series`, reqOpts);
     }
 
     /**
@@ -243,7 +249,9 @@ class Client {
      */
 
     getSeriesByZap2ItId(zap2ItId, opts) {
-        return this.sendRequest(`search/series?zap2itId=${zap2ItId}`, opts);
+        const query = { zap2itId: zap2ItId };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`search/series`, reqOpts);
     }
 
     /**
@@ -264,7 +272,9 @@ class Client {
      */
 
     getSeriesBanner(seriesId, opts) {
-        return this.sendRequest(`series/${seriesId}/filter?keys=banner`, opts)
+        const query = { keys: 'banner' };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`series/${seriesId}/filter`, reqOpts)
             .then(response => response.banner);
     }
 
@@ -285,7 +295,9 @@ class Client {
      * @public
      */
     getSeriesPosters(seriesId, opts) {
-        return this.sendRequest(`series/${seriesId}/images/query?keyType=poster`, opts);
+        const query = { keyType: 'poster' };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
     }
 
     /**
@@ -308,11 +320,15 @@ class Client {
      */
 
     getUpdates(fromTime, toTime, opts) {
-        let uri = `updated/query?fromTime=${fromTime}`;
+        const query = { fromTime: fromTime };
         if (toTime) {
-            uri += `&toTime=${toTime}`;
+            query.toTime = toTime;
+        } else {
+            opts = toTime;
         }
-        return this.sendRequest(uri, opts);
+
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest('updated/query', reqOpts);
     }
 
     /**
@@ -366,16 +382,21 @@ class Client {
 
     sendRequest(path, opts) {
         const options = Object.assign({}, DEFAULT_OPTS, opts);
+        const query = Object.assign({}, options.query);
         const headers = Object.assign({
             'Accept':          AV_HEADER,
             'Accept-language': options.lang || this.language
         }, options.headers);
 
+        const requestURL = BASE_URL + '/' + url.format({
+            pathname: path,
+            query: query
+        });
+
         return this.getToken()
             .then(token => {
                 headers['Authorization'] = `Bearer ${token}`;
-
-                return request(`${BASE_URL}/${path}`, { headers: headers });
+                return request(requestURL, { headers: headers });
             })
             .then(res => checkHttpError(res))
             .then(res => checkJsonError(res))
@@ -401,15 +422,9 @@ function getNextPages(client, res, path, opts) {
         return Promise.resolve(res);
     }
 
-    let urlObj = url.parse(path, true);
-    urlObj.query.page = res.links.next;
+    const reqOpts = Object.assign({}, opts, {query: { page: res.links.next }});
 
-    // remove urlObj.search to force url.format() to use urlObj.query
-    urlObj.search = undefined;
-
-    let newPath = url.format(urlObj);
-
-    return client.sendRequest(newPath, opts)
+    return client.sendRequest(path, reqOpts)
         .then(nextRes => [res.data, nextRes])
         .then(dataArr => {
             return { data: flatten(dataArr) };

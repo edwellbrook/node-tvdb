@@ -29,6 +29,17 @@ describe('#getSeriesByName', () => {
         });
     });
 
+    it('should return result for unescaped series name', () => {
+        const tvdb = new TVDB(API_KEY);
+
+        return tvdb.getSeriesByName('Eastbound & Down').then(response => {
+            expect(response).to.have.length.of.at.least(1);
+
+            let show = response.find(s => s.id === 82467);
+            expect(show).to.exist;
+        });
+    });
+
     describe('returns the correct data for other languages', () => {
 
         it('if given in constructor', () => {
@@ -91,7 +102,6 @@ describe('#getSeriesByName', () => {
 
                 let show = response.find(s => s.id === 153221);
                 expect(show).to.exist;
-                expect(show.id).to.equal(153221);
             });
         });
 

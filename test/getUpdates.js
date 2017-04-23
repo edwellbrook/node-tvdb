@@ -15,7 +15,7 @@ describe("#getUpdates", function() {
         const tvdb = new TVDB(API_KEY);
         const fromTime = 1471386405;
 
-        return tvdb.getUpdates(fromTime) .then(response => {
+        return tvdb.getUpdates(fromTime).then(response => {
             expect(response).to.have.length.of.at.least(100);
             expect(response[0]).to.have.deep.property('id');
             expect(response[0]).to.have.deep.property('lastUpdated');
