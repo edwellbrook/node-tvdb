@@ -20,6 +20,6 @@
   "opts": {
     "destination": "./docs",
     "encoding": "utf8",
-    "template": "./node_modules/minami"
+    "template": "./node_modules/@edwellbrook/minami"
   }
 }
