@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@edwellbrook/minami@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@edwellbrook/minami/-/minami-1.3.0.tgz#83871266ad1415074ab895706ab26854128d0e37"
+"@edwellbrook/minami@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@edwellbrook/minami/-/minami-1.3.1.tgz#393f68ac514d1edea94821bd74da03fe71cf3d74"
 
 acorn-jsx@^3.0.0:
   version "3.0.1"
