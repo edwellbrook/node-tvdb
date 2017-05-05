@@ -282,7 +282,7 @@ class Client {
      * Get series poster by series id.
      *
      * ``` javascript
-     * tvdb.getSeriesPoster(73255)
+     * tvdb.getSeriesPosters(73255)
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
