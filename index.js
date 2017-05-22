@@ -116,6 +116,9 @@ class Client {
      */
 
     getEpisodesBySeriesId(seriesId, opts) {
+        if (!!opts.query) {
+          return this.sendRequest(`series/${seriesId}/episodes/query`, opts);
+        }
         return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
 
@@ -296,6 +299,28 @@ class Client {
      */
     getSeriesPosters(seriesId, opts) {
         const query = { keyType: 'poster' };
+        const reqOpts = Object.assign({}, opts, { query: query });
+        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
+    }
+
+    /**
+     * Get season poster by series id and season.
+     *
+     * ``` javascript
+     * tvdb.getSeriesPosters(73255)
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {Number|String} seriesId
+     * @param   {Object}        [opts] - additional options for request
+     * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     * @public
+     */
+    getSeasonPosters(seriesId, season, opts) {
+        const query = { keyType: 'season', subKey: season };
         const reqOpts = Object.assign({}, opts, { query: query });
         return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
     }
