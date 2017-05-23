@@ -101,6 +101,8 @@ class Client {
     /**
      * Get all episodes by series id.
      *
+     * The opts may include the object `query` with any of the parameters from the query endpoint
+     *
      * ``` javascript
      * tvdb.getEpisodesBySeriesId(153021)
      *     .then(response => { handle response })
@@ -112,6 +114,7 @@ class Client {
      * @returns {Promise}
      *
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      * @public
      */
 
@@ -307,12 +310,13 @@ class Client {
      * Get season poster by series id and season.
      *
      * ``` javascript
-     * tvdb.getSeriesPosters(73255)
+     * tvdb.getSeasonPosters(73255, 1)
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
      *
      * @param   {Number|String} seriesId
+     * @param   {Number|String} season
      * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
