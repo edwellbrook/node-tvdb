@@ -23,6 +23,21 @@ describe('#getEpisodesBySeriesId', () => {
         });
     });
 
+    it('should allow filtering request to season and episode', () => {
+        const tvdb = new TVDB(API_KEY);
+        const opts = {
+            query: {
+                airedSeason: 3,
+                airedEpisode: 22
+            }
+        };
+
+        return tvdb.getEpisodesBySeriesId(71470, opts).then(response => {
+            expect(response).to.have.length(1);
+            expect(response[0]).to.equal('The Most Toys');
+        });
+    });
+
     describe('returns correct record for other languages', () => {
 
         it('if given in constructor', () => {
