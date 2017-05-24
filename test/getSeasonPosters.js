@@ -21,7 +21,7 @@ describe('#getSeasonPosters', () => {
             response.forEach(poster => {
                 expect(poster).to.contain.all.keys('id', 'keyType', 'subKey', 'fileName', 'resolution', 'ratingsInfo', 'thumbnail');
                 expect(poster.keyType).to.equal('season');
-                expect(poster.fileName).to.contain('seasons/80379');
+                expect(poster.fileName).to.contain('seasons/80379-10');
             });
         });
     });
