@@ -120,7 +120,7 @@ class Client {
 
     getEpisodesBySeriesId(seriesId, opts) {
         if (opts && opts.query) {
-          return this.sendRequest(`series/${seriesId}/episodes/query`, opts);
+            return this.sendRequest(`series/${seriesId}/episodes/query`, opts);
         }
         return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
