@@ -1,7 +1,7 @@
 'use strict';
 
 const TVDB = require('..');
-const API_KEY = process.env.TVDB_KE;
+const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');

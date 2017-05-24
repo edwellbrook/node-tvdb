@@ -34,7 +34,7 @@ describe('#getEpisodesBySeriesId', () => {
 
         return tvdb.getEpisodesBySeriesId(71470, opts).then(response => {
             expect(response).to.have.length(1);
-            expect(response[0]).to.equal('The Most Toys');
+            expect(response[0].episodeName).to.equal('The Most Toys');
         });
     });
 
