@@ -44,6 +44,8 @@
         
             <li data-type="method"><a href="Client.html#getLanguages">getLanguages</a></li>
         
+            <li data-type="method"><a href="Client.html#getSeasonPosters">getSeasonPosters</a></li>
+        
             <li data-type="method"><a href="Client.html#getSeriesAllById">getSeriesAllById</a></li>
         
             <li data-type="method"><a href="Client.html#getSeriesBanner">getSeriesBanner</a></li>
@@ -55,6 +57,8 @@
             <li data-type="method"><a href="Client.html#getSeriesByName">getSeriesByName</a></li>
         
             <li data-type="method"><a href="Client.html#getSeriesByZap2ItId">getSeriesByZap2ItId</a></li>
+        
+            <li data-type="method"><a href="Client.html#getSeriesImages">getSeriesImages</a></li>
         
             <li data-type="method"><a href="Client.html#getSeriesPosters">getSeriesPosters</a></li>
         
@@ -899,6 +903,7 @@
 
 <div class="description">
     <p>Get all episodes by series id.</p>
+<p>The opts may include the object <code>query</code> with any of the parameters from the query endpoint</p>
 <pre class="prettyprint source lang-javascript"><code>tvdb.getEpisodesBySeriesId(153021)
     .then(response => { handle response })
     .catch(error => { handle error });</code></pre>
@@ -1046,6 +1051,8 @@
     <dd class="tag-see">
         <ul>
             <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes">https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes</a></li>
+        
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query">https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query</a></li>
         </ul>
     </dd>
     
@@ -1196,6 +1203,224 @@
     <dd class="tag-see">
         <ul>
             <li><a href="https://api.thetvdb.com/swagger#!/Languages/get_languages">https://api.thetvdb.com/swagger#!/Languages/get_languages</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        
+            <div class="method">
+                
+
+    
+
+    <h4 class="name" id="getSeasonPosters"><span class="type-signature"></span>getSeasonPosters<span class="signature">(seriesId, season, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Convenience wrapper around <code>getSeriesImages</code> to only return season poster images for a series.</p>
+<pre class="prettyprint source lang-javascript"><code>tvdb.getSeasonPosters(73255, 1)
+    .then(response => { handle response })
+    .catch(error => { handle error });</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td><code>seriesId</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td><code>season</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td><code>opts</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>additional options for request</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query">https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query</a></li>
         </ul>
     </dd>
     
@@ -2317,6 +2542,224 @@
 
     
 
+    <h4 class="name" id="getSeriesImages"><span class="type-signature"></span>getSeriesImages<span class="signature">(seriesId, keyType, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get series images for a given key type.</p>
+<pre class="prettyprint source lang-javascript"><code>// request only return fan art images:
+tvdb.getSeriesImages(73255, 'fanart', { query: queryOptions })
+    .then(response => { handle response })
+    .catch(error => { handle error });</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td><code>seriesId</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td><code>keyType</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the key type to query by</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td><code>opts</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td>
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>additional options for request</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_images">https://api.thetvdb.com/swagger#!/Series/get_series_id_images</a></li>
+        
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query">https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        
+            <div class="method">
+                
+
+    
+
     <h4 class="name" id="getSeriesPosters"><span class="type-signature"></span>getSeriesPosters<span class="signature">(seriesId, <span class="optional-param">[opts]</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
@@ -2324,7 +2767,7 @@
 
 
 <div class="description">
-    <p>Get series poster by series id.</p>
+    <p>Convenience wrapper around <code>getSeriesImages</code> to only return poster images for a series.</p>
 <pre class="prettyprint source lang-javascript"><code>tvdb.getSeriesPosters(73255)
     .then(response => { handle response })
     .catch(error => { handle error });</code></pre>
@@ -2471,7 +2914,7 @@
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_filter">https://api.thetvdb.com/swagger#!/Series/get_series_id_filter</a></li>
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query">https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query</a></li>
         </ul>
     </dd>
     
@@ -2905,7 +3348,7 @@ requests.</p>
 
         <footer>
             
-            <span>Documentation last generated Fri May 05 2017 15:28:29 GMT+0100 (BST)</span>
+            <span>Documentation last generated Sat May 27 2017 15:17:17 GMT+0100 (BST)</span>
             
         </footer>
     </body>
