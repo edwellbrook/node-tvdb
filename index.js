@@ -294,6 +294,12 @@ class Client {
      * tvdb.getSeriesImages(73255)
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
+     *
+     * // request only return fan art images:
+     * const queryOptions = { keyType: 'fanart' }
+     * tvdb.getSeriesImages(73255, { query: queryOptions })
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
      * ```
      *
      * @param   {Number|String} seriesId
