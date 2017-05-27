@@ -11,15 +11,17 @@ chai.use(chaiAsPromised);
 
 describe('#getSeriesImages', () => {
 
-    it('should return an array of the images for the series with id "73255"', () => {
+    it('should return an array of the fanart images for the series with id "73255"', () => {
         const tvdb = new TVDB(API_KEY);
 
-        return tvdb.getSeriesImages(71663).then(response => {
-            expect(response).to.be.an('object');
-            expect(response).to.contain.all.keys('fanart', 'poster', 'season', 'series');
+        return tvdb.getSeriesImages(71663, 'fanart').then(response => {
+            expect(response).to.be.an('array');
+            expect(response).to.not.be.empty;
 
-            expect(response.poster).to.be.an('array');
-            expect(response.poster).to.not.be.empty;
+            response.forEach(poster => {
+                expect(poster).to.contain.all.keys('id', 'keyType', 'subKey', 'fileName', 'resolution', 'ratingsInfo', 'thumbnail');
+                expect(poster.keyType).to.equal('fanart');
+            });
         });
     });
 

@@ -288,21 +288,17 @@ class Client {
     }
 
     /**
-     * Get series images by series id.
+     * Get series images for a given key type.
      *
      * ``` javascript
-     * tvdb.getSeriesImages(73255)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     *
      * // request only return fan art images:
-     * const queryOptions = { keyType: 'fanart' }
-     * tvdb.getSeriesImages(73255, { query: queryOptions })
+     * tvdb.getSeriesImages(73255, 'fanart', { query: queryOptions })
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
      *
      * @param   {Number|String} seriesId
+     * @param   {String}        keyType - the key type to query by
      * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
@@ -311,11 +307,16 @@ class Client {
      * @public
      */
 
-    getSeriesImages(seriesId, opts) {
-        if (opts && opts.query) {
-            return this.sendRequest(`series/${seriesId}/images/query`, opts);
+    getSeriesImages(seriesId, keyType, opts) {
+        let query = {};
+        if (keyType !== null) {
+            query = { query: {
+                keyType: keyType }
+            };
         }
-        return this.sendRequest(`series/${seriesId}/images`, opts);
+        const reqOpts = Object.assign({}, opts, query);
+
+        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
     }
 
     /**
@@ -335,10 +336,7 @@ class Client {
      * @public
      */
     getSeriesPosters(seriesId, opts) {
-        const query = { keyType: 'poster' };
-        const reqOpts = Object.assign({}, opts, { query: query });
-
-        return this.getSeriesImages(seriesId, reqOpts);
+        return this.getSeriesImages(seriesId, 'poster', opts);
     }
 
     /**
@@ -362,7 +360,7 @@ class Client {
         const query = { keyType: 'season', subKey: season };
         const reqOpts = Object.assign({}, opts, { query: query });
 
-        return this.getSeriesImages(seriesId, reqOpts);
+        return this.getSeriesImages(seriesId, null, reqOpts);
     }
 
     /**
