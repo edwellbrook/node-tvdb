@@ -349,7 +349,7 @@ class Client {
      * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      * @public
      */
     getSeasonPosters(seriesId, season, opts) {
