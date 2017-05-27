@@ -167,7 +167,8 @@ class Client {
     getEpisodesByAirDate(seriesId, airDate, opts) {
         const query = { firstAired: airDate };
         const reqOpts = Object.assign({}, opts, { query: query });
-        return this.sendRequest(`series/${seriesId}/episodes/query`, reqOpts);
+
+        return this.getEpisodesBySeriesId(seriesId, reqOpts);
     }
 
     /**
@@ -280,12 +281,39 @@ class Client {
     getSeriesBanner(seriesId, opts) {
         const query = { keys: 'banner' };
         const reqOpts = Object.assign({}, opts, { query: query });
-        return this.sendRequest(`series/${seriesId}/filter`, reqOpts)
-            .then(response => response.banner);
+
+        return this.sendRequest(`series/${seriesId}/filter`, reqOpts).then(response => {
+            return response.banner;
+        });
     }
 
     /**
-     * Get series poster by series id.
+     * Get series images by series id.
+     *
+     * ``` javascript
+     * tvdb.getSeriesImages(73255)
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {Number|String} seriesId
+     * @param   {Object}        [opts] - additional options for request
+     * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
+     * @public
+     */
+
+    getSeriesImages(seriesId, opts) {
+        if (opts && opts.query) {
+            return this.sendRequest(`series/${seriesId}/images/query`, opts);
+        }
+        return this.sendRequest(`series/${seriesId}/images`, opts);
+    }
+
+    /**
+     * Convenience wrapper around `getSeriesImages` to only return poster images for a series.
      *
      * ``` javascript
      * tvdb.getSeriesPosters(73255)
@@ -297,17 +325,18 @@ class Client {
      * @param   {Object}        [opts] - additional options for request
      * @returns {Promise}
      *
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      * @public
      */
     getSeriesPosters(seriesId, opts) {
         const query = { keyType: 'poster' };
         const reqOpts = Object.assign({}, opts, { query: query });
-        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
+
+        return this.getSeriesImages(seriesId, reqOpts);
     }
 
     /**
-     * Get season poster by series id and season.
+     * Convenience wrapper around `getSeriesImages` to only return season poster images for a series.
      *
      * ``` javascript
      * tvdb.getSeasonPosters(73255, 1)
@@ -326,7 +355,8 @@ class Client {
     getSeasonPosters(seriesId, season, opts) {
         const query = { keyType: 'season', subKey: season };
         const reqOpts = Object.assign({}, opts, { query: query });
-        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
+
+        return this.getSeriesImages(seriesId, reqOpts);
     }
 
     /**
