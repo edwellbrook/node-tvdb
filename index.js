@@ -46,10 +46,10 @@ class Client {
         this.language = language || 'en';
 
         // store and manage auth token
-        let tokenPromise = undefined;
+        let tokenPromise = null;
 
         this.getToken = function() {
-            if (tokenPromise === undefined) {
+            if (tokenPromise === null) {
                 tokenPromise = logIn(this.apiKey);
             }
 
