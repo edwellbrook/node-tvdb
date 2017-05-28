@@ -362,6 +362,27 @@ class Client {
 
         return this.getSeriesImages(seriesId, null, reqOpts);
     }
+    
+     /**
+     * Get series posters by series id
+     *
+     * ``` javascript
+     * tvdb.getSeriesPosters(73255)
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {Number|String} seriesId
+     * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images
+     * @public
+     */
+
+     getSeriesPosters(seriesId) {
+        return this.sendRequest(`series/${seriesId}/images/query?keyType=poster`)
+            .then(response => response);
+    }
 
     /**
      * Get a list of series updated since a given unix timestamp (and, if given,
