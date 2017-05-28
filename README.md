@@ -1,5 +1,7 @@
 # node-tvdb
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/edwellbrook/node-tvdb.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/edwellbrook/node-tvdb.svg?branch=master)](https://travis-ci.org/edwellbrook/node-tvdb)
 [![npm Downloads](https://img.shields.io/npm/dm/node-tvdb.svg?style=flat)](https://www.npmjs.com/package/node-tvdb)
 
