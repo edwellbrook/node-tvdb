@@ -485,8 +485,11 @@ function getNextPages(client, res, path, opts) {
         return Promise.resolve(res);
     }
 
-    const reqOpts = Object.assign({}, opts, {query: { page: res.links.next }});
-
+    
+      delete opts.query.page
+      const query =  Object.assign({}, opts.query, { page: res.links.next });
+      const reqOpts = Object.assign({}, opts,{query:query});
+    
     return client.sendRequest(path, reqOpts)
         .then(nextRes => [res.data, nextRes])
         .then(dataArr => {
