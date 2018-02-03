@@ -252,6 +252,11 @@ describe('Client', () => {
                 done();
             });
 
+            afterEach((done) => {
+                nock.cleanAll();
+                done();
+            });
+
             it('should call getToken', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.be.fulfilled.then(() => {
@@ -276,6 +281,8 @@ describe('Client', () => {
         describe('multi page result', () => {
 
             let api;
+            let reverseApi;
+
             let data = [
                 {id: 0},
                 {id: 1},
@@ -308,6 +315,33 @@ describe('Client', () => {
                     data: data.slice(3, 6)
                 }, JSON_RESPONSE_HEADERS);
 
+                // data in reverse to check custom query paramters are
+                // maintained across pages
+                reverseApi = nock(BASE_URL, {
+                    reqheaders: {
+                        'accept': AV_HEADER,
+                        'accept-language': 'en',
+                        'authorization': `Bearer ${JWT_TOKEN}`,
+                        'user-agent': AGENT_STRING
+                    }
+                })
+                .get('/another/path?params=custom')
+                .reply(200, {
+                    data: data.slice(3, 6).reverse(),
+                    links: {
+                        next: 2
+                    }
+                }, JSON_RESPONSE_HEADERS)
+                .get('/another/path?params=custom&page=2')
+                .reply(200, {
+                    data: data.slice(0, 3).reverse()
+                }, JSON_RESPONSE_HEADERS);
+
+                done();
+            });
+
+            afterEach((done) => {
+                nock.cleanAll();
                 done();
             });
 
@@ -328,6 +362,17 @@ describe('Client', () => {
             it('should resolve to the combined data returned by the api', () => {
                 const promise = client.sendRequest('some/path');
                 return expect(promise).to.eventually.deep.equal(data);
+            });
+
+            it('should preserve any custom query parameters', () => {
+                const promise = client.sendRequest('another/path', {
+                    query: {
+                        params: 'custom'
+                    }
+                });
+                return expect(promise).to.eventually.deep.equal(data.reverse()).then(() => {
+                    expect(reverseApi.isDone()).to.be.true;
+                });
             });
 
         });
@@ -352,6 +397,11 @@ describe('Client', () => {
                     Error: 'ID Not Found'
                 }, JSON_RESPONSE_HEADERS);
 
+                done();
+            });
+
+            afterEach((done) => {
+                nock.cleanAll();
                 done();
             });
 
@@ -403,6 +453,11 @@ describe('Client', () => {
                 .get('/some/path')
                 .reply(522, '<html>', HTML_RESPONSE_HEADERS);
 
+                done();
+            });
+
+            afterEach((done) => {
+                nock.cleanAll();
                 done();
             });
 
