@@ -508,7 +508,11 @@ function checkHttpError(res) {
 
     if (res.status && res.status >= 400 && !contentType.includes('application/json')) {
         let err = new Error(res.statusText);
-        err.response = res;
+        err.response = {
+            url: res.url,
+            status: res.status,
+            statusText: res.statusText
+        };
         return Promise.reject(err);
     }
     return Promise.resolve(res);
@@ -527,7 +531,11 @@ function checkJsonError(res) {
     return res.json().then((json) => {
         if (json.Error) {
             let err = new Error(json.Error);
-            err.response = res;
+            err.response = {
+                url: res.url,
+                status: res.status,
+                statusText: res.statusText
+            };
             return Promise.reject(err);
         }
         return Promise.resolve(json);

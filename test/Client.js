@@ -5,7 +5,6 @@ const chai = require('chai');
 const expect = chai.expect;
 const nock = require('nock');
 const sinon = require('sinon');
-const Body = require('node-fetch/lib/body');
 
 chai.use(require('chai-as-promised'));
 chai.use(require('sinon-chai'));
@@ -160,7 +159,8 @@ describe('Client', () => {
 
             it('should put the response on the error', () => {
                 return client.getToken().catch((e) => {
-                    expect(e.response).to.be.instanceOf(Body);
+                    expect(e.response).to.be.instanceOf(Object);
+                    expect(e.response.url).to.equal('https://api.thetvdb.com/login');
                     expect(e.response.status).to.equal(401);
                 });
             });
@@ -201,7 +201,8 @@ describe('Client', () => {
 
             it('should put the response on the error', () => {
                 return client.getToken().catch((e) => {
-                    expect(e.response).to.be.instanceOf(Body);
+                    expect(e.response).to.be.instanceOf(Object);
+                    expect(e.response.url).to.equal('https://api.thetvdb.com/login');
                     expect(e.response.status).to.equal(522);
                 });
             });
@@ -376,7 +377,8 @@ describe('Client', () => {
             it('should put the response on the error', () => {
                 const promise = client.sendRequest('some/path');
                 return promise.catch((e) => {
-                    expect(e.response).to.be.instanceOf(Body);
+                    expect(e.response).to.be.instanceOf(Object);
+                    expect(e.response.url).to.equal('https://api.thetvdb.com/some/path');
                     expect(e.response.status).to.equal(404);
                 });
             });
@@ -426,7 +428,8 @@ describe('Client', () => {
             it('should put the response on the error', () => {
                 const promise = client.sendRequest('some/path');
                 return promise.catch((e) => {
-                    expect(e.response).to.be.instanceOf(Body);
+                    expect(e.response).to.be.instanceOf(Object);
+                    expect(e.response.url).to.equal('https://api.thetvdb.com/some/path');
                     expect(e.response.status).to.equal(522);
                 });
             });
