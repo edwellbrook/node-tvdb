@@ -42,6 +42,8 @@
         
             <li data-type="method"><a href="Client.html#getEpisodesBySeriesId">getEpisodesBySeriesId</a></li>
         
+            <li data-type="method"><a href="Client.html#getEpisodesSummaryBySeriesId">getEpisodesSummaryBySeriesId</a></li>
+        
             <li data-type="method"><a href="Client.html#getLanguages">getLanguages</a></li>
         
             <li data-type="method"><a href="Client.html#getSeasonPosters">getSeasonPosters</a></li>
@@ -1053,6 +1055,147 @@
             <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes">https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes</a></li>
         
             <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query">https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        
+            <div class="method">
+                
+
+    
+
+    <h4 class="name" id="getEpisodesSummaryBySeriesId"><span class="type-signature"></span>getEpisodesSummaryBySeriesId<span class="signature">(seriesId)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get episodes summary by series id.</p>
+<pre class="prettyprint source lang-javascript"><code>tvdb.getEpisodesSummaryBySeriesId(153021)
+    .then(response => { handle response })
+    .catch(error => { handle error });</code></pre>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td><code>seriesId</code></td>
+            
+
+            <td>
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary">https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary</a></li>
         </ul>
     </dd>
     
@@ -3348,7 +3491,7 @@ requests.</p>
 
         <footer>
             
-            <span>Documentation last generated Sat May 27 2017 15:17:17 GMT+0100 (BST)</span>
+            <span>Documentation last generated Sun Jun 10 2018 14:42:58 GMT+0100 (BST)</span>
             
         </footer>
     </body>
