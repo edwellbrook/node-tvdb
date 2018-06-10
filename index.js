@@ -124,6 +124,26 @@ class Client {
         }
         return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
+    
+    /**
+     * Get episodes summary by series id.
+     *
+     * ``` javascript
+     * tvdb.getEpisodesSummaryBySeriesId(153021)
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {Number|String} seriesId
+     * @returns {Promise}
+     *
+     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
+     * @public
+     */
+     
+    getEpisodesSummaryBySeriesId(seriesId) {
+        return this.sendRequest(`series/${seriesId}/episodes/summary`);
+    }
 
     /**
      * Get basic series information by id.
