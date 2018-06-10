@@ -124,7 +124,7 @@ class Client {
         }
         return this.sendRequest(`series/${seriesId}/episodes`, opts);
     }
-    
+
     /**
      * Get episodes summary by series id.
      *
@@ -140,7 +140,7 @@ class Client {
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
      * @public
      */
-     
+
     getEpisodesSummaryBySeriesId(seriesId) {
         return this.sendRequest(`series/${seriesId}/episodes/summary`);
     }
