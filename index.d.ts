@@ -216,7 +216,7 @@ declare class Client {
      *     .catch(error => { handle error });
      * ```
      */
-    getSeriesAllById(seriesId: number | string: string | number, opts?: any): Promise<any>
+    getSeriesAllById(seriesId: number | string, opts?: any): Promise<any>
 
     /**
     * Runs a get request with the given options, useful for running custom
