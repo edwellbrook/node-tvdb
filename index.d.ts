@@ -28,7 +28,7 @@ declare class Client {
      * @see     https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      */
 
-    getEpisodeById(episodeId, opts?: any): Promise<any>
+    getEpisodeById(episodeId: number | string, opts?: any): Promise<any>
 
     /**
      * Get all episodes by series id.
