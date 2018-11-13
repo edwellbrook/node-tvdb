@@ -163,7 +163,7 @@ declare class Client {
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
 
-    getSeriesImages(seriesId: number | string, keyType, opts?: any): Promise<any>
+    getSeriesImages(seriesId: number | string, keyType: string, opts?: any): Promise<any>
 
     /**
      * Convenience wrapper around `getSeriesImages` to only return poster images for a series.
