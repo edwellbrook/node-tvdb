@@ -15,16 +15,16 @@ const flatten = require('lodash/flatten');
 
 const BASE_URL = 'https://api.thetvdb.com';
 const LIB_VERSION = require('./package.json').version;
-const API_VERSION = 'v2.1.1';
+const API_VERSION = 'v2.2.0';
 const AV_HEADER = `application/vnd.thetvdb.${API_VERSION}`;
 
 const DEFAULT_OPTS = {
     getAllPages: true,
+    autoRefreshToken: true,
     headers: {
         'User-Agent': `node-tvdb/${LIB_VERSION} (+https://github.com/edwellbrook/node-tvdb)`
     }
 };
-
 
 //
 // API Client
@@ -48,13 +48,26 @@ class Client {
         // store and manage auth token
         let tokenPromise = null;
 
-        this.getToken = function() {
+        this.getToken = function (autoRefresh) {
             if (tokenPromise === null) {
                 tokenPromise = logIn(this.apiKey);
+            } else if (autoRefresh ) {
+                return new Promise(resolve => {
+
+                    tokenPromise.then(token => {
+                        if (shouldTokenRefresh(token)) {
+                            resolve(refreshToken(token, this.apiKey));
+                        } else {
+                            resolve(tokenPromise);
+                        }
+                    });
+
+                });
             }
 
             return tokenPromise;
         };
+
     }
 
     /**
@@ -330,8 +343,10 @@ class Client {
     getSeriesImages(seriesId, keyType, opts) {
         let query = {};
         if (keyType !== null) {
-            query = { query: {
-                keyType: keyType }
+            query = {
+                query: {
+                    keyType: keyType
+                }
             };
         }
         const reqOpts = Object.assign({}, opts, query);
@@ -439,29 +454,29 @@ class Client {
             this.getSeriesById(seriesId, opts),
             this.getEpisodesBySeriesId(seriesId, opts)
         ])
-        .then(results => {
-            let series = results[0];
-            series.episodes = results[1];
-            return series;
-        });
+            .then(results => {
+                let series = results[0];
+                series.episodes = results[1];
+                return series;
+            });
     }
 
     /**
-    * Runs a get request with the given options, useful for running custom
-    * requests.
-    *
-    * ``` javascript
-    * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
-    *     .then(response => { handle response })
-    *     .catch(error => { handle error });
-    * ```
-    *
-    * @param   {String}  path   - path for http resource
-    * @param   {Object}  [opts] - additional options for request
-    * @returns {Promise}
-    *
-    * @public
-    */
+     * Runs a get request with the given options, useful for running custom
+     * requests.
+     *
+     * ``` javascript
+     * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
+     *     .then(response => { handle response })
+     *     .catch(error => { handle error });
+     * ```
+     *
+     * @param   {String}  path   - path for http resource
+     * @param   {Object}  [opts] - additional options for request
+     * @returns {Promise}
+     *
+     * @public
+     */
 
     sendRequest(path, opts) {
         const options = Object.assign({}, DEFAULT_OPTS, opts);
@@ -476,7 +491,7 @@ class Client {
             query: query
         });
 
-        return this.getToken()
+        return this.getToken(options.autoRefreshToken)
             .then(token => {
                 headers['Authorization'] = `Bearer ${token}`;
                 return request(requestURL, { headers: headers });
@@ -588,6 +603,37 @@ function logIn(apiKey) {
 }
 
 /**
+ * Perform a token refresh
+ *
+ * @param currentToken
+ * @param apiKey
+ * @returns {Promise}
+ * @private
+ */
+function refreshToken(currentToken, apiKey) {
+    const opts = {
+        method: 'GET',
+        headers: {
+            'Accept':       AV_HEADER,
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`,
+        }
+    };
+
+    return request(`${BASE_URL}/refresh_token`, opts)
+        .then(res => checkHttpError(res))
+        .then(res => checkJsonError(res))
+        .then(json => json.token)
+        .catch((err) => {
+            if (err.response.status === 401) {
+                // refresh failed so login again
+                return logIn(apiKey);
+            }
+            return Promise.reject(err);
+        });
+}
+
+/**
  * Returns true if the response has additional pages, otherwise returns false.
  *
  * @param   {Object}  response
@@ -597,6 +643,41 @@ function logIn(apiKey) {
 
 function hasNextPage(response) {
     return response && response.links && response.links.next;
+}
+
+/**
+ * Returns the exp key from a JWT
+ *
+ * @param {String} token
+ * @param {Number} reduceBy
+ */
+function getTokenExp(token, reduceBy = 0) {
+
+    const tokenParts = token.split('.');
+    const buffer = Buffer.from(tokenParts[1], 'base64');
+    const payload = JSON.parse(buffer.toString('ascii'));
+
+    if ( payload.exp ) {
+        return payload.exp - reduceBy;
+    }
+
+    throw new Error(`Couldn't get token expiry`);
+
+}
+
+/**
+ * Returns true if the last token refresh was long enough ago
+ * Take an hour from the token expiry to make sure that the token refreshes
+ * before it has expired
+ *
+ * @param {String} token
+ * @returns {boolean}
+ * @private
+ */
+function shouldTokenRefresh(token) {
+    const now = Math.round(( new Date().getTime() ) / 1000);
+    const exp = getTokenExp(token, 3600);
+    return now >= exp;
 }
 
 //
