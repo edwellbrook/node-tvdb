@@ -1,8 +1,11 @@
 language: node_js
 node_js:
+  - "12"
+  - "11"
+  - "10"
   - "9"
+  - "8.10" # aws lambda version
   - "8"
   - "7"
   - "6"
-  - "6.10.3" # aws lambda version
-  - "10"
+  - "6.10" # aws lambda version
