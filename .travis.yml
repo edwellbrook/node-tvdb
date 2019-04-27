@@ -5,7 +5,3 @@ node_js:
   - "10"
   - "9"
   - "8.10" # aws lambda version
-  - "8"
-  - "7"
-  - "6"
-  - "6.10" # aws lambda version
