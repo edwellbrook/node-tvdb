@@ -15,7 +15,7 @@ const flatten = require('lodash/flatten');
 
 const BASE_URL = 'https://api.thetvdb.com';
 const LIB_VERSION = require('./package.json').version;
-const API_VERSION = 'v2.2.0';
+const API_VERSION = 'v3.0.0';
 const AV_HEADER = `application/vnd.thetvdb.${API_VERSION}`;
 
 const DEFAULT_OPTS = {
