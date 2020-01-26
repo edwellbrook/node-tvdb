@@ -34,7 +34,7 @@
     "eslint": "^6.0.0",
     "eslint-plugin-mocha": "^6.0.0",
     "jsdoc": "^3.5.5",
-    "mocha": "^6.1.4",
+    "mocha": "^7.0.1",
     "nock": "^11.1.0",
     "sinon": "^7.4.1",
     "sinon-chai": "^3.0.0"
