@@ -43,7 +43,7 @@ class Client {
         }
 
         this.apiKey = apiKey;
-        this.language = language || 'en';
+        this.language = language || 'us';
 
         // store and manage auth token
         let tokenPromise = null;
