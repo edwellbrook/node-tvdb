@@ -5,90 +5,7 @@ import { checkHttpError } from './check-http-error';
 import { checkJsonError } from './check-json-error';
 import { getNextPages } from './get-next-pages';
 import { BASE_URL, AV_HEADER, DEFAULT_OPTS } from './config';
-
-interface Language {
-    abbreviation?: string;
-    englishName?: string;
-    id?: number;
-    name?: string;
-}
-
-interface Episode {
-    absoluteNumber?: number;
-    airedEpisodeNumber?: number;
-    airedSeason?: number;
-    airsAfterSeason?: number;
-    airsBeforeEpisode?: number;
-    airsBeforeSeason?: number;
-    directors?: string[];
-    dvdChapter?: number;
-    dvdDiscid?: string;
-    dvdEpisodeNumber?: number;
-    dvdSeason?: number;
-    episodeName?: string;
-    filename?: string;
-    firstAired?: string;
-    guestStars?: string[];
-    id?: number;
-    imdbId?: string;
-    lastUpdated?: number;
-    lastUpdatedBy?: string;
-    overview?: string;
-    productionCode?: string;
-    seriesId?: string;
-    showUrl?: string;
-    siteRating?: number;
-    siteRatingCount?: number;
-    thumbAdded?: string;
-    thumbAuthor?: number;
-    thumbHeight?: string;
-    thumbWidth?: string;
-    writers?: string[];
-}
-
-interface SeriesEpisodesSummary {
-    airedEpisodes?: string;
-    airedSeasons?: string[];
-    dvdEpisodes?: string;
-    dvdSeasons?: string[];
-}
-
-interface Series {
-    added?: string;
-    airsDayOfWeek?: string;
-    airsTime?: string;
-    aliases?: string[];
-    banner?: string;
-    firstAired?: string;
-    genre?: string[];
-    id?: number;
-    imdbId?: string;
-    lastUpdated?: number;
-    network?: string;
-    networkId?: string;
-    overview?: string;
-    rating?: string;
-    runtime?: string;
-    seriesId?: string;
-    seriesName?: string;
-    siteRating?: number;
-    siteRatingCount?: number;
-    slug?: string;
-    status?: string;
-    zap2itId?: string;
-}
-
-interface Actor {
-    id: number;
-    image: string;
-    imageAdded: string;
-    imageAuthor: number;
-    lastUpdated: string;
-    name: string;
-    role: string;
-    seriesId: number;
-    sortOrder: number;
-}
+import { RequestOptions, Language, Actor, Series, SeriesEpisodesSummary, Episode } from './types';
 
 /**
  * API Client
@@ -396,12 +313,12 @@ export class TheTVDB {
     *     .catch(error => { handle error });
     * ```
     */
-    async sendRequest<T = any>(path: string, opts?: any): Promise<T> {
-        const options = { ...DEFAULT_OPTS, ...opts };
+    async sendRequest<T = any>(path: string, opts?: RequestOptions): Promise<T> {
+        const options: RequestOptions = { ...DEFAULT_OPTS, ...opts };
         const query = { ...options.query };
         const headers = {
             'Accept': AV_HEADER,
-            'Accept-language': options.lang || this.language,
+            'Accept-language': options.lang ?? options.language ?? this.language,
             ...options.headers
         };
 
@@ -412,12 +329,12 @@ export class TheTVDB {
 
         return this.getToken()
             .then(token => {
-                headers['Authorization'] = `Bearer ${token}`;
+                (headers as { [key: string]: string }).Authorization = `Bearer ${token}`;
                 return fetch(requestURL, { headers });
             })
             .then(res => checkHttpError(res))
             .then(res => checkJsonError(res))
-            .then(json => getNextPages(this, json, path, options))
-            .then(json => json.data);
+            .then(json => getNextPages<T>(this, json, path, options))
+            .then(json => json.data as unknown as T);
     }
 }

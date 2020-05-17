@@ -16,7 +16,8 @@ export const checkHttpError = (response: Response) => {
             status: response.status,
             statusText: response.statusText
         };
-        return Promise.reject(error);
+        throw error;
     }
-    return Promise.resolve(response);
+
+    return response;
 }

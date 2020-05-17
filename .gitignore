@@ -1,4 +1,7 @@
-# OS specific
+# IDE 
+.vscode
+
+# OS
 .DS_Store
 
 # Node

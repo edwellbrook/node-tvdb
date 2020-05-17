@@ -1,28 +1,22 @@
 import flatten from 'lodash.flatten';
 import { hasNextPage } from './has-next-page';
 import { TheTVDB } from '.';
-
-interface Options {
-    getAllPages: boolean;
-    query: {};
-}
+import { RequestOptions, JsonResponse } from './types';
 
 /**
  * Returns the next page of a paged response.
  */
-export const getNextPages = async (client: TheTVDB, response: any, path: string, options: Options) => {
-    if (!hasNextPage(response) || !options.getAllPages) {
-        return Promise.resolve(response);
+export const getNextPages = async<T = {}>(client: TheTVDB, response: JsonResponse, path: string, options: RequestOptions) => {
+    if (!hasNextPage(response) || !options.getAllPages || !response.links?.next) {
+        return response;
     }
 
-    const query = { ...options.query, page: response.links.next };
+    const query = { ...options.query, page: String(response.links.next) };
     const reqOpts = { ...options, query };
-
-    return client.sendRequest(path, reqOpts)
-        .then(nextRes => [response.data, nextRes])
-        .then(dataArr => {
+    return client.sendRequest<T>(path, reqOpts)
+        .then(nextRes => {
             return {
-                data: flatten(dataArr)
+                data: flatten([response.data, nextRes])
             };
         });
 };
