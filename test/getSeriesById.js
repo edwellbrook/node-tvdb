@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('../dist');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#getSeriesById', () => {
-
     it('should return an object of the series with id "246151"', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getSeriesById('71663').then(response => {
             expect(response.id).to.equal(71663);
@@ -21,9 +20,8 @@ describe('#getSeriesById', () => {
     });
 
     describe('returns the correct data for other languages', () => {
-
         it('if given in constructor', () => {
-            const tvdb = new TVDB(API_KEY, 'de');
+            const tvdb = new TheTVDB(API_KEY, 'de');
 
             return tvdb.getSeriesById('71663')
                 .then(response => {
@@ -33,7 +31,7 @@ describe('#getSeriesById', () => {
         });
 
         it('if given in function call', () => {
-            const tvdb = new TVDB(API_KEY, 'en');
+            const tvdb = new TheTVDB(API_KEY, 'en');
 
             return tvdb.getSeriesById('71663', { lang: 'de' }).then(response => {
                 expect(response.id).to.equal(71663);

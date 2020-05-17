@@ -1,21 +1,44 @@
-// Type definitions for node-tvdb
-// Definitions by: Jeffrey Barrus http://github.com/jbarrus
+import url from 'url';
+import fetch from 'node-fetch';
+import { login } from './login';
+import { checkHttpError } from './check-http-error';
+import { checkJsonError } from './check-json-error';
+import { getNextPages } from './get-next-pages';
+import { BASE_URL, AV_HEADER, DEFAULT_OPTS } from './config';
 
-export = Client;
+/**
+ * API Client
+ */
+export class TheTVDB {
+    protected tokenPromise?: Promise<string>;
 
-declare class Client {
-    constructor(apiKey: string, language?: string)
+    constructor(public apiKey: string, public language: string = 'en') {
+        if (!apiKey) {
+            throw new Error('API key is required');
+        }
+    }
+
+    protected async getToken() {
+        if (!this.tokenPromise) {
+            this.tokenPromise = login(this.apiKey);
+        }
+
+        return this.tokenPromise;
+    }
 
     /**
-     * Get available languages useable by TheTVDB API.
+     * Get available languages usable by TheTVDB API.
      *
      * ``` javascript
      * tvdb.getLanguages()
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
+     * @see     https://api.thetvdb.com/swagger#!/Languages/get_languages
      */
-    getLanguages(opts?: any): Promise<any>
+    async getLanguages(options?: any) {
+        return this.sendRequest('languages', options);
+    }
 
     /**
      * Get episode by episode id.
@@ -27,13 +50,14 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      */
-
-    getEpisodeById(episodeId: number | string, opts?: any): Promise<any>
+    async getEpisodeById(episodeId: number | string, options?: any) {
+        return this.sendRequest(`episodes/${episodeId}`, options);
+    }
 
     /**
      * Get all episodes by series id.
      *
-     * The opts may include the object `query` with any of the parameters from the query endpoint
+     * The options may include the object `query` with any of the parameters from the query endpoint
      *
      * ``` javascript
      * tvdb.getEpisodesBySeriesId(153021)
@@ -43,8 +67,12 @@ declare class Client {
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
-
-    getEpisodesBySeriesId(seriesId: number | string, opts?: any): Promise<any>
+    async getEpisodesBySeriesId(seriesId: number | string, options?: any) {
+        if (options?.query) {
+            return this.sendRequest(`series/${seriesId}/episodes/query`, options);
+        }
+        return this.sendRequest(`series/${seriesId}/episodes`, options);
+    }
 
     /**
      * Get episodes summary by series id.
@@ -56,8 +84,9 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
      */
-
-    getEpisodesSummaryBySeriesId(seriesId: number | string): Promise<any>
+    async getEpisodesSummaryBySeriesId(seriesId: number | string) {
+        return this.sendRequest(`series/${seriesId}/episodes/summary`);
+    }
 
     /**
      * Get basic series information by id.
@@ -69,8 +98,9 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
-
-    getSeriesById(seriesId: number | string, opts?: any): Promise<any>
+    async getSeriesById(seriesId: number | string, options?: any) {
+        return this.sendRequest(`series/${seriesId}`, options);
+    }
 
     /**
      * Get series episode by air date.
@@ -82,8 +112,11 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
-
-    getEpisodesByAirDate(seriesId: number | string, airDate: string, opts?: any): Promise<any>
+    async getEpisodesByAirDate(seriesId: number | string, airDate: string, options?: any) {
+        const query = { firstAired: airDate };
+        const reqOpts = { ...options, query };
+        return this.getEpisodesBySeriesId(seriesId, reqOpts);
+    }
 
     /**
      * Get basic series information by name.
@@ -95,8 +128,11 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-
-    getSeriesByName(name: string, opts?: any) : Promise<any>
+    async getSeriesByName(name: string, options?: any) {
+        const query = { name: name };
+        const reqOpts = Object.assign({}, options, { query: query });
+        return this.sendRequest(`search/series`, reqOpts);
+    }
 
     /**
      * Get series actors by series id.
@@ -108,8 +144,9 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
      */
-
-    getActors(seriesId: number | string, opts?: any): Promise<any>
+    async getActors(seriesId: number | string, options?: any) {
+        return this.sendRequest(`series/${seriesId}/actors`, options);
+    }
 
     /**
      * Get basic series information by imdb id.
@@ -121,8 +158,11 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-
-    getSeriesByImdbId(imdbId: string, opts?: any): Promise<any>
+    async getSeriesByImdbId(imdbId: string, options?: any) {
+        const query = { imdbId };
+        const reqOpts = { ...options, query };
+        return this.sendRequest(`search/series`, reqOpts);
+    }
 
     /**
      * Get basic series information by zap2it id.
@@ -134,8 +174,11 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-
-    getSeriesByZap2ItId(zap2ItId: string, opts?: any): Promise<any>
+    async getSeriesByZap2ItId(zap2itId: string, options?: any) {
+        const query = { zap2itId };
+        const reqOpts = { ...options, query };
+        return this.sendRequest(`search/series`, reqOpts);
+    }
 
     /**
      * Get series banner by series id.
@@ -147,8 +190,13 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
      */
-
-    getSeriesBanner(seriesId: number | string, opts?: any): Promise<any>
+    async getSeriesBanner(seriesId: number | string, options?: any) {
+        const query = { keys: 'banner' };
+        const reqOpts = { ...options, query };
+        return this.sendRequest(`series/${seriesId}/filter`, reqOpts).then(response => {
+            return (response as { banner: string }).banner;
+        });
+    }
 
     /**
      * Get series images for a given key type.
@@ -162,8 +210,17 @@ declare class Client {
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-
-    getSeriesImages(seriesId: number | string, keyType: string, opts?: any): Promise<any>
+    async getSeriesImages(seriesId: number | string, keyType: string | null, options?: any) {
+        const query = {
+            ...(keyType === null ? {} : {
+                query: {
+                    keyType
+                }
+            })
+        };
+        const reqOpts = { ...options, ...query};
+        return this.sendRequest(`series/${seriesId}/images/query`, reqOpts);
+    }
 
     /**
      * Convenience wrapper around `getSeriesImages` to only return poster images for a series.
@@ -175,7 +232,9 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    getSeriesPosters(seriesId: number | string, opts?: any): Promise<any>
+    async  getSeriesPosters(seriesId: number | string, options?: any) {
+        return this.getSeriesImages(seriesId, 'poster', options);
+    }
 
     /**
      * Convenience wrapper around `getSeriesImages` to only return season poster images for a series.
@@ -187,7 +246,11 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    getSeasonPosters(seriesId: number | string, season: number | string, opts?: any): Promise<any>
+    async  getSeasonPosters(seriesId: number | string, season: number | string, options?: any) {
+        const query = { keyType: 'season', subKey: season };
+        const reqOpts = { ...options, query };
+        return this.getSeriesImages(seriesId, null, reqOpts);
+    }
 
     /**
      * Get a list of series updated since a given unix timestamp (and, if given,
@@ -200,8 +263,19 @@ declare class Client {
      * ```
      * @see     https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      */
+    async getUpdates(fromTime: number, options?: any): Promise<any>
+    async getUpdates(fromTime: number, toTime: number, options?: any) {
+        const query = {
+            fromTime,
+            ...(toTime ? { toTime } : {})
+        };
+        const reqOpts = {
+            ...(options ? toTime : options),
+            query
+        };
 
-    getUpdates(fromTime: number, toTime: number, opts?: any): Promise<any>
+        return this.sendRequest('updated/query', reqOpts);
+    }
 
     /**
      * Get series and episode information by series id. Helper for calling
@@ -216,7 +290,17 @@ declare class Client {
      *     .catch(error => { handle error });
      * ```
      */
-    getSeriesAllById(seriesId: number | string, opts?: any): Promise<any>
+    async getSeriesAllById(seriesId: number | string, options?: any) {
+        const results = await Promise.all([
+            this.getSeriesById(seriesId, options),
+            this.getEpisodesBySeriesId(seriesId, options)
+        ]);
+
+        return {
+            ...results[0] as {},
+            episodes: results[1]
+        };
+    }
 
     /**
     * Runs a get request with the given options, useful for running custom
@@ -228,5 +312,28 @@ declare class Client {
     *     .catch(error => { handle error });
     * ```
     */
-    sendRequest(path: string, opts?: any): Promise<any>
+    async sendRequest<T = any>(path: string, opts?: any): Promise<T> {
+        const options = { ...DEFAULT_OPTS, ...opts };
+        const query = { ...options.query };
+        const headers = {
+            'Accept': AV_HEADER,
+            'Accept-language': options.lang || this.language,
+            ...options.headers
+        };
+
+        const requestURL = BASE_URL + '/' + url.format({
+            pathname: path,
+            query
+        });
+
+        return this.getToken()
+            .then(token => {
+                headers['Authorization'] = `Bearer ${token}`;
+                return fetch(requestURL, { headers });
+            })
+            .then(res => checkHttpError(res))
+            .then(res => checkJsonError(res))
+            .then(json => getNextPages(this, json, path, options))
+            .then(json => json.data);
+    }
 }

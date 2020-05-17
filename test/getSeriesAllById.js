@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('..');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#getSeriesAllById', () => {
-
     it('should return an object of the series and its episodes with id "246151"', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getSeriesAllById('71470').then(response => {
             expect(response.id).to.equal(71470);
@@ -25,9 +24,8 @@ describe('#getSeriesAllById', () => {
     });
 
     describe('returns the correct data for other languages', () => {
-
         it('if given in constructor', () => {
-            const tvdb = new TVDB(API_KEY, 'de');
+            const tvdb = new TheTVDB(API_KEY, 'de');
 
             return tvdb.getSeriesAllById(71470).then(response => {
                 expect(response.id).to.equal(71470);
@@ -40,7 +38,7 @@ describe('#getSeriesAllById', () => {
         });
 
         it('if given in function call', () => {
-            const tvdb = new TVDB(API_KEY, 'en');
+            const tvdb = new TheTVDB(API_KEY, 'en');
 
             return tvdb.getSeriesAllById(71470, { lang: 'de' }).then(response => {
                 expect(response.id).to.equal(71470);
@@ -55,9 +53,8 @@ describe('#getSeriesAllById', () => {
     });
 
     it('should return an error for a series search with an invalid id', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return expect(tvdb.getSeriesAllById('')).to.be.rejected;
     });
-
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('../dist');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#getSeriesPosters', () => {
-
     it('should return an array of the posters for the series with id "176941"', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getSeriesPosters(176941).then(response => {
             expect(response).to.be.an('array');
@@ -24,5 +23,4 @@ describe('#getSeriesPosters', () => {
             expect(poster.fileName).to.contain('posters/176941');
         });
     });
-
 });
