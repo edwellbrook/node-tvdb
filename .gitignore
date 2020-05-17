@@ -11,3 +11,7 @@ coverage-ts
 
 # Built files
 dist
+*.tgz
+
+# Docs
+docs
