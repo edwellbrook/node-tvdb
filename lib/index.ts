@@ -5,7 +5,7 @@ import { checkHttpError } from './check-http-error';
 import { checkJsonError } from './check-json-error';
 import { getNextPages } from './get-next-pages';
 import { BASE_URL, AV_HEADER, DEFAULT_OPTS } from './config';
-import { RequestOptions, Language, Actor, Series, SeriesEpisodesSummary, Episode } from './types';
+import { RequestOptions, Language, Actor, Series, SeriesEpisodesSummary, Episode, Update } from './types';
 
 /**
  * API Client
@@ -194,9 +194,7 @@ export class TheTVDB {
     async getSeriesBanner(seriesId: number | string, options?: RequestOptions) {
         const query = { keys: 'banner' };
         const reqOpts = { ...options, query };
-        return this.sendRequest(`series/${seriesId}/filter`, reqOpts).then(response => {
-            return (response as { banner: string }).banner;
-        });
+        return this.sendRequest<Series>(`series/${seriesId}/filter`, reqOpts).then(response => response.banner);
     }
 
     /**
@@ -248,7 +246,7 @@ export class TheTVDB {
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
     async getSeasonPosters(seriesId: number | string, season: number | string, options?: RequestOptions) {
-        const query = { keyType: 'season', subKey: season };
+        const query = { keyType: 'season', subKey: String(season) };
         const reqOpts = { ...options, query };
         return this.getSeriesImages(seriesId, null, reqOpts);
     }
@@ -264,18 +262,17 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      */
-    async getUpdates(fromTime: number, toTime?: any): Promise<any>
-    async getUpdates(fromTime: number, toTime: number, options?: any): Promise<any> {
+    async getUpdates(fromTime: number, toTime?: number, options?: RequestOptions) {
         const query = {
-            fromTime,
-            ...(toTime ? { toTime } : {})
+            fromTime: String(fromTime),
+            ...(toTime ? { toTime: String(toTime) } : {})
         };
         const reqOpts = {
-            ...(options ? toTime : options),
+            ...options,
             query
         };
 
-        return this.sendRequest('updated/query', reqOpts);
+        return this.sendRequest<Update>('updated/query', reqOpts);
     }
 
     /**
@@ -291,7 +288,7 @@ export class TheTVDB {
      *     .catch(error => { handle error });
      * ```
      */
-    async getSeriesAllById(seriesId: number | string, options?: any) {
+    async getSeriesAllById(seriesId: number | string, options?: RequestOptions) {
         const results = await Promise.all([
             this.getSeriesById(seriesId, options),
             this.getEpisodesBySeriesId(seriesId, options)

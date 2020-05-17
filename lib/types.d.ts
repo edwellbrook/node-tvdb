@@ -106,3 +106,8 @@ export interface Episode {
     thumbWidth?: string;
     writers?: string[];
 }
+
+export interface Update {
+    id?: number;
+    lastUpdated?: number;
+}
