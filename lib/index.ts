@@ -37,7 +37,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Languages/get_languages
      */
-    async getLanguages(options?: any) {
+    async getLanguages(options?: RequestOptions) {
         return this.sendRequest<Language[]>('languages', options);
     }
 
@@ -51,7 +51,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      */
-    async getEpisodeById(episodeId: number | string, options?: any) {
+    async getEpisodeById(episodeId: number | string, options?: RequestOptions) {
         return this.sendRequest<Episode>(`episodes/${episodeId}`, options);
     }
 
@@ -68,7 +68,7 @@ export class TheTVDB {
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
-    async getEpisodesBySeriesId(seriesId: number | string, options?: any) {
+    async getEpisodesBySeriesId(seriesId: number | string, options?: RequestOptions) {
         if (options?.query) {
             return this.sendRequest<Episode[]>(`series/${seriesId}/episodes/query`, options);
         }
@@ -99,7 +99,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
-    async getSeriesById(seriesId: number | string, options?: any) {
+    async getSeriesById(seriesId: number | string, options?: RequestOptions) {
         return this.sendRequest<Series>(`series/${seriesId}`, options);
     }
 
@@ -113,7 +113,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
-    async getEpisodesByAirDate(seriesId: number | string, airDate: string, options?: any) {
+    async getEpisodesByAirDate(seriesId: number | string, airDate: string, options?: RequestOptions) {
         const query = { firstAired: airDate };
         const reqOpts = { ...options, query };
         return this.getEpisodesBySeriesId(seriesId, reqOpts);
@@ -129,9 +129,9 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-    async getSeriesByName(name: string, options?: any) {
-        const query = { name: name };
-        const reqOpts = Object.assign({}, options, { query: query });
+    async getSeriesByName(name: string, options?: RequestOptions) {
+        const query = { name };
+        const reqOpts = { ...options, query };
         return this.sendRequest<Series>(`search/series`, reqOpts);
     }
 
@@ -145,7 +145,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
      */
-    async getActors(seriesId: number | string, options?: any) {
+    async getActors(seriesId: number | string, options?: RequestOptions) {
         return this.sendRequest<Actor>(`series/${seriesId}/actors`, options);
     }
 
@@ -159,7 +159,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-    async getSeriesByImdbId(imdbId: string, options?: any) {
+    async getSeriesByImdbId(imdbId: string, options?: RequestOptions) {
         const query = { imdbId };
         const reqOpts = { ...options, query };
         return this.sendRequest<Series>(`search/series`, reqOpts);
@@ -175,7 +175,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
-    async getSeriesByZap2ItId(zap2itId: string, options?: any) {
+    async getSeriesByZap2ItId(zap2itId: string, options?: RequestOptions) {
         const query = { zap2itId };
         const reqOpts = { ...options, query };
         return this.sendRequest<Series>(`search/series`, reqOpts);
@@ -191,7 +191,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
      */
-    async getSeriesBanner(seriesId: number | string, options?: any) {
+    async getSeriesBanner(seriesId: number | string, options?: RequestOptions) {
         const query = { keys: 'banner' };
         const reqOpts = { ...options, query };
         return this.sendRequest(`series/${seriesId}/filter`, reqOpts).then(response => {
@@ -211,7 +211,7 @@ export class TheTVDB {
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    async getSeriesImages(seriesId: number | string, keyType: string | null, options?: any) {
+    async getSeriesImages(seriesId: number | string, keyType: string | null, options?: RequestOptions) {
         const query = {
             ...(keyType === null ? {} : {
                 query: {
@@ -233,7 +233,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    async getSeriesPosters(seriesId: number | string, options?: any) {
+    async getSeriesPosters(seriesId: number | string, options?: RequestOptions) {
         return this.getSeriesImages(seriesId, 'poster', options);
     }
 
@@ -247,7 +247,7 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    async getSeasonPosters(seriesId: number | string, season: number | string, options?: any) {
+    async getSeasonPosters(seriesId: number | string, season: number | string, options?: RequestOptions) {
         const query = { keyType: 'season', subKey: season };
         const reqOpts = { ...options, query };
         return this.getSeriesImages(seriesId, null, reqOpts);
@@ -264,8 +264,8 @@ export class TheTVDB {
      * ```
      * @see https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      */
-    async getUpdates(fromTime: number, options?: any): Promise<any>
-    async getUpdates(fromTime: number, toTime: number, options?: any) {
+    async getUpdates(fromTime: number, toTime?: any): Promise<any>
+    async getUpdates(fromTime: number, toTime: number, options?: any): Promise<any> {
         const query = {
             fromTime,
             ...(toTime ? { toTime } : {})
@@ -298,7 +298,7 @@ export class TheTVDB {
         ]);
 
         return {
-            ...results[0] as {},
+            ...results[0],
             episodes: results[1]
         };
     }
