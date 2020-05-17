@@ -1,21 +1,23 @@
 {
   "source": {
     "include": [
-      "index.js",
+      "dist/index.js",
       "README.md"
     ]
   },
   "templates": {
     "default": {
-        "outputSourceFiles": false,
-        "useLongnameInNav": true
+      "outputSourceFiles": false,
+      "useLongnameInNav": true
     }
   },
   "plugins": [
-      "plugins/markdown"
+    "plugins/markdown"
   ],
   "markdown": {
-    "tags": [ "description" ]
+    "tags": [
+      "description"
+    ]
   },
   "opts": {
     "destination": "./docs",

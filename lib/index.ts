@@ -6,6 +6,90 @@ import { checkJsonError } from './check-json-error';
 import { getNextPages } from './get-next-pages';
 import { BASE_URL, AV_HEADER, DEFAULT_OPTS } from './config';
 
+interface Language {
+    abbreviation?: string;
+    englishName?: string;
+    id?: number;
+    name?: string;
+}
+
+interface Episode {
+    absoluteNumber?: number;
+    airedEpisodeNumber?: number;
+    airedSeason?: number;
+    airsAfterSeason?: number;
+    airsBeforeEpisode?: number;
+    airsBeforeSeason?: number;
+    directors?: string[];
+    dvdChapter?: number;
+    dvdDiscid?: string;
+    dvdEpisodeNumber?: number;
+    dvdSeason?: number;
+    episodeName?: string;
+    filename?: string;
+    firstAired?: string;
+    guestStars?: string[];
+    id?: number;
+    imdbId?: string;
+    lastUpdated?: number;
+    lastUpdatedBy?: string;
+    overview?: string;
+    productionCode?: string;
+    seriesId?: string;
+    showUrl?: string;
+    siteRating?: number;
+    siteRatingCount?: number;
+    thumbAdded?: string;
+    thumbAuthor?: number;
+    thumbHeight?: string;
+    thumbWidth?: string;
+    writers?: string[];
+}
+
+interface SeriesEpisodesSummary {
+    airedEpisodes?: string;
+    airedSeasons?: string[];
+    dvdEpisodes?: string;
+    dvdSeasons?: string[];
+}
+
+interface Series {
+    added?: string;
+    airsDayOfWeek?: string;
+    airsTime?: string;
+    aliases?: string[];
+    banner?: string;
+    firstAired?: string;
+    genre?: string[];
+    id?: number;
+    imdbId?: string;
+    lastUpdated?: number;
+    network?: string;
+    networkId?: string;
+    overview?: string;
+    rating?: string;
+    runtime?: string;
+    seriesId?: string;
+    seriesName?: string;
+    siteRating?: number;
+    siteRatingCount?: number;
+    slug?: string;
+    status?: string;
+    zap2itId?: string;
+}
+
+interface Actor {
+    id: number;
+    image: string;
+    imageAdded: string;
+    imageAuthor: number;
+    lastUpdated: string;
+    name: string;
+    role: string;
+    seriesId: number;
+    sortOrder: number;
+}
+
 /**
  * API Client
  */
@@ -34,10 +118,10 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Languages/get_languages
+     * @see https://api.thetvdb.com/swagger#!/Languages/get_languages
      */
     async getLanguages(options?: any) {
-        return this.sendRequest('languages', options);
+        return this.sendRequest<Language[]>('languages', options);
     }
 
     /**
@@ -48,10 +132,10 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
+     * @see https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      */
     async getEpisodeById(episodeId: number | string, options?: any) {
-        return this.sendRequest(`episodes/${episodeId}`, options);
+        return this.sendRequest<Episode>(`episodes/${episodeId}`, options);
     }
 
     /**
@@ -64,14 +148,14 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
     async getEpisodesBySeriesId(seriesId: number | string, options?: any) {
         if (options?.query) {
-            return this.sendRequest(`series/${seriesId}/episodes/query`, options);
+            return this.sendRequest<Episode[]>(`series/${seriesId}/episodes/query`, options);
         }
-        return this.sendRequest(`series/${seriesId}/episodes`, options);
+        return this.sendRequest<Episode[]>(`series/${seriesId}/episodes`, options);
     }
 
     /**
@@ -82,10 +166,10 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
      */
     async getEpisodesSummaryBySeriesId(seriesId: number | string) {
-        return this.sendRequest(`series/${seriesId}/episodes/summary`);
+        return this.sendRequest<SeriesEpisodesSummary>(`series/${seriesId}/episodes/summary`);
     }
 
     /**
@@ -96,10 +180,10 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
     async getSeriesById(seriesId: number | string, options?: any) {
-        return this.sendRequest(`series/${seriesId}`, options);
+        return this.sendRequest<Series>(`series/${seriesId}`, options);
     }
 
     /**
@@ -110,7 +194,7 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
     async getEpisodesByAirDate(seriesId: number | string, airDate: string, options?: any) {
         const query = { firstAired: airDate };
@@ -126,12 +210,12 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
+     * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByName(name: string, options?: any) {
         const query = { name: name };
         const reqOpts = Object.assign({}, options, { query: query });
-        return this.sendRequest(`search/series`, reqOpts);
+        return this.sendRequest<Series>(`search/series`, reqOpts);
     }
 
     /**
@@ -142,10 +226,10 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
      */
     async getActors(seriesId: number | string, options?: any) {
-        return this.sendRequest(`series/${seriesId}/actors`, options);
+        return this.sendRequest<Actor>(`series/${seriesId}/actors`, options);
     }
 
     /**
@@ -156,12 +240,12 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
+     * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByImdbId(imdbId: string, options?: any) {
         const query = { imdbId };
         const reqOpts = { ...options, query };
-        return this.sendRequest(`search/series`, reqOpts);
+        return this.sendRequest<Series>(`search/series`, reqOpts);
     }
 
     /**
@@ -172,12 +256,12 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Search/get_search_series
+     * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByZap2ItId(zap2itId: string, options?: any) {
         const query = { zap2itId };
         const reqOpts = { ...options, query };
-        return this.sendRequest(`search/series`, reqOpts);
+        return this.sendRequest<Series>(`search/series`, reqOpts);
     }
 
     /**
@@ -188,7 +272,7 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
      */
     async getSeriesBanner(seriesId: number | string, options?: any) {
         const query = { keys: 'banner' };
@@ -207,8 +291,8 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
     async getSeriesImages(seriesId: number | string, keyType: string | null, options?: any) {
         const query = {
@@ -230,9 +314,9 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    async  getSeriesPosters(seriesId: number | string, options?: any) {
+    async getSeriesPosters(seriesId: number | string, options?: any) {
         return this.getSeriesImages(seriesId, 'poster', options);
     }
 
@@ -244,9 +328,9 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
+     * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
-    async  getSeasonPosters(seriesId: number | string, season: number | string, options?: any) {
+    async getSeasonPosters(seriesId: number | string, season: number | string, options?: any) {
         const query = { keyType: 'season', subKey: season };
         const reqOpts = { ...options, query };
         return this.getSeriesImages(seriesId, null, reqOpts);
@@ -261,7 +345,7 @@ export class TheTVDB {
      *     .then(response => { handle response })
      *     .catch(error => { handle error });
      * ```
-     * @see     https://api.thetvdb.com/swagger#!/Updates/get_updated_query
+     * @see https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      */
     async getUpdates(fromTime: number, options?: any): Promise<any>
     async getUpdates(fromTime: number, toTime: number, options?: any) {

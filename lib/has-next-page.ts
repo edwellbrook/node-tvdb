@@ -1,9 +1,6 @@
-import { Response } from "node-fetch";
-
 /**
  * Returns true if the response has additional pages, otherwise returns false.
  */
-export const hasNextPage = (response: Response) => {
-    // @ts-expect-error
+export const hasNextPage = (response: any) => {
     return response && response.links && response.links.next;
 };

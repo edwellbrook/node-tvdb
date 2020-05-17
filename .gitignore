@@ -1,15 +1,13 @@
+# OS specific
 .DS_Store
+
+# Node
 node_modules
-logs
-*.log
-pids
-*.pid
-*.seed
+
+# Coverage
 lib-cov
 coverage
-.grunt
-.idea
-_builds
-_projects
-_steps
+coverage-ts
+
+# Built files
 dist
