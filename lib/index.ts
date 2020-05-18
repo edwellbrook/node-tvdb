@@ -68,7 +68,7 @@ export class TheTVDB {
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
     async getSeriesById(seriesId: number | string, options?: RequestOptions) {
-        return this.sendRequest<Series[]>(`series/${seriesId}`, options);
+        return this.sendRequest<Series>(`series/${seriesId}`, options);
     }
 
     /**
