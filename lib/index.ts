@@ -100,7 +100,7 @@ export class TheTVDB {
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
     async getSeriesById(seriesId: number | string, options?: RequestOptions) {
-        return this.sendRequest<Series>(`series/${seriesId}`, options);
+        return this.sendRequest<Series[]>(`series/${seriesId}`, options);
     }
 
     /**
@@ -132,7 +132,7 @@ export class TheTVDB {
     async getSeriesByName(name: string, options?: RequestOptions) {
         const query = { name };
         const reqOpts = { ...options, query };
-        return this.sendRequest<Series>(`search/series`, reqOpts);
+        return this.sendRequest<Series[]>(`search/series`, reqOpts);
     }
 
     /**
