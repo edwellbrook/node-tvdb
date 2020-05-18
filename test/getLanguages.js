@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('../dist');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#getLanguages', () => {
-
     it('result should contain english and german language objects', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getLanguages().then(langs => {
             const enLang = langs.find(entry => entry.abbreviation === 'en');
@@ -27,5 +26,4 @@ describe('#getLanguages', () => {
             expect(deLang.name).to.equal('Deutsch');
         });
     });
-
 });

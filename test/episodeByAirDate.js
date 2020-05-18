@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('../dist');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#episodeByAirDate', () => {
-
     it('should return all episodes aired on "2011-10-03" from the show with id "153021"', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getEpisodesByAirDate(153021, '2011-10-03').then(response => {
             expect(response.length).to.equal(6);
@@ -24,15 +23,12 @@ describe('#episodeByAirDate', () => {
     });
 
     it('should return an empty array if no episodes did air on the requested date', () => {
-        const tvdb = new TVDB(API_KEY);
-
+        const tvdb = new TheTVDB(API_KEY);
         return expect(tvdb.getEpisodesByAirDate(153021, '2000-01-01')).to.be.rejected;
     });
 
     it('should return an error if given an invalid series', () => {
-        const tvdb = new TVDB(API_KEY);
-
+        const tvdb = new TheTVDB(API_KEY);
         return expect(tvdb.getEpisodesByAirDate('', '2016-01-01')).to.be.rejected;
     });
-
 });

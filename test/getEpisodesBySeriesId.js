@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB }  = require('../dist/index');
 const API_KEY = process.env.TVDB_KEY;
 
 const chai = require('chai');
@@ -10,9 +10,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('#getEpisodesBySeriesId', () => {
-
     it('should return the episodes of the series with id "71470"', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getEpisodesBySeriesId(71470).then(response => {
             expect(response).to.have.length.above(0);
@@ -24,7 +23,7 @@ describe('#getEpisodesBySeriesId', () => {
     });
 
     it('should allow filtering request to season and episode', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
         const opts = {
             query: {
                 airedSeason: 3,
@@ -39,9 +38,8 @@ describe('#getEpisodesBySeriesId', () => {
     });
 
     describe('returns correct record for other languages', () => {
-
         it('if given in constructor', () => {
-            const tvdb = new TVDB(API_KEY, 'de');
+            const tvdb = new TheTVDB(API_KEY, 'de');
 
             return tvdb.getEpisodesBySeriesId(71470).then(response => {
                 expect(response).to.have.length.above(0);
@@ -53,7 +51,7 @@ describe('#getEpisodesBySeriesId', () => {
         });
 
         it('if given in function call', () => {
-            const tvdb = new TVDB(API_KEY, 'en');
+            const tvdb = new TheTVDB(API_KEY, 'en');
 
             return tvdb.getEpisodesBySeriesId(71470, { lang: 'de' }).then(response => {
                 expect(response).to.have.length.above(0);
@@ -67,11 +65,10 @@ describe('#getEpisodesBySeriesId', () => {
     });
 
     it('returns data from several pages', () => {
-        const tvdb = new TVDB(API_KEY);
+        const tvdb = new TheTVDB(API_KEY);
 
         return tvdb.getEpisodesBySeriesId(71663).then(response => {
             expect(response).to.have.length.above(600);
         });
     });
-
 });

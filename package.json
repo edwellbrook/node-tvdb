@@ -1,7 +1,7 @@
 {
   "name": "node-tvdb",
   "description": "Node.js library for accessing TheTVDB's API",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "author": "Edward Wellbrook <edwellbrook@gmail.com>",
   "keywords": [
     "tv",
@@ -11,10 +11,10 @@
     "wrapper"
   ],
   "homepage": "https://github.com/edwellbrook/node-tvdb",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "index.js",
-    "index.d.ts"
+    "dist"
   ],
   "engines": {
     "node": "8.10.* || >= 10.*"
@@ -23,26 +23,34 @@
     "type": "git",
     "url": "git://github.com/edwellbrook/node-tvdb.git"
   },
+  "scripts": {
+    "pretest": "npm run build",
+    "test": "mocha test",
+    "generate-docs": "del-cli ./docs && npm run build && jsdoc -c .jsdoc.json",
+    "prepare": "npm run build",
+    "build": "tsup index.ts --dts --bundle",
+    "coverage": "del-cli ./dist && typescript-coverage-report"
+  },
+  "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.11",
-    "node-fetch": "^2.4.1"
+    "lodash.flatten": "4.4.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "@edwellbrook/minami": "^1.3.1",
-    "chai": "^4.0.2",
-    "chai-as-promised": "^7.0.0",
-    "eslint": "^6.0.0",
-    "eslint-plugin-mocha": "^6.0.0",
-    "jsdoc": "^3.5.5",
-    "mocha": "^6.1.4",
-    "nock": "^11.1.0",
-    "sinon": "^7.4.1",
-    "sinon-chai": "^3.0.0"
-  },
-  "scripts": {
-    "test": "mocha test && eslint .",
-    "eslint": "eslint .",
-    "generate-docs": "rm -rf ./docs && jsdoc -c .jsdoc.json"
-  },
-  "license": "MIT"
+    "@edwellbrook/minami": "^1.3.3",
+    "@types/lodash.flatten": "4.4.6",
+    "@types/node-fetch": "2.5.7",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "del-cli": "3.0.1",
+    "jsdoc": "^3.6.4",
+    "mocha": "^7.1.2",
+    "nock": "^12.0.3",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
+    "tsup": "1.4.11",
+    "type-fest": "0.13.1",
+    "typescript": "3.9.2",
+    "typescript-coverage-report": "0.1.3"
+  }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const TVDB = require('..');
+const { TheTVDB } = require('../dist');
 const chai = require('chai');
 const expect = chai.expect;
 const nock = require('nock');
@@ -21,7 +21,6 @@ const HTML_RESPONSE_HEADERS = { 'content-type': 'text/html; charset=utf-8' };
 const JSON_RESPONSE_HEADERS = { 'content-type': 'application/json; charset=utf-8' };
 
 describe('Client', () => {
-
     before((done) => {
         nock.disableNetConnect();
         done();
@@ -34,22 +33,18 @@ describe('Client', () => {
     });
 
     describe('#constructor', () => {
-
         describe('when called with no arguments', () => {
-
             it('should throw', () => {
-                return expect(() => new TVDB()).to.throw(Error, 'API key is required');
+                // @ts-expect-error
+                return expect(() => new TheTVDB()).to.throw(Error, 'API key is required');
             });
-
         });
 
         describe('when called with api key', () => {
-
             let client;
 
             before((done) => {
-                client = new TVDB(API_KEY);
-
+                client = new TheTVDB(API_KEY);
                 done();
             });
 
@@ -64,11 +59,10 @@ describe('Client', () => {
         });
 
         describe('when called with api key and language', () => {
-
             let client;
 
             before((done) => {
-                client = new TVDB(API_KEY, 'ja');
+                client = new TheTVDB(API_KEY, 'ja');
 
                 done();
             });
@@ -80,13 +74,11 @@ describe('Client', () => {
             it('should set the given language', () => {
                 return expect(client.language).to.equal('ja');
             });
-
         });
 
     });
 
     describe('#getToken', () => {
-
         describe('when api key is valid', () => {
 
             let api;
@@ -106,7 +98,7 @@ describe('Client', () => {
                     token: JWT_TOKEN
                 }, JSON_RESPONSE_HEADERS);
 
-                client = new TVDB(API_KEY);
+                client = new TheTVDB(API_KEY);
 
                 done();
             });
@@ -120,11 +112,9 @@ describe('Client', () => {
             it('should yield the token from the api response', () => {
                 return expect(client.getToken()).to.eventually.equal(JWT_TOKEN);
             });
-
         });
 
         describe('when api key is not valid', () => {
-
             let api;
             let client;
 
@@ -142,7 +132,7 @@ describe('Client', () => {
                     Error: 'API Key Required'
                 }, JSON_RESPONSE_HEADERS);
 
-                client = new TVDB(API_KEY);
+                client = new TheTVDB(API_KEY);
 
                 done();
             });
@@ -168,7 +158,6 @@ describe('Client', () => {
         });
 
         describe('when the api is down', () => {
-
             let api;
             let client;
 
@@ -184,7 +173,7 @@ describe('Client', () => {
                 })
                 .reply(522, '<HTML>', HTML_RESPONSE_HEADERS);
 
-                client = new TVDB(API_KEY);
+                client = new TheTVDB(API_KEY);
 
                 done();
             });
@@ -206,25 +195,21 @@ describe('Client', () => {
                     expect(e.response.status).to.equal(522);
                 });
             });
-
         });
-
     });
 
     describe('#sendRequest', () => {
-
         let client;
         let getTokenStub;
 
         before((done) => {
-            client = new TVDB(API_KEY);
+            client = new TheTVDB(API_KEY);
             getTokenStub = sinon.stub(client, 'getToken').callsFake(() => Promise.resolve(JWT_TOKEN));
 
             done();
         });
 
         describe('single page result', () => {
-
             let data = [
                 {id: 0},
                 {id: 1},
