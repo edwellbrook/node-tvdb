@@ -34,17 +34,17 @@ describe("#getUpdates", function() {
     //     });
     // });
 
-    // it('cannot be called with an invalid fromTime', () => {
-    //     const tvdb = new TheTVDB(API_KEY);
+    it('cannot be called with an invalid fromTime', () => {
+        const tvdb = new TheTVDB(API_KEY);
 
-    //     // @ts-expect-error
-    //     return expect(tvdb.getUpdates()).to.be.rejected;
-    // });
+        // @ts-expect-error
+        return expect(tvdb.getUpdates()).to.be.rejected;
+    });
 
-    // it('cannot be called without a fromTime', () => {
-    //     const tvdb = new TheTVDB(API_KEY);
+    it('cannot be called without a fromTime', () => {
+        const tvdb = new TheTVDB(API_KEY);
 
-    //     // @ts-expect-error
-    //     return expect(tvdb.getUpdates('')).to.be.rejected;
-    // });
+        // @ts-expect-error
+        return expect(tvdb.getUpdates('')).to.be.rejected;
+    });
 });
