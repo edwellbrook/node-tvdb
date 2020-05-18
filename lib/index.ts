@@ -28,13 +28,7 @@ export class TheTVDB {
     }
 
     /**
-     * Get available languages usable by TheTVDB API.
-     *
-     * ``` javascript
-     * tvdb.getLanguages()
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
+     * Get available languages used by TheTVDB API.
      * @see https://api.thetvdb.com/swagger#!/Languages/get_languages
      */
     async getLanguages(options?: RequestOptions) {
@@ -43,12 +37,6 @@ export class TheTVDB {
 
     /**
      * Get episode by episode id.
-     *
-     * ``` javascript
-     * tvdb.getEpisodeById(4768125)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Episodes/get_episodes_id
      */
     async getEpisodeById(episodeId: number | string, options?: RequestOptions) {
@@ -57,14 +45,6 @@ export class TheTVDB {
 
     /**
      * Get all episodes by series id.
-     *
-     * The options may include the object `query` with any of the parameters from the query endpoint
-     *
-     * ``` javascript
-     * tvdb.getEpisodesBySeriesId(153021)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
@@ -77,12 +57,6 @@ export class TheTVDB {
 
     /**
      * Get episodes summary by series id.
-     *
-     * ``` javascript
-     * tvdb.getEpisodesSummaryBySeriesId(153021)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_summary
      */
     async getEpisodesSummaryBySeriesId(seriesId: number | string) {
@@ -91,12 +65,6 @@ export class TheTVDB {
 
     /**
      * Get basic series information by id.
-     *
-     * ``` javascript
-     * tvdb.getSeriesById(73255)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id
      */
     async getSeriesById(seriesId: number | string, options?: RequestOptions) {
@@ -105,12 +73,6 @@ export class TheTVDB {
 
     /**
      * Get series episode by air date.
-     *
-     * ``` javascript
-     * tvdb.getEpisodeByAirDate(153021, '2011-10-03')
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_episodes_query
      */
     async getEpisodesByAirDate(seriesId: number | string, airDate: string, options?: RequestOptions) {
@@ -121,12 +83,6 @@ export class TheTVDB {
 
     /**
      * Get basic series information by name.
-     *
-     * ``` javascript
-     * tvdb.getSeriesByName('Breaking Bad')
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByName(name: string, options?: RequestOptions) {
@@ -137,12 +93,6 @@ export class TheTVDB {
 
     /**
      * Get series actors by series id.
-     *
-     * ``` javascript
-     * tvdb.getActors(73255)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_actors
      */
     async getActors(seriesId: number | string, options?: RequestOptions) {
@@ -151,12 +101,6 @@ export class TheTVDB {
 
     /**
      * Get basic series information by imdb id.
-     *
-     * ``` javascript
-     * tvdb.getSeriesByImdbId('tt0903747')
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByImdbId(imdbId: string, options?: RequestOptions) {
@@ -167,12 +111,6 @@ export class TheTVDB {
 
     /**
      * Get basic series information by zap2it id.
-     *
-     * ``` javascript
-     * tvdb.getSeriesByZap2ItId('EP00018693')
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Search/get_search_series
      */
     async getSeriesByZap2ItId(zap2itId: string, options?: RequestOptions) {
@@ -183,12 +121,6 @@ export class TheTVDB {
 
     /**
      * Get series banner by series id.
-     *
-     * ``` javascript
-     * tvdb.getSeriesBanner(73255)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_filter
      */
     async getSeriesBanner(seriesId: number | string, options?: RequestOptions) {
@@ -199,13 +131,6 @@ export class TheTVDB {
 
     /**
      * Get series images for a given key type.
-     *
-     * ``` javascript
-     * // request only return fan art images:
-     * tvdb.getSeriesImages(73255, 'fanart', { query: queryOptions })
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
@@ -223,12 +148,6 @@ export class TheTVDB {
 
     /**
      * Convenience wrapper around `getSeriesImages` to only return poster images for a series.
-     *
-     * ``` javascript
-     * tvdb.getSeriesPosters(73255)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
     async getSeriesPosters(seriesId: number | string, options?: RequestOptions) {
@@ -237,12 +156,6 @@ export class TheTVDB {
 
     /**
      * Convenience wrapper around `getSeriesImages` to only return season poster images for a series.
-     *
-     * ``` javascript
-     * tvdb.getSeasonPosters(73255, 1)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
      * @see https://api.thetvdb.com/swagger#!/Series/get_series_id_images_query
      */
     async getSeasonPosters(seriesId: number | string, season: number | string, options?: RequestOptions) {
@@ -252,14 +165,7 @@ export class TheTVDB {
     }
 
     /**
-     * Get a list of series updated since a given unix timestamp (and, if given,
-     * between a second timestamp).
-     *
-     * ``` javascript
-     * tvdb.getUpdates(1400611370, 1400621370)
-     *     .then(response => { handle response })
-     *     .catch(error => { handle error });
-     * ```
+     * Get a list of series updated since a given unix timestamp (and, if given, between a second timestamp).
      * @see https://api.thetvdb.com/swagger#!/Updates/get_updated_query
      */
     async getUpdates(fromTime: number, toTime?: number, options?: RequestOptions) {
@@ -276,17 +182,7 @@ export class TheTVDB {
     }
 
     /**
-     * Get series and episode information by series id. Helper for calling
-     * `getSeriesById` and `getEpisodesBySeriesId` at the same time.
-     *
-     * ``` javascript
-     * tvdb.getSeriesAllById(73255)
-     *     .then(response => {
-     *         response; // contains series data (i.e. `id`, `seriesName`)
-     *         response.episodes; // contains an array of episodes
-     *     })
-     *     .catch(error => { handle error });
-     * ```
+     * Get series and episode information by series id. Helper for calling `getSeriesById` and `getEpisodesBySeriesId` at the same time.
      */
     async getSeriesAllById(seriesId: number | string, options?: RequestOptions) {
         const results = await Promise.all([
@@ -301,14 +197,7 @@ export class TheTVDB {
     }
 
     /**
-    * Runs a get request with the given options, useful for running custom
-    * requests.
-    *
-    * ``` javascript
-    * tvdb.sendRequest('custom/endpoint', { custom: 'options' })
-    *     .then(response => { handle response })
-    *     .catch(error => { handle error });
-    * ```
+    * Runs a get request with the given options, useful for running custom requests.
     */
     async sendRequest<T = any>(path: string, opts?: RequestOptions): Promise<T> {
         const options: RequestOptions = { ...DEFAULT_OPTS, ...opts };
