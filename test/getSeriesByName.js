@@ -72,10 +72,10 @@ describe('#getSeriesByName', () => {
 
     describe('returns 404 error when no matches are found', () => {
 
-        it(`when search term is 'asdas'`, () => {
+        it(`when search term is 'asdasqwerty'`, () => {
             const tvdb = new TVDB(API_KEY);
 
-            return expect(tvdb.getSeriesByName('asdas')).to.be.rejected;
+            return expect(tvdb.getSeriesByName('asdasqwerty')).to.be.rejected;
         });
 
         it(`when search term is blank`, () => {
@@ -86,24 +86,4 @@ describe('#getSeriesByName', () => {
 
     });
 
-    describe('returns result only for language where show exists', () => {
-
-        it(`show does not exist for language 'de'`, () => {
-            const tvdb = new TVDB(API_KEY, 'de');
-
-            return expect(tvdb.getSeriesByName('Jessica Simpsons The Price of Beauty')).to.be.rejected;
-        });
-
-        it('show does exist for language "de"', () => {
-            const tvdb = new TVDB(API_KEY);
-
-            return tvdb.getSeriesByName('Jessica Simpsons The Price of Beauty').then(response => {
-                expect(response).to.have.length.of.at.least(1);
-
-                let show = response.find(s => s.id === 153221);
-                expect(show).to.exist;
-            });
-        });
-
-    });
 });
